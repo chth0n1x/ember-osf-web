@@ -33,9 +33,12 @@ export default class RegistriesStates extends Component {
         case RegistrationReviewStates.PendingWithdrawRequest:
         case RegistrationReviewStates.PendingEmbargoTermination:
         case RegistrationReviewStates.PendingWithdraw:
+        case RegistrationReviewStates.EditsPending:
             return 'clock';
         case RegistrationReviewStates.Embargo:
+        case RegistrationReviewStates.EditsNotApproved:
             return 'lock';
+        case RegistrationReviewStates.EditsApproved:
         default:
             return 'eye';
         }

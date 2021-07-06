@@ -1,0 +1,23 @@
+{{yield}}
+
+<div local-class='Choose-Version-Dropdown'>
+    <div local-class='Choose-Version-Dropdown'>
+        <OsfDialog as |dialog|>
+            <dialog.trigger>
+                <BsButton 
+                    data-analytics-name='Choose-Version'
+                >
+                </BsButton>
+            </dialog.trigger>
+
+            <dialog.heading>
+                <!-- each version --> 
+                {{t 'schema-responses.version'}}
+            </dialog.heading>
+
+            <dialog.main>
+                {{#if @registration.version}}
+            </dialog.main>
+        </OsfDialog>
+    </div>
+</div>

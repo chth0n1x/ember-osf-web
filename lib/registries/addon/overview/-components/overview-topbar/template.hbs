@@ -6,6 +6,15 @@
         />
     </div>
 {{/unless}}
+
+{{#if @registration.isVersioned}}
+    <div choose-version-dropdown>
+        <ChooseVersionDropdown
+            @registration={{@registration}}
+        />
+    </div>
+{{/if}}
+
 {{#if (and @isModeratorMode (not @registration.isAnonymous))}}
     <MakeDecisionDropdown @registration={{@registration}} />
 {{else}}

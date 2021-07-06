@@ -12,6 +12,7 @@ const {
     engines: {
         collections,
         registries,
+        versioning,
     },
     featureFlagNames: {
         routes: routeFlags,
@@ -150,6 +151,10 @@ Router.map(function() {
     this.route('guid-registration', { path: '--registration/:guid' }, function() {
         this.mount('analytics-page', { as: 'analytics' });
         this.route('forks');
+
+        if (versioning.enabled) {
+            this.mount('versioning');
+        }
     });
 
     this.route('guid-user', { path: '--user/:guid' }, function() {

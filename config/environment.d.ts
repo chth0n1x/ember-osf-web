@@ -192,6 +192,9 @@ declare const config: {
         registries: {
             enabled: boolean;
         };
+        versioning: {
+            enabled: boolean;
+        }
     };
     'ember-cli-tailwind'?: {
         shouldIncludeStyleguide: boolean,

@@ -23,6 +23,9 @@ export enum RegistrationReviewStates {
     PendingEmbargoTermination = 'pending_embargo_termination',
     PendingWithdrawRequest = 'pending_withdraw_request',
     PendingWithdraw = 'pending_withdraw',
+    EditsPending = 'edits_pending',
+    EditsApproved = 'edits_approved',
+    EditsNotApproved = 'edits_not_approved'
 }
 
 type NonActionableStates = RegistrationReviewStates.Initial
@@ -38,6 +41,9 @@ export const reviewsStateToDecisionMap: { [index in ReviewsStateToDecisionMap]: 
         [ReviewActionTrigger.AcceptWithdrawal, ReviewActionTrigger.RejectWithdrawal],
     [RegistrationReviewStates.PendingWithdrawRequest]: [ReviewActionTrigger.ForceWithdraw],
     [RegistrationReviewStates.PendingEmbargoTermination]: [ReviewActionTrigger.ForceWithdraw],
+    [RegistrationReviewStates.EditsPending]: [ReviewActionTrigger.Submit],
+    [RegistrationReviewStates.EditsNotApproved]: [ReviewActionTrigger.ForceWithdraw],
+    [RegistrationReviewStates.EditsApproved]: [ReviewActionTrigger.AcceptSubmission],
 };
 
 const Validations = buildValidations({
@@ -82,6 +88,8 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('fixstring') reviewsState?: RegistrationReviewStates;
     @attr('fixstring') iaUrl?: string;
     @attr('array') providerSpecificMetadata!: ProviderMetadata[];
+    @attr('boolean') isVersioned?: boolean;
+    @attr('number') versionNumber?: number;
 
     // Write-only attributes
     @attr('array') includedNodeIds?: string[];

@@ -54,7 +54,9 @@ export default class Overview extends GuidRoute {
                 registration.license,
                 registration.identifiers,
                 registration.provider,
+
             ]);
+
 
             const doi = (identifiers as Identifier[]).find(identifier => identifier.category === 'doi');
             const image = 'engines-dist/registries/assets/img/osf-sharing.png';
