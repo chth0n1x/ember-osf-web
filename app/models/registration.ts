@@ -13,6 +13,8 @@ import RegistrationProviderModel from './registration-provider';
 import RegistrationSchemaModel, { RegistrationMetadata } from './registration-schema';
 import UserModel from './user';
 
+import RevisionResponse from './revision-response';
+
 export enum RegistrationReviewStates {
     Initial = 'initial',
     Pending = 'pending',
@@ -82,11 +84,15 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('fixstring') reviewsState?: RegistrationReviewStates;
     @attr('fixstring') iaUrl?: string;
     @attr('array') providerSpecificMetadata!: ProviderMetadata[];
+    @attr('object') revisionResponses?: RevisionResponse;
 
     // Write-only attributes
     @attr('array') includedNodeIds?: string[];
     @attr('boolean') createDoi?: boolean;
     @attr('fixstring') draftRegistrationId?: string;
+
+    // versioning
+    @attr('number') versionNumber!: number | null;
 
     @belongsTo('node', { inverse: 'registrations' })
     registeredFrom!: AsyncBelongsTo<NodeModel> & NodeModel;
@@ -124,6 +130,10 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     // Write-only relationships
     @belongsTo('draft-registration', { inverse: null })
     draftRegistration!: DraftRegistrationModel;
+
+    // versioning
+    @hasMany('revision-response', {inverse: null})
+    revisionResponse?: RevisionResponse; // TODO should be AsyncHasMany<RevisionResponse>
 }
 
 declare module 'ember-data/types/registries/model' {

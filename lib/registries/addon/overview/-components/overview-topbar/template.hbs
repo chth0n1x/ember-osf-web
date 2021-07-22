@@ -6,6 +6,55 @@
         />
     </div>
 {{/unless}}
+{{#unless @registration.isAnonymous}}
+    <ResponsiveDropdown
+        local-class='version-dropdown'
+        @horizontalPosition='right'
+        @renderInPlace={{true}}
+        as |dd|
+    >
+        <dd.trigger local-class='TriggerDiv'>
+            <Button 
+                data-test-version-dropdown
+                data-analytics-name='Display Registration Version'
+                local-class='TriggerButton'
+                @type='primary'
+            >
+                {{t 'registries.makeDecisionDropdown'}}
+                <h5>Version 4 (current version)</h5>
+            </Button>
+        </dd.trigger>
+        <dd.content local-class='Dropdown'>
+            {{#if this.hasRevisions}}
+                {{#each (get this.allApprovedRevisions @registration.revisions)}} 
+                    <!--todo populate an unordered list in Ember -->
+                {{/each}}
+            {{/if}}
+        </dd.content>
+    </ResponsiveDropdown>
+{{/unless}}
+
+<!--
+    <demo.example @name='osf-dialog.demo-non-modal.hbs'>
+        <OsfDialog @isModal={{false}} as |dialog|>
+            <dialog.trigger>
+                <OsfButton @onClick={{dialog.open}}>
+                    Open!
+                </OsfButton>
+            </dialog.trigger>
+            <dialog.heading>
+                This one doesn't block the rest of the app.
+            </dialog.heading>
+            <dialog.main>
+                Click around in the background!
+            </dialog.main>
+        </OsfDialog>
+    </demo.example>
+
+    <demo.snippet @name='osf-dialog.demo-non-modal.hbs' />
+</DocsDemo>
+
+    -->
 {{#if (and @isModeratorMode (not @registration.isAnonymous))}}
     <MakeDecisionDropdown @registration={{@registration}} />
 {{else}}
