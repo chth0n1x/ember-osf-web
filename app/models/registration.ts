@@ -3,6 +3,7 @@ import { buildValidations, validator } from 'ember-cp-validations';
 
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
 import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
+import RevisionModel, { RevisionReviewStates } from 'ember-osf-web/models/revision';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 
 import CommentModel from './comment';
@@ -12,8 +13,6 @@ import NodeModel from './node';
 import RegistrationProviderModel from './registration-provider';
 import RegistrationSchemaModel, { RegistrationMetadata } from './registration-schema';
 import UserModel from './user';
-
-import RevisionResponse from './revision-response';
 
 export enum RegistrationReviewStates {
     Initial = 'initial',
@@ -84,7 +83,7 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('fixstring') reviewsState?: RegistrationReviewStates;
     @attr('fixstring') iaUrl?: string;
     @attr('array') providerSpecificMetadata!: ProviderMetadata[];
-    @attr('object') revisionResponses?: RevisionResponse;
+    @attr('fixstring') revisionState?: RevisionReviewStates;
 
     // Write-only attributes
     @attr('array') includedNodeIds?: string[];
@@ -127,13 +126,16 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @hasMany('review-action', { inverse: 'target' })
     reviewActions!: AsyncHasMany<ReviewActionModel> | ReviewActionModel[];
 
+    @hasMany('revision', { inverse: 'registration' })
+    revisions!: AsyncHasMany<RevisionModel> | RevisionModel[];
+
     // Write-only relationships
     @belongsTo('draft-registration', { inverse: null })
     draftRegistration!: DraftRegistrationModel;
 
     // versioning
     @hasMany('revision-response', {inverse: null})
-    revisionResponse?: RevisionResponse; // TODO should be AsyncHasMany<RevisionResponse>
+    revisionResponse?: RevisionModel; // TODO should be AsyncHasMany<RevisionResponse>
 }
 
 declare module 'ember-data/types/registries/model' {

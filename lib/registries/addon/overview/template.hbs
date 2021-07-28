@@ -93,6 +93,11 @@
                             </BsButton>
                         </h3>
                     {{/if}}
+                    <BsButton
+                        @onClick={{this.createNewRevision}}
+                    >
+                        {{t 'general.add'}}
+                    </BsButton>
 
                     <RegistriesMetadata @registration={{this.registration}} @extendedFields={{true}} />
                 </layout.right>

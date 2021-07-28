@@ -29,6 +29,7 @@ import {
     getProviderRegistrations,
     registrationDetail,
 } from './views/registration';
+import { createNewRevision } from './views/revision';
 import { rootDetail } from './views/root';
 import { shareSearch } from './views/share-search';
 import { createToken } from './views/token';
@@ -211,6 +212,17 @@ export default function(this: Server) {
         path: '/schemas/registrations/:parentID/schema_blocks',
         defaultSortKey: 'index',
         defaultPageSize: 1000,
+    });
+
+    osfResource(this, 'revision', { only: ['index', 'delete', 'show', 'update']});
+    this.post('/revisions', createNewRevision);
+    osfNestedResource(this, 'registration', 'revisions', {
+        path: '/registrations/:parentID/revisions',
+        only: ['show', 'create'],
+    });
+    osfNestedResource(this, 'revision', 'actions', {
+        path: '/revisions/:parentID/actions',
+        only: ['show', 'create', 'index'],
     });
 
     osfResource(this, 'brand', { only: ['show'] });

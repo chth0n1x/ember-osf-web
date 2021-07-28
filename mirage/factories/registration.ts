@@ -2,7 +2,6 @@ import { association, trait, Trait } from 'ember-cli-mirage';
 import faker from 'faker';
 
 import Registration, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
-
 import NodeFactory from './node';
 import { createRegistrationMetadata, guid, guidAfterCreate } from './utils';
 
