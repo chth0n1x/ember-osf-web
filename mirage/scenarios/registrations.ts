@@ -105,7 +105,7 @@ export function registrationScenario(
     server.createList('moderator', 5, { provider: egap });
 
     const decaf = server.create('registration', {
-        id: 'decaf',
+        id: 'decaf2',
         title: 'Pending Penguins',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
