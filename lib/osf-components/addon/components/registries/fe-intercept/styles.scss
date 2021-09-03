@@ -1,0 +1,16 @@
+.body {
+    background: #000;
+    font: #fff;
+    font-family: Roboto, TimesNewRoman, Serif;
+}
+  
+.h1 {
+    text-align: center;
+    font-size: 30px;// TODO verify aesthetics here and elsewhere in the file
+}
+  
+.p {
+    text-align: left;
+    font-size: 24px; // TODO make to read from a config file for the current guid
+    font-weight: 400;
+}

@@ -1,0 +1,13 @@
+<div data-test-fe-intercept local-class="fe-intercept">
+    <OsfLink
+                data-analytics-name='View registration'
+                data-test-view-button='{{@node.id}}'
+                @route='resolve-guid'
+                @models={{array @node.id}}
+    >
+        <Button>
+            {{t 'node_card.view'}}
+        </Button>
+    </OsfLink>
+    {{moment-format this.registration.dateRegistered 'MMMM D, YYYY'}}
+</div>

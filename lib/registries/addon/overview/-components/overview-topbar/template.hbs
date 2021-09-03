@@ -11,6 +11,10 @@
     @registration={{@registration}}
 />
 
+<Registries::FeIntercept 
+    @registration={{@registration}}
+/>
+
 {{#if (and @isModeratorMode (not @registration.isAnonymous))}}
     <MakeDecisionDropdown @registration={{@registration}} />
 {{else}}
