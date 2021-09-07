@@ -1458,6 +1458,11 @@ registries:
         no_revisions: 'No revisions available at this time.'
         error_message: 'Revisions were unable to be retrieved. \n\n\t Please contact <a href="mailto:{supportEmail}">{supportEmail}</a> for further assistance.'
         other_error: 'Some error occured during revision retrieval. Please contact your adminstrator or moderator for further assistance.'
+    fe_intercept:
+        bot_button: 'Anubis'
+        check_permissions_false: 'You do not have permission to perform that function. \n\n\t Please contact your Provider at email: ${Registration.providerSupportEmail} \n\n\t} or COS at email: ${config.support.cosSupportEmail} for further assistance.'
+        permission_not_found: 'User permissions not found. Changing to public view.'
+        permission_non_admin: 'User is not an admin. Repeated attempts will result in a restricted account.'
 meetings:
     index:
         meetings-list:
