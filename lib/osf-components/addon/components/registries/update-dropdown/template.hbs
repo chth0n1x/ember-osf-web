@@ -19,7 +19,7 @@
         <div data-test-list-view local-class='UpdatesList'>
             {{#if this.revisions}}
                 {{#each this.revisions as |revision index|}}
-                    <div local-class='UpdateContainer'>
+                    <div local-class='UpdateContainer' data-test-revision-item>
                         <LinkTo @route='overview.index' @query={{hash revisionId=revision.id}} local-class='UpdateLink'>
                             {{#if revision.revisionNumber}}
                                 {{if index (t 'registries.update_dropdown.updates_list_label' number=revision.revisionNumber) (t 'registries.update_dropdown.latest')}}

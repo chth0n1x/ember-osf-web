@@ -15,6 +15,7 @@ import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/captur
 import RouterService from '@ember/routing/router-service';
 import { taskFor } from 'ember-concurrency-ts';
 import { tracked } from '@glimmer/tracking';
+import config from 'ember-get-config';
 
 interface Args {
     registration: RegistrationModel;
@@ -78,7 +79,8 @@ export default class UpdateDropdown extends Component<Args> {
             }
             this.revisions.sort( (a, b) => b.revisionNumber - a.revisionNumber ); // TODO: remove after demo
         } catch (e) {
-            const errorMessage = this.intl.t('registries.update_dropdown.revision_error_message');
+            const errorMessage = this.intl.t('registries.update_dropdown.revision_error_message',
+                { supportEmail: config.support.supportEmail } );
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
         }

@@ -1,64 +1,27 @@
-import { visit } from '@ember/test-helpers';
-
+import { render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { percySnapshot } from 'ember-percy';
-import { module, skip } from 'qunit';
-
-import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
+import { t } from 'ember-intl/test-support';
 import { RevisionReviewStates } from 'ember-osf-web/models/revision';
-import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
 
-import { Permission } from 'ember-osf-web/models/osf-model';
-
-module('Acceptance | update dropdown', hooks => {
-    setupOSFApplicationTest(hooks);
+module('Integration | Component | update-dropdown', hooks => {
+    setupEngineRenderingTest(hooks, 'registries');
     setupMirage(hooks);
 
-    skip('update dropdown - all revisions', async assert => {
-        const userServer = server.create('user', 'loggedIn');
-
-        const node = server.create('node', {
-            id: 'cobalt',
-            title: 'Outcome Reporting Testing',
-            currentUserPermissions: [Permission.Read],
-            currentUserIsContributor: true,
-            registration: true,
-            public: true,
-        });
-        server.create('registration', {
-            registeredFrom: node,
-            reviewsState: RegistrationReviewStates.Accepted,
+    test('it renders', async function(assert) {
+        const registration = server.create('registration', {
             revisionState: RevisionReviewStates.Approved,
         });
-        server.create('draft-registration', {
-            branchedFrom: node,
-        }, 'currentUserIsReadAndWrite');
-        server.create('revision', {
-            reviewState: RevisionReviewStates.Approved,
-            revisionNumber: 1,
-        });
-        server.create('revision', {
-            reviewState: RevisionReviewStates.Approved,
-            revisionNumber: 2,
-        });
-        server.create('revision', {
-            reviewState: RevisionReviewStates.Approved,
-            revisionNumber: 3,
-        });
 
-        const url = `/${node.id}/registrations`;
-        await visit(url);
+        this.setProperties({ registration });
+        await render(hbs`<Registries::UpdateDropdown @registration={{this.registration}}/>`);
 
-        // for the component itself
-        assert.dom('[data-test-update-button]').exists();
-        await percySnapshot(assert);
+        assert.dom('[data-test-update-content]').doesNotExist();
 
-        // for the list of revisions
-        assert.dom('[data-test-update-list]').doesNotExist();
-        await percySnapshot(assert);
-        await click('[data-test-update-list]');
-        assert.dom('[data-test-list-view]').exists();
-        userServer.reload();
-        assert.dom('[data-test-list-view]').doesNotExist();
+        assert.dom('[data-test-update-button]').exists({ count: 1 });
+
+        assert.dom('[data-test-update-button]').hasText(t('registries.update_dropdown.dropdown_title').toString());
     });
 });
