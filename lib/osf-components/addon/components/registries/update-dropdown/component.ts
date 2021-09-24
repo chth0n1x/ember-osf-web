@@ -15,6 +15,7 @@ import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/captur
 import RouterService from '@ember/routing/router-service';
 import { taskFor } from 'ember-concurrency-ts';
 import { tracked } from '@glimmer/tracking';
+import { NotARegistrationError, RevisionError } from 'ember-osf-web/errors';
 
 interface Args {
     registration: RegistrationModel;
@@ -63,8 +64,9 @@ export default class UpdateDropdown extends Component<Args> {
     async getRevisionList() {
 
         if (!this.args.registration){
-            const notReistrationError = this.intl.t('registries.update_dropdown.not_a_registration_error');
-            return this.toast.error(notReistrationError);
+            throw new NotARegistrationError();
+            const errorMessage = this.intl.t('registries.update_dropdown.not_a_registration_error');
+            return this.toast.error(errorMessage);
         }
         try {
             if (this.hasMore) {
@@ -78,6 +80,7 @@ export default class UpdateDropdown extends Component<Args> {
             }
             this.revisions.sort( (a, b) => b.revisionNumber - a.revisionNumber ); // TODO: remove after demo
         } catch (e) {
+            throw new RevisionError();
             const errorMessage = this.intl.t('registries.update_dropdown.revision_error_message');
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
