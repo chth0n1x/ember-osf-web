@@ -11,9 +11,16 @@
         {{else}}
             <NewProjectModal
                 @afterProjectCreated={{action this.projectCreated}}
-                @closeModal={{action this.closeModal}}
+                @closeModal={{action this.sendIssue}}
             />
         {{/if}}
+    {{/if}}
+    {{#if this.reportIssue}}
+        <FeInterceptModal
+            @title={{t 'dashboard.fe_intercept.report_issue_modal'}}
+            @afterProjectCreated={{action this.projectCreated}}
+            @closeModal={{action this.closeModal}}
+        />
     {{/if}}
     <ScheduledBanner />
     <div local-class='quickSearch'>
@@ -33,6 +40,17 @@
                                         @type='success'
                                     >
                                         {{t 'dashboard.create_new_project_button'}}
+                                    </BsButton>
+                                </div>
+                                <div class='pull-right'>
+                                    <BsButton
+                                        data-test-create-project-modal-button
+                                        data-analytics-name='launch-aset'
+                                        class='m-t-md f-w-xl'
+                                        @onClick={{action this.userAuthorization}}
+                                        @type='success'
+                                    >
+                                        {{t 'dashboard.fe_intercept.report_issue_button'}}
                                     </BsButton>
                                 </div>
                             </div>

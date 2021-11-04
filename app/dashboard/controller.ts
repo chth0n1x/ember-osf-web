@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Store from '@ember-data/store';
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
@@ -16,6 +17,7 @@ import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import UserEmailModel from 'ember-osf-web/models/user-email';
 
 // TODO pull these from the database
 const {
@@ -43,6 +45,7 @@ export default class Dashboard extends Controller {
     showNewNodeNavigation = false;
     'failedLoading-noteworthy' = false;
     'failedLoading-popular' = false;
+    reportIssue = false;
 
     institutions: Institution[] = A([]);
     nodes?: QueryHasManyResult<Node>;
@@ -151,6 +154,15 @@ export default class Dashboard extends Controller {
     }
 
     @action
+    sendIssue() {
+        this.setProperties({
+            reportIssue: false,
+            newNode: null,
+            showNewNodeNavigation: false,
+        });
+    }
+
+    @action
     afterStay() {
         taskFor(this.findNodes).perform();
     }
@@ -159,5 +171,32 @@ export default class Dashboard extends Controller {
     projectCreated(newNode: Node) {
         this.set('newNode', newNode);
         this.set('showNewNodeNavigation', true);
+    }
+
+    @action
+    async userAuthorization() {
+        this.set('reportIssue', true);
+        const userEmails: UserEmailModel[] = await this.user.queryHasMany('emails');
+        console.log('User emails after retrieval:', userEmails);
+        // const userEmails = 'ashley@cos.io';
+        const userEmailList : string[] = [];
+        userEmails.forEach(email => {
+            const userEmail = email.emailAddress;
+            console.log('The email list is: ', email);
+            console.log('The user email is: ', userEmail);
+            userEmailList.push(userEmail);
+            console.log('The total user email list is:', userEmailList);
+        });
+        console.log('Email list outside of the for each:', userEmailList);
+        // const userSession = this.currentUser.session;
+        // const otherSessionData =  userSession.session;
+        // console.log('Other session data is:', otherSessionData);
+        // const userEmailFO = userEmails.firstObject;
+        // // const userEmailString = userEmailFirstObject.emailAddress;
+        // console.log('The user session is: ', userSession);
+        // console.log('The user email first object is: ', userEmailFO);
+        // console.log('The user session is: ', userEmailString);
+        // const message = 'The user email is ' + userEmails;
+        // return message;
     }
 }

@@ -205,6 +205,12 @@ dashboard:
         title: 'Browse the latest research'
         description: 'Check out the latest preprints hosted on OSF covering a variety of research areas.'
         button: 'View preprints'
+    fe_intercept:
+        report_issue_button: 'Report issue to COS'
+        report_issue_modal: 'Report an Issue'
+        cancel_request: 'Cancel'
+        send_issue: 'Send issue'
+        issue_url: 'URL Issue found at: '
 new_project:
     header: 'Create new project'
     title_placeholder: 'Enter project title'
