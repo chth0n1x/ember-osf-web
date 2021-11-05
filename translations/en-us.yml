@@ -211,6 +211,10 @@ dashboard:
         cancel_request: 'Cancel'
         send_issue: 'Send issue'
         issue_url: 'URL Issue found at: '
+        url_placeholder: 'Please enter the url of the issue'
+        issue_type_selector: 'Please select issue type'
+        remove_all: 'Remove all'
+        select_all: 'Select all'
 new_project:
     header: 'Create new project'
     title_placeholder: 'Enter project title'

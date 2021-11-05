@@ -111,6 +111,17 @@ export default class NewProjectModal extends Component {
         templateFrom?: Node,
         storageRegion?: Region,
         isPublic?: boolean,
+        // issueUrl = '',
+        // ipAddress = '',
+        // macAddress = '',
+        // issueType: IssueModel,
+        // userAuthLevel : UserAuthModel = {}, (username, emailAddress[],
+        // .... primaryEmail, lastLogin, dateCreated, issueCountAgainst,
+        // .... issueCountMade (no factor against, only for data)), totalLoginCount,
+        // .... totalRequestsMade : RequestsMadeModel (http method, status code returned
+        // .... on attempt, if sucessful, why looking to a lookup table if not, no data if
+        // .... successful)
+
     ) {
         if (!title) {
             return;

@@ -76,6 +76,7 @@ export enum NodeCategory {
     Communication = 'communication',
     Instrumentation = 'instrumentation',
     MethodsAndMeasures = 'methods and measures',
+    IssueReport = 'issue report'
 }
 
 export interface NodeLicense {

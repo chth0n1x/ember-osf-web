@@ -1,28 +1,28 @@
-.NewProject__label {
+.FeIntercept__label {
     width: 100%;
 }
 
-.NewProject__institution-selector > button {
+.FeIntercept__institution-selector > button {
     float: right;
     margin-right: 12px;
     padding: 0;
 }
 
-.NewProject__institution-item {
+.FeIntercept__institution-item {
     position: relative;
     margin: 10px;
 }
 
-.NewProject__institution-button {
+.FeIntercept__institution-button {
     outline: none !important;
 }
 
-.NewProject__institution-img-not-selected {
+.FeIntercept__institution-img-not-selected {
     opacity: 0.25;
     filter: grayscale(100%);
 }
 
-.NewProject__placeholder {
+.FeIntercept__placeholder {
     color: $color-text-gray-dark;
 }
 
@@ -30,7 +30,7 @@
     overflow-y: auto !important;
 }
 
-.NewProject__more {
+.FeIntercept__more {
     color: $color-text-black !important;
     padding: 0 !important;
 
