@@ -151,7 +151,6 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     // Write-only relationships
     @belongsTo('draft-registration', { inverse: null })
     draftRegistration!: DraftRegistrationModel;
-    static reviewsState: string;
 }
 
 declare module 'ember-data/types/registries/model' {
