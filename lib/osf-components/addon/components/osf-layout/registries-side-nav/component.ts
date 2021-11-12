@@ -6,19 +6,23 @@ import { inject as service } from '@ember/service';
 import Media from 'ember-responsive';
 import Toast from 'ember-toastr/services/toast';
 import Intl from 'ember-intl/services/intl';
+import RouterService from '@ember/routing/router-service';
+import { tracked } from '@glimmer/tracking';
+import NodeModel from 'ember-osf-web/models/node';
+import RegistrationModel from 'ember-osf-web/models/registration';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
 import styles from './styles';
 import template from './template';
 
-
 @tagName('')
 @layout(template, styles)
-export default class RegistriesSideNav extends Component {
+export default class RegistriesSideNav extends Component{
     @service media!: Media;
     @service toast!: Toast;
     @service intl!: Intl;
+    @service router!: RouterService;
 
     // Optional params
     onLinkClicked?: () => void;
