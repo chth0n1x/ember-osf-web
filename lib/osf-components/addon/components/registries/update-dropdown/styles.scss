@@ -1,28 +1,26 @@
+$width-expanded-updates: 205px;
+$width-collapsed-updates: 80px;
+$update-dropdown-height: 40px;
+$update-dropdown-width: 255px;
+
 .ResponsiveDropdown {
-    margin-left: 63px;
+    padding-left: $width-expanded-updates - 15;
 }
 
 .Updates {
-    padding: 15px;
     border: 1px solid #ddd;
     border-radius: 2px;
     background-color: #fff;
-    background-size: cover;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    max-width: 450px;
+    margin-top: 1px;
+    width: $update-dropdown-width;
     overflow-y: auto;
-    height: auto;
-    max-height: 400px;
-}
-
-.Update {
-    padding: 5px;
 }
 
 .UpdateText {
     color: #fff;
     font-weight: 600;
-    padding-left: 10px;
+    width: $update-dropdown-width;
     text-decoration: none;
 
     &:hover,
@@ -30,9 +28,19 @@
     &:focus {
         outline: 0;
     }
+
 }
 
-.UpdateContainerText { 
-    display: flex;
-    flex-direction: column;
+.UpdatesList {
+    width: $update-dropdown-width;
+    margin: 0;
+    padding: 0;
+}
+
+.ReviewLabel {
+    text-align: center;
+}
+
+.ButtonLink {
+    text-align: center;
 }
