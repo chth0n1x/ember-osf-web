@@ -7,7 +7,7 @@
     <dd.trigger
         data-analytics-name='Expand update dropdown'
         data-test-update-button
-        local-class='UpdateText'
+        local-class='UpdateTrigger'
     >
         {{#if (gt this.selectedRevisionIndex -1)}}
             <Registries::UpdateDropdown::UpdateLabel
@@ -21,7 +21,7 @@
     </dd.trigger>
     <dd.content
         data-test-update-content
-        local-class='Updates'
+        local-class='UpdateContent'
     >
         <div data-test-list-view local-class='UpdatesList'>
             {{#if this.revisions}}

@@ -1,3 +1,12 @@
+$width-expanded-states: 205px;
+
+.ResponsiveDropdown {
+    padding: 0;
+    margin: 0;
+    width: $width-expanded-states;
+    padding-left: 50px;
+}
+
 .States {
     padding: 15px;
     border: 1px solid $alto;
@@ -9,6 +18,7 @@
 }
 
 .StateText {
+    width: $width-expanded-states;
     color: $white;
     font-weight: 600;
     padding-left: 10px;

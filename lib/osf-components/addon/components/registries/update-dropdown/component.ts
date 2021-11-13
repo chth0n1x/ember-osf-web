@@ -83,6 +83,16 @@ export default class UpdateDropdown extends Component<Args> {
         return this.revisions.findIndex(revision => revision.id === this.args.selectedRevisionId);
     }
 
+    caclulatePosition(trigger: any, content: any) {
+        const { top, left, width, height } = trigger.getBoundingClientRect();
+        const { height: contentHeight } = content.getBoundingClientRect();
+        const style = {
+            left: left + width,
+            top: top + window.pageYOffset + height / 2 - contentHeight / 2,
+        };
+        return { style };
+    }
+
     @action
     showCreateModal() {
         this.showModal = true;

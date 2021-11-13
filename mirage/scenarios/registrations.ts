@@ -57,11 +57,36 @@ export function registrationScenario(
     const currentUserWrite = server.create('registration', {
         id: 'writr',
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        currentUserPermissions: [Permission.Read, Permission.Write],
+        reviewsState: RegistrationReviewStates.Accepted,
+        revisionState: RevisionReviewStates.Approved,
+        currentUserPermissions: [Permission.Admin],
         providerSpecificMetadata: [
             { field_name: 'Metadata field 1', field_value: '' },
             { field_name: 'Another Field', field_value: 'Value 2' },
         ],
+    });
+
+    server.create('schema-response', {
+        id: 'copyEditWritr1',
+        revisionJustification: 'Copy Edit',
+        reviewsState: RevisionReviewStates.Approved,
+        revisionResponses: {
+            q1: 'Hello',
+            q2: ['List of greetings'],
+        },
+        initiatedBy: currentUser,
+        registration: currentUserWrite,
+    });
+
+    server.createList('schema-response', 10, {
+        revisionJustification: 'Copy Edit',
+        reviewsState: RevisionReviewStates.Approved,
+        revisionResponses: {
+            q1: 'Hello',
+            q2: ['List of greetings'],
+        },
+        initiatedBy: currentUser,
+        registration: currentUserWrite,
     });
 
     server.create('contributor', { users: currentUser, node: currentUserWrite });
@@ -144,7 +169,7 @@ export function registrationScenario(
     }, 'withContributors', 'withReviewActions');
 
     server.create('schema-response', {
-        id: 'copyEdit',
+        id: 'copyEditSilicon',
         revisionJustification: 'Copy Edit',
         revisionResponses: {
             q1: 'Good Morning',
@@ -159,9 +184,9 @@ export function registrationScenario(
         title: 'Revision Model: Contributor View (non-Admin/Mod)',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
-        reviewsState: RegistrationReviewStates.Accepted,
+        reviewsState: RegistrationReviewStates.Withdrawn,
         registeredBy: currentUser,
-        revisionState: RevisionReviewStates.Approved,
+        revisionState: RevisionReviewStates.RevisionInProgress,
         currentUserPermissions: [Permission.Write],
         providerSpecificMetadata: [
             { field_name: 'IP Address', field_value: '127.0.0.1' },
@@ -174,7 +199,7 @@ export function registrationScenario(
     }, 'withContributors', 'withReviewActions');
 
     server.create('schema-response', {
-        id: 'copyEdit',
+        id: 'copyEditTungsten',
         revisionJustification: 'Copy Edit',
         revisionResponses: {
             q1: 'Good Morning',
@@ -253,8 +278,8 @@ export function registrationScenario(
             { field_name: 'Mac Address', field_value: 'b6:be:5a:05:ef:7a' },
         ],
         registrationResponses: {
-            'page-one_long-text': 'eeeee',
-            'page-one_multi-select': ['Crocs'],
+            q1: 'Hello',
+            q2: ['Array of greetings'],
         },
     }, 'withContributors', 'withReviewActions');
 
@@ -263,8 +288,8 @@ export function registrationScenario(
         reviewsState: RevisionReviewStates.Unapproved,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
-            'page-one_long-text': 'dddd',
-            'page-one_multi-select': ['Crocs'],
+            q1: 'Good Morning',
+            q2: ['List of greetings'],
         },
         initiatedBy: currentUser,
         registration: bismuth,
@@ -272,11 +297,11 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'copyEditRPM',
-        reviewsState: RevisionReviewStates.Approved,
+        reviewsState: RevisionReviewStates.RevisionPendingModeration,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
-            'page-one_long-text': 'aaaaa',
-            'page-one_multi-select': ['Crocs'],
+            q1: 'Good Morning',
+            q2: ['List of greetings'],
         },
         initiatedBy: currentUser,
         registration: bismuth,
@@ -284,11 +309,11 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'copyEditRIP',
-        reviewsState: RevisionReviewStates.Approved,
+        reviewsState: RevisionReviewStates.RevisionInProgress,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
-            'page-one_long-text': 'bbbbbb',
-            'page-one_multi-select': ['Crocs'],
+            q1: 'Good Morning',
+            q2: ['List of greetings'],
         },
         initiatedBy: currentUser,
         registration: bismuth,
@@ -300,8 +325,8 @@ export function registrationScenario(
         reviewsState: RevisionReviewStates.Approved,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
-            'page-one_long-text': 'ccccc',
-            'page-one_multi-select': ['Crocs'],
+            q1: 'Good Morning',
+            q2: ['List of greetings'],
         },
         initiatedBy: currentUser, // should be the user associated with the edit, not the mod/admin
         registration: bismuth,

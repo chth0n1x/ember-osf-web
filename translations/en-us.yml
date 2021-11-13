@@ -1586,6 +1586,7 @@ registries:
         other_error: 'Some error occured. Please contact your adminstrator or moderator for further assistance.'
         continue_update: 'Continue update'
         review_update: 'Review update'
+        no_updates: 'No updates available'
     newUpdateModal:
         modalHeader: 'Update your Registration'
         modalHeaderNoUpdates: 'Updates not allowed'
