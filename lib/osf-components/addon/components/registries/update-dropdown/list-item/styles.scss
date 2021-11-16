@@ -1,7 +1,15 @@
+$update-dropdown-height: 40px;
+$update-dropdown-width: 255px;
+$collapsed-updates-width: 80px;
+
 .UpdateContainer {
-    padding-right: 10px;
-    padding-left: 10px;
-    padding-top: 10px;
+    display: flex;
+    flex-flow: row;
+    width: $update-dropdown-width;
+    justify-content: space-around;
+    margin-top: 5px;
+    padding-left: 11px;
+    padding-top: 5px;
     padding-bottom: 10px;
 
     &:hover { 
@@ -15,6 +23,10 @@
 
 .UpdateLink { 
     display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    width: $update-dropdown-width;
+    padding: 5px 0px 0px 10px;
     text-decoration: none;
 
     &:global(.active) {
@@ -24,4 +36,9 @@
     &:hover {
         text-decoration: none;
     }
+}
+
+.fa-icon {
+    margin-left: 2px;
+    padding: 2px 0px 0px 5px;
 }

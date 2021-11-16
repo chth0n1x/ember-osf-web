@@ -55,9 +55,14 @@
                     @route='registries.edit-revision'
                     @models={{array this.latestRevision.id}}
                 >
-                    <Button>
+                <div class='btn btn-block'>
+                    <BsButton 
+                        local-class='_UpdateButton' 
+                        class='btn btn-block'
+                    >
                         {{if (eq @registration.revisionState 'in_progress') (t 'registries.update_dropdown.continue_update') (t 'registries.update_dropdown.review_update')}}
-                    </Button>
+                    </BsButton>
+                </div>
                 </OsfLink>
             {{/if}}
         </div>

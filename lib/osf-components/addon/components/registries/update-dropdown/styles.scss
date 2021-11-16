@@ -1,21 +1,20 @@
-$width-expanded-updates: 205px;
-$width-collapsed-updates: 80px;
 $update-dropdown-height: 40px;
 $update-dropdown-width: 255px;
+$collapsed-updates-width: 80px;
 
 .ResponsiveDropdown {
-    padding-left: 25px;
-    width: $width-expanded-updates;
+    display: flex;
+    flex-flow: column;
 }
 
 .UpdateTrigger {
     margin: 0;
-    padding: 0;
-    display: inline-block;
+    display: flex;
+    flex-flow: row;
+    padding: 11px 0px 0px 25px;
     text-align: left;
     vertical-align: auto;
     cursor: pointer;
-    width: $update-dropdown-width;
     line-height: 1.42857143;
     color: #fff;
     font-weight: 600;
@@ -30,37 +29,36 @@ $update-dropdown-width: 255px;
 }
 
 .UpdateContent {
+    margin: 2px 0 0;
+    display: flex;
+    flex-flow: column;
     position: relative;
-    left: 0px;
     display: inline-block;
     border: 1px solid #ddd;
     border-radius: 2px;
     background-color: #fff;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    margin: 2px 0 0;
-    width: $update-dropdown-width;
     overflow-y: auto;
 }
 
 .UpdatesList {
-    position: relative;
-    left: 10px;
-    text-align: left;
     margin: 0;
-    padding: 0;
-    width: $update-dropdown-width;
+    display: flex;
+    flex-flow: column;
+    position: relative;
+    text-align: left;
     overflow-x: auto;
 }
 
 .ButtonLink {
     margin: 0;
-    padding: 0;
-    text-align: left;
-    width: $width-expanded-updates;
-    overflow-x: auto;
+    display: flex;
+    flex-flow: row;
+    text-align: center;
 }
 
-.InfinityLoader {
-    margin: 0;
-    padding: 0;
+._UpdateButton {
+    height: 20px;
+    text-align: center;
 }
+
