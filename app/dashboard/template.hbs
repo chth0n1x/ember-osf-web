@@ -39,6 +39,16 @@
                         </div>
                         <div class='col-xs-12'>
                             <div class='row' local-class='quick-project'>
+                                <div class='pull-right'>
+                                    <LoadProjects
+                                        @modelName=‘node’
+                                        @params={{hash
+                                            embed=@bibliographic_contributors
+                                            page=(hash limit=4)
+                                        }}
+                                    as |this.hasNodes|>
+                                    </LoadProjects>
+                                </div>
                                 {{#if this.initialLoad}}
                                     <LoadingIndicator />
                                 {{else}}
