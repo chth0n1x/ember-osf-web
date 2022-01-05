@@ -1,18 +1,17 @@
 import Store from '@ember-data/store';
 import { A } from '@ember/array';
 import Component from '@ember/component';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { alias, reads } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { dropTask, restartableTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Features from 'ember-feature-flags/services/features';
-import config from 'ember-get-config';
 
 import Intl from 'ember-intl/services/intl';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
-import Institution from 'ember-osf-web/models/institution';
+import { IssueType } from 'ember-osf-web/models/cos-report';
 import Node from 'ember-osf-web/models/node';
 import Region from 'ember-osf-web/models/region';
 import User from 'ember-osf-web/models/user';
@@ -23,11 +22,6 @@ import Toast from 'ember-toastr/services/toast';
 import styles from './styles';
 import template from './template';
 
-const {
-    featureFlagNames: {
-        storageI18n,
-    },
-} = config;
 
 @layout(template, styles)
 export default class NewProjectModal extends Component {
@@ -50,49 +44,19 @@ export default class NewProjectModal extends Component {
     more = false;
     templateFrom?: Node;
     selectedRegion?: Region;
-    institutions: Institution[] = [];
+    issueTypes: IssueType[] = [];
     regions: Region[] = [];
 
     @alias('currentUser.user') user!: User;
 
-    @reads('institutions') selectedInstitutions!: Institution[];
-
-    @computed()
-    get storageI18nEnabled() {
-        return this.features.isEnabled(storageI18n);
-    }
+    @reads('cos-report') selectedIssues!: IssueType[];
 
     @task({ on: 'init' })
     @waitFor
     async initTask() {
-        if (this.storageI18nEnabled) {
-            // not yielding so it runs in parallel
-            taskFor(this.getStorageRegionsTask).perform();
-        }
-        this.set('institutions', (await this.currentUser.user!.institutions));
+        this.set('issueTypes', (await this.user.currentUser.cosReport.issueTypes));
     }
 
-    @task
-    @waitFor
-    async getStorageRegionsTask() {
-        const regions = await this.store.findAll('region');
-
-        this.setProperties({
-            regions: regions.toArray(),
-            selectedRegion: this.currentUser.user!.defaultRegion,
-        });
-    }
-
-    @task
-    @waitFor
-    async loadDefaultRegionTask() {
-        const { user } = this.currentUser;
-        if (!user) {
-            return;
-        }
-
-        await user.belongsTo('defaultRegion').reload();
-    }
 
     @restartableTask
     @waitFor
@@ -107,10 +71,9 @@ export default class NewProjectModal extends Component {
     async createNodeTask(
         title = '',
         description = '',
-        institutions: Institution[],
         templateFrom?: Node,
-        storageRegion?: Region,
         isPublic?: boolean,
+        // selectedIssues?: IssueType[],
         // issueUrl = '',
         // ipAddress = '',
         // macAddress = '',
@@ -136,8 +99,8 @@ export default class NewProjectModal extends Component {
         if (templateFrom) {
             node.set('templateFrom', templateFrom.id);
         }
-        if (institutions.length) {
-            node.set('affiliatedInstitutions', institutions.slice());
+        if (this.issueTypes.length) {
+            node.set('this.selectedIssues', this.issueTypes.slice());
         }
         if (storageRegion) {
             node.set('region', storageRegion);
@@ -155,24 +118,24 @@ export default class NewProjectModal extends Component {
     }
 
     @action
-    selectInstitution(institution: Institution) {
-        const selected = this.set('selectedInstitutions', this.selectedInstitutions.slice());
+    selectIssue(issueType: IssueType) {
+        const selected = this.set('selectedIssues', this.selectedIssues.slice());
 
-        if (selected.includes(institution)) {
-            selected.removeObject(institution);
+        if (selected.includes(issueType)) {
+            selected.removeObject(issueType);
         } else {
-            selected.pushObject(institution);
+            selected.pushObject(issueType);
         }
     }
 
     @action
-    selectAllInstitutions() {
-        this.set('selectedInstitutions', this.institutions.slice());
+    selectAllIssues() {
+        this.set('selectedIssues', this.issueTypes.slice());
     }
 
     @action
-    removeAllInstitutions() {
-        this.set('selectedInstitutions', A([]));
+    removeAllIssues() {
+        this.set('selectedIssues', A([]));
     }
 
     @action
@@ -197,7 +160,7 @@ export default class NewProjectModal extends Component {
         taskFor(this.createNodeTask).perform(
             this.nodeTitle,
             this.description,
-            this.selectedInstitutions,
+            this.selectedIssues,
             this.templateFrom,
             this.selectedRegion,
             this.isPublic,

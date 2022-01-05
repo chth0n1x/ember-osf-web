@@ -49,4 +49,6 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     server.create('institution', {
         id: 'has-users',
     }, 'withMetrics');
+
+    server.createList('cos-report', 10);
 }

@@ -5,6 +5,8 @@ import config from 'ember-get-config';
 import { Link } from 'jsonapi-typescript';
 
 import SparseNodeModel from 'ember-osf-web/models/sparse-node';
+
+import CosReportModel from 'ember-osf-web/models/cos-report';
 import ContributorModel from './contributor';
 import DraftRegistrationModel from './draft-registration';
 import FileModel from './file';
@@ -125,6 +127,9 @@ export default class UserModel extends OsfModel.extend(Validations) {
 
     @hasMany('sparse-node', { inverse: null })
     sparseNodes!: AsyncHasMany<SparseNodeModel>;
+
+    @hasMany('cos-report', { inverse: 'user' })
+    cosReport!: AsyncHasMany<CosReportModel>;
 
     // Calculated fields
     @alias('links.html') profileURL!: string;

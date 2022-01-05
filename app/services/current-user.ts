@@ -60,6 +60,8 @@ export default class CurrentUserService extends Service {
 
     showTosConsentBanner = false;
 
+    cosReport = this.store.findAll('issueTypes');
+
     /**
      * If logged in, return the ID of the current user, else return undefined.
      */

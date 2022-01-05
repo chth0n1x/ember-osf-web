@@ -23,12 +23,11 @@
                     />
                 </label>
             </div>
-
-            {{#if this.institutions.length}}
-                <div class='form-group m-v-sm' local-class='FeIntercept__institution-selector'>
+            {{#if this.issueTypes.length}}
+                <div class='form-group m-v-sm' local-class='FeIntercept__issue-selector'>
                     <label class='f-w-lg text-bigger'>{{t 'dashboard.fe_intercept.issue_type_selector'}}</label>
                     <BsButton
-                        data-analytics-name='De-select all issues'
+                        data-analytics-name='Remove all issues'
                         @type='link'
                         @onClick={{action this.removeAllInstitutions}}
                     >
@@ -43,26 +42,26 @@
                     </BsButton>
                     <table>
                         <tbody>
-                            <tr data-test-institution-button-row >
-                                {{#each this.institutions as | institution |}}
+                            <tr data-test-issue-type-button-row >
+                                {{#each this.issueTypes as | issueType |}}
                                     <td>
                                         <BsButton
-                                            data-test-institution-selected='{{if (if-filter institution this.selectedInstitutions) 'selected' 'not-selected'}}'
+                                            data-test-issueType-selected='{{if (if-filter issueType this.selectedIssue) 'selected' 'not-selected'}}'
                                             data-analytics-name='select_issue_type'
-                                            local-class='FeIntercept__institution-button'
+                                            local-class='FeIntercept__issueType-button'
                                             @type='link'
-                                            @onClick={{action this.selectInstitution institution}}
+                                            @onClick={{action this.selectInstitution issueType}}
                                         >
-                                            <div width='45px' height='45px' local-class='FeIntercept__institution-item'>
+                                            <div width='45px' height='45px' local-class='FeIntercept__issueType-item'>
                                                 <img
-                                                    name='{{institution.name}}'
+                                                    name='{{issueType.name}}'
                                                     width='45px'
                                                     height='45px'
                                                     class='img-circle pointer'
-                                                    local-class='FeIntercept__institution-img-{{if (if-filter institution this.selectedInstitutions) 'selected' 'not-selected'}}'
-                                                    src='{{institution.logoRoundedUrl}}'
-                                                    alt='{{institution.name}}'
-                                                    title='{{institution.name}}'>
+                                                    local-class='FeIntercept__issueType-img-{{if (if-filter issueType this.selectedIssue) 'selected' 'not-selected'}}'
+                                                    src='{{issueType.logoRoundedUrl}}'
+                                                    alt='{{issueType.name}}'
+                                                    title='{{issueType.name}}'>
                                             </div>
                                         </BsButton>
                                     </td>
@@ -72,62 +71,41 @@
                     </table>
                 </div>
             {{/if}}
-            {{#if this.storageI18nEnabled}}
-                <div data-test-select-storage-location class='form-group m-v-md'>
-                    <label class='f-w-lg text-bigger' local-class='FeIntercept__label'>
-                        {{t 'new_project.storage_region'}}
-                        <PowerSelect
-                            @options={{this.regions}}
-                            @renderInPlace={{true}}
-                            @searchEnabled={{true}}
-                            @selected={{this.selectedRegion}}
-                            @searchField='name'
-                            @onChange={{action this.selectRegion}}
-                            @noMatchesMessage={{t 'new_project.no_matches'}}
-                            as |region|
-                        >
-                            {{region.name}}
-                        </PowerSelect>
-                    </label>
-                </div>
-            {{/if}}
+            <div class='form-group m-v-sm'>
+                <label for='projectDesc' class='f-w-lg text-bigger' local-class='FeIntercept__label'>
+                    {{t 'dashboard.fe_intercept.issue_description'}}
+                    <Input
+                        data-test-project-description-input
+                        @placeholder={{t 'dashboard.fe_intercept.issue_short_description'}}
+                        @class='form-control noresize project-desc'
+                        @value={{this.description}}
+                        @type='text'
+                    />
+                </label>
+            </div>
             <BsButton
                 data-analytics-name='Toggle more'
                 local-class='FeIntercept__more'
                 @type='link'
                 @onClick={{action 'toggleMore'}}
             >
-                {{fa-icon (concat 'caret-' (if this.more 'down' 'right'))}} {{t 'new_project.more'}}
+                {{fa-icon (concat 'caret-' (if this.more 'down' 'right'))}} {{t 'dashboard.fe_intercept.more'}}
             </BsButton>
             {{#if this.more}}
-                <div class='form-group m-v-sm'>
-                    <label for='projectDesc' class='f-w-lg text-bigger' local-class='FeIntercept__label'>
-                        {{t 'general.description'}}
-                        <Input
-                            data-test-project-description-input
-                            @placeholder={{t 'new_project.description_placeholder'}}
-                            @class='form-control noresize project-desc'
-                            @value={{this.description}}
-                            @type='text'
-                        />
-                    </label>
-                </div>
                 <div data-test-select-template class='form-group m-v-md'>
                     <label class='f-w-lg text-bigger' local-class='FeIntercept__label'>
-                        {{t 'dashboard.fe_intercept.issue_url'}}
-                        <p class='f-w-xs help-text'>{{t 'new_project.template_search_help'}}</p>
+                        {{t 'dashboard.fe_intercept.associated_project'}}
+                        <p class='f-w-xs help-text'>{{t 'dashboard.fe_intercept.template_placeholder'}}</p>
                         <PowerSelect
                             @search={{action this.searchNodes}}
                             @selected={{this.templateFrom}}
                             @onChange={{action this.selectTemplateFrom}}
                             @renderInPlace={{true}}
-                            @noMatchesMessage={{t 'new_project.no_matches'}}
-                            @searchMessage={{t 'new_project.template_placeholder'}}
-                            @placeholder={{t 'new_project.template_placeholder'}}
+                            @noMatchesMessage={{t 'dashboard.fe_intercept.no_matches'}}
+                            @searchMessage={{t 'dashboard.fe_intercept.template_placeholder'}}
+                            @placeholder={{t 'dashboard.fe_intercept.template_placeholder'}}
                             @searchEnabled={{true}}
-                            as |node|
                         >
-                            {{node.title}}
                         </PowerSelect>
                     </label>
                 </div>

@@ -207,14 +207,23 @@ dashboard:
         button: 'View preprints'
     fe_intercept:
         report_issue_button: 'Report issue to COS'
-        report_issue_modal: 'Report an Issue'
+        report_issue_modal: 'Report an issue'
         cancel_request: 'Cancel'
         send_issue: 'Send issue'
-        issue_url: 'URL Issue found at: '
-        url_placeholder: 'Please enter the url of the issue'
-        issue_type_selector: 'Please select issue type'
+        issue_url: 'Location found'
+        url_placeholder: 'Found at url'
+        issue_type_selector: 'Type of concern'
         remove_all: 'Remove all'
         select_all: 'Select all'
+        issue_description: 'Issue description'
+        issue_short_description: 'Description'
+        more: 'More'
+        search_issues: 'Search issues'
+        no_matches: 'No matches found'
+        template_placeholder: 'Select a Project Report Template'
+        associated_project: 'If applicable, please select an associated project:'
+        
+
 new_project:
     header: 'Create new project'
     title_placeholder: 'Enter project title'

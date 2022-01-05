@@ -125,6 +125,7 @@ Router.map(function() {
     this.route('meetings', function() {
         this.route('detail', { path: '/:meeting_id' });
     });
+    this.route('load-interactables');
 
     if (collections.enabled) {
         this.mount('collections');
