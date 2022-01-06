@@ -7,7 +7,7 @@ export const permissions = Object.freeze(Object.values(Permission));
 export enum IssueType {
     BUG = 'BUG',
     SECURITY = 'SECURITY',
-    SPAM = 'SPAM'
+    SPAM = 'SPAM',
 }
 
 export default class IssueTypeModel extends OsfModel {
@@ -16,5 +16,5 @@ export default class IssueTypeModel extends OsfModel {
     @attr('string') logoRoundedUrl!: string; // user's auth
     @attr('string') foundAtUrl!: string; // path where issue was reported
     @attr('string') currentUserIsAdmin!: boolean;
-    @attr('string') issueType!: IssueType;
+    @attr('array') typeOfIssue?: IssueType[];
 }

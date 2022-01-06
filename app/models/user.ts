@@ -7,6 +7,7 @@ import { Link } from 'jsonapi-typescript';
 import SparseNodeModel from 'ember-osf-web/models/sparse-node';
 
 import CosReportModel from 'ember-osf-web/models/cos-report';
+import IssueTypeModel from 'ember-osf-web/models/issue-type';
 import ContributorModel from './contributor';
 import DraftRegistrationModel from './draft-registration';
 import FileModel from './file';
@@ -121,6 +122,9 @@ export default class UserModel extends OsfModel.extend(Validations) {
 
     @hasMany('institution', { inverse: 'users' })
     institutions!: AsyncHasMany<InstitutionModel>;
+
+    @hasMany('issue-type')
+    issueTypes!: AsyncHasMany<IssueTypeModel>;
 
     @hasMany('user-email', { inverse: 'user' })
     emails!: AsyncHasMany<UserEmailModel>;

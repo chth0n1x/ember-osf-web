@@ -29,14 +29,14 @@
                     <BsButton
                         data-analytics-name='Remove all issues'
                         @type='link'
-                        @onClick={{action this.removeAllInstitutions}}
+                        @onClick={{action this.removeAllIssues}}
                     >
                         {{t 'dashboard.fe_intercept.remove_all'}}
                     </BsButton>
                     <BsButton
                         data-analytics-name='Select all issues'
                         @type='link'
-                        @onClick={{action this.selectAllInstitutions}}
+                        @onClick={{action this.selectAllIssues}}
                     >
                         {{t 'dashboard.fe_intercept.select_all'}}
                     </BsButton>
@@ -50,7 +50,7 @@
                                             data-analytics-name='select_issue_type'
                                             local-class='FeIntercept__issueType-button'
                                             @type='link'
-                                            @onClick={{action this.selectInstitution issueType}}
+                                            @onClick={{action this.selectIssue issueType}}
                                         >
                                             <div width='45px' height='45px' local-class='FeIntercept__issueType-item'>
                                                 <img

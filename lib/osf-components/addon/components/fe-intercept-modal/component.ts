@@ -8,12 +8,12 @@ import { waitFor } from '@ember/test-waiters';
 import { dropTask, restartableTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Features from 'ember-feature-flags/services/features';
+import IssueType from 'ember-osf-web/models/issue-type';
+import IssueTypeModel from 'ember-osf-web/models/issue-type';
 
 import Intl from 'ember-intl/services/intl';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
-import { IssueType } from 'ember-osf-web/models/cos-report';
 import Node from 'ember-osf-web/models/node';
-import Region from 'ember-osf-web/models/region';
 import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
@@ -22,9 +22,8 @@ import Toast from 'ember-toastr/services/toast';
 import styles from './styles';
 import template from './template';
 
-
 @layout(template, styles)
-export default class NewProjectModal extends Component {
+export default class FeInterceptModal extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service store!: Store;
@@ -43,20 +42,19 @@ export default class NewProjectModal extends Component {
     description?: string;
     more = false;
     templateFrom?: Node;
-    selectedRegion?: Region;
     issueTypes: IssueType[] = [];
-    regions: Region[] = [];
+
+    // cosReports = this.store.findAll('cosReport');
 
     @alias('currentUser.user') user!: User;
 
-    @reads('cos-report') selectedIssues!: IssueType[];
+    @reads('issue-type') selectedIssues!: IssueTypeModel[];
 
     @task({ on: 'init' })
     @waitFor
     async initTask() {
-        this.set('issueTypes', (await this.user.currentUser.cosReport.issueTypes));
+        this.set('issueTypes', ['BUG', 'SECURITY', 'SPAM']);
     }
-
 
     @restartableTask
     @waitFor
@@ -90,7 +88,7 @@ export default class NewProjectModal extends Component {
             return;
         }
         const node = this.store.createRecord('node', {
-            category: 'project',
+            category: 'cos report',
             description,
             public: isPublic !== undefined ? isPublic : false,
             title,
@@ -100,10 +98,7 @@ export default class NewProjectModal extends Component {
             node.set('templateFrom', templateFrom.id);
         }
         if (this.issueTypes.length) {
-            node.set('this.selectedIssues', this.issueTypes.slice());
-        }
-        if (storageRegion) {
-            node.set('region', storageRegion);
+            node.set('selectableIssues', this.issueTypes.slice());
         }
 
         try {
@@ -130,7 +125,7 @@ export default class NewProjectModal extends Component {
 
     @action
     selectAllIssues() {
-        this.set('selectedIssues', this.issueTypes.slice());
+        this.set('selectedIssues', this.issueTypes.slice()); // TODO fix this
     }
 
     @action
@@ -145,30 +140,21 @@ export default class NewProjectModal extends Component {
     }
 
     @action
-    selectRegion(region: Region) {
-        this.set('selectedRegion', region);
-        this.analytics.click('button', 'New project - Select storage region');
-    }
-
-    @action
     toggleMore() {
         this.toggleProperty('more');
     }
 
     @action
-    create(this: NewProjectModal) {
+    create(this: FeInterceptModal) {
         taskFor(this.createNodeTask).perform(
             this.nodeTitle,
             this.description,
-            this.selectedIssues,
-            this.templateFrom,
-            this.selectedRegion,
             this.isPublic,
         );
     }
 
     @action
-    searchNodes(this: NewProjectModal, searchTerm: string) {
+    searchNodes(this: FeInterceptModal, searchTerm: string) {
         return taskFor(this.searchUserNodesTask).perform(searchTerm);
     }
 }

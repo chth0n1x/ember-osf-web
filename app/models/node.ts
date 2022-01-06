@@ -7,6 +7,8 @@ import { buildValidations, validator } from 'ember-cp-validations';
 
 import getRelatedHref from 'ember-osf-web/utils/get-related-href';
 
+import CosReportModel from 'ember-osf-web/models/cos-report';
+import IssueTypeModel from 'ember-osf-web/models/issue-type';
 import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import CitationModel from './citation';
 import CommentModel from './comment';
@@ -22,6 +24,8 @@ import RegionModel from './region';
 import RegistrationModel from './registration';
 import SubjectModel from './subject';
 import WikiModel from './wiki';
+// import CosReportModel from './cos-report';
+// import IssueTypeModel from './issue-type';
 
 const Validations = buildValidations({
     title: [
@@ -76,7 +80,8 @@ export enum NodeCategory {
     Communication = 'communication',
     Instrumentation = 'instrumentation',
     MethodsAndMeasures = 'methods and measures',
-    IssueReport = 'issue report'
+    CosReport = 'cos report',
+    IssueType = 'issue type'
 }
 
 export interface NodeLicense {
@@ -126,6 +131,12 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
 
     @hasMany('institution', { inverse: 'nodes' })
     affiliatedInstitutions!: AsyncHasMany<InstitutionModel> | InstitutionModel[];
+
+    @hasMany('cos-report')
+    cosReport?: AsyncHasMany<CosReportModel>;
+
+    @hasMany('issue-type', { inverse: 'node'})
+    selectableIssues?: AsyncHasMany<IssueTypeModel>;
 
     @hasMany('comment', { inverse: 'node' })
     comments!: AsyncHasMany<CommentModel>;
