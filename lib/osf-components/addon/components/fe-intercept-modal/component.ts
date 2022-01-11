@@ -32,7 +32,7 @@ export default class FeInterceptModal extends Component {
     @service toast!: Toast;
 
     // Required arguments
-    @requiredAction afterProjectCreated!: (newNode: Node) => void;
+    @requiredAction afterReportCreated!: (newNode: Node) => void;
 
     // Optional arguments
     isPublic?: boolean;
@@ -69,6 +69,7 @@ export default class FeInterceptModal extends Component {
     async createNodeTask(
         title = '',
         description = '',
+        issueTypes: IssueType[],
         templateFrom?: Node,
         isPublic?: boolean,
         // selectedIssues?: IssueType[],
@@ -109,7 +110,7 @@ export default class FeInterceptModal extends Component {
             this.toast.error(getApiErrorMessage(e), errorMessage);
         }
 
-        this.afterProjectCreated(node);
+        this.afterReportCreated(node);
     }
 
     @action
@@ -149,6 +150,8 @@ export default class FeInterceptModal extends Component {
         taskFor(this.createNodeTask).perform(
             this.nodeTitle,
             this.description,
+            this.selectedIssues,
+            this.templateFrom,
             this.isPublic,
         );
     }

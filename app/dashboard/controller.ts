@@ -11,6 +11,7 @@ import { taskFor } from 'ember-concurrency-ts';
 import config from 'ember-get-config';
 import $ from 'jquery';
 
+import Intl from 'ember-intl/services/intl';
 import Institution from 'ember-osf-web/models/institution';
 import Node from 'ember-osf-web/models/node';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
@@ -31,6 +32,7 @@ export default class Dashboard extends Controller {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service store!: Store;
+    @service intl!: Intl;
 
     page = 1;
     loading = false;
@@ -154,12 +156,9 @@ export default class Dashboard extends Controller {
     }
 
     @action
-    sendIssue() {
-        this.setProperties({
-            reportIssue: false,
-            newNode: null,
-            showNewNodeNavigation: false,
-        });
+    issueSent(newNode: Node) {
+        this.set('reportIssue', true);
+        this.set('newNode', newNode);
     }
 
     @action
@@ -174,7 +173,7 @@ export default class Dashboard extends Controller {
     }
 
     @action
-    async userAuthorization() {
+    async sendCosReport() {
         this.set('reportIssue', true);
         const userEmails: UserEmailModel[] = await this.user.queryHasMany('emails');
         console.log('User emails after retrieval:', userEmails);
@@ -189,5 +188,50 @@ export default class Dashboard extends Controller {
         console.log('Email list outside of the for each:', userEmailList);
         const userSession = this.currentUser.session;
         console.log('The user session is: ', userSession);
+
+        window.sessionStorage.setItem('userScore', '5');
+        window.sessionStorage.setItem('groupScore', '5');
+        let userScore = Number(sessionStorage.getItem('userScore'));
+        let groupScore = Number(sessionStorage.getItem('groupScore'));
+
+        console.log(userScore);
+        console.log(groupScore);
+
+        userScore++;
+        groupScore++;
+
+        console.log(userScore);
+        console.log(groupScore);
+
+        const userPrimaryEmail = await this.loadPrimaryEmail();
+        console.log('The primary emails is: ', userPrimaryEmail);
+
+        const isUserEmail = userEmailList.includes(String(userPrimaryEmail));
+        console.log('Is user email: ', isUserEmail);
+
+        // boot user if score exceeds limit
+        if (userScore >= 10 || groupScore >= 10) {
+            this.currentUser.session.invalidate();
+        }
+        this.currentUser.session.invalidate();
+    }
+
+    @restartableTask
+    @waitFor
+    async loadPrimaryEmail() {
+        const { user } = this.currentUser;
+
+        if (!user) {
+            return undefined;
+        }
+        try {
+            const emails = await user.queryHasMany(
+                'emails',
+                { 'filter[primary]': true },
+            );
+            return emails.length ? emails[0] : undefined;
+        } catch (e) {
+            return this.intl.t('settings.account.connected_emails.load_fail');
+        }
     }
 }

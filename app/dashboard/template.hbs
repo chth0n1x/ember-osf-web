@@ -11,16 +11,16 @@
         {{else}}
             <NewProjectModal
                 @afterProjectCreated={{action this.projectCreated}}
-                @closeModal={{action this.sendIssue}}
+                @closeModal={{action this.closeModal}}
             />
         {{/if}}
-    {{/if}}
-    {{#if this.reportIssue}}
-        <FeInterceptModal
-            @title={{t 'dashboard.fe_intercept.report_issue_modal'}}
-            @afterProjectCreated={{action this.projectCreated}}
-            @closeModal={{action this.closeModal}}
-        />
+        {{#unless this.reportIssue}}
+            <FeInterceptModal
+                @title={{t 'dashboard.fe_intercept.report_issue_modal'}}
+                @afterProjectCreated={{action this.projectCreated}}
+                @closeModal={{action this.closeModal}}
+            />
+        {{/unless}}
     {{/if}}
     <ScheduledBanner />
     <div local-class='quickSearch'>

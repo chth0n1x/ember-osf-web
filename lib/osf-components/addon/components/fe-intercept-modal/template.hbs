@@ -15,7 +15,7 @@
                         data-test-new-project-title
                         @placeholder={{t 'dashboard.fe_intercept.url_placeholder'}}
                         @autofocus='autofocus'
-                        @class='form-control issue-url'
+                        @class='form-control project-name'
                         @required={{true}}
                         @value={{this.nodeTitle}}
                         @type='text'
@@ -23,6 +23,7 @@
                     />
                 </label>
             </div>
+            
             {{#if this.issueTypes.length}}
                 <div class='form-group m-v-sm' local-class='FeIntercept__issue-selector'>
                     <label class='f-w-lg text-bigger'>{{t 'dashboard.fe_intercept.issue_type_selector'}}</label>
