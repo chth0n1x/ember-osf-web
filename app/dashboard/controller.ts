@@ -49,6 +49,10 @@ export default class Dashboard extends Controller {
     'failedLoading-popular' = false;
     reportIssue = false;
 
+    // TODO update from user model
+    userScore = window.sessionStorage.setItem('userScore', '5');
+    groupScore = window.sessionStorage.setItem('groupScore', '5');
+
     institutions: Institution[] = A([]);
     nodes?: QueryHasManyResult<Node>;
     noteworthy!: QueryHasManyResult<Node>;
@@ -156,9 +160,13 @@ export default class Dashboard extends Controller {
     }
 
     @action
-    issueSent(newNode: Node) {
-        this.set('reportIssue', true);
-        this.set('newNode', newNode);
+    sendIssue() {
+        this.setProperties({
+            modalOpen: false,
+            reportIssue: true,
+            newNode: null,
+            showNewNodeNavigation: false,
+        });
     }
 
     @action
@@ -172,15 +180,16 @@ export default class Dashboard extends Controller {
         this.set('showNewNodeNavigation', true);
     }
 
+    userEmailList : string[] = [];
+
     @action
-    async sendCosReport() {
-        this.set('reportIssue', true);
+    async userAuthorization(userEmailList: string[]) {
+        this.set('reportIssue', false); // this will increment the score
         const userEmails: UserEmailModel[] = await this.user.queryHasMany('emails');
         console.log('User emails after retrieval:', userEmails);
-        const userEmailList : string[] = [];
         userEmails.forEach(email => {
             const userEmail = email.emailAddress;
-            console.log('The email list is: ', email);
+            console.log(`The email at i is ${email}`);
             console.log('The user email is: ', userEmail);
             userEmailList.push(userEmail);
             console.log('The total user email list is:', userEmailList);
@@ -189,18 +198,55 @@ export default class Dashboard extends Controller {
         const userSession = this.currentUser.session;
         console.log('The user session is: ', userSession);
 
-        window.sessionStorage.setItem('userScore', '5');
-        window.sessionStorage.setItem('groupScore', '5');
-        let userScore = Number(sessionStorage.getItem('userScore'));
-        let groupScore = Number(sessionStorage.getItem('groupScore'));
+        // create report
+    }
 
-        console.log(userScore);
+    @action
+    async openReport() {
+        this.set('reportIssue', true);
+        await this.userAuthorization;
+    }
+
+    @action
+    async getRiskScore(userScore: number, groupScore: number) {
+        // retrieve score from UserModel
+        console.log(`The userscore in the getRiskScore method is ${userScore} and groupscore is: ${groupScore}`);
+    }
+
+    @action
+    async sendViolationToLog() {
+        // log violation
+    }
+
+    @action
+    async sendViolationToCOS() {
+        // send to email/phone on file any the user or system has checked
+    }
+
+    @action
+    async isRequestAllowed() {
+        // check user permissions
+
+        // dictionary that checks against elements and if user has proper permissions
+        // so, top level key of element name, value of either omnipresent elemnt or
+        // various restricted bands (admin, read_write, read_only)
+
+        // this can be moved to an external file like the .settings or .env file to change/update
+        // DevOps alone should have this file
+    }
+
+    @action
+    async increaseRiskLevel(userScore: number, groupScore: number, userEmailList) {
+        // let userScore = Number(sessionStorage.getItem('userScore'));
+        // let groupScore = Number(sessionStorage.getItem('groupScore'));
+
+        console.log(`User score in increase risk level: ${userScore}`);
         console.log(groupScore);
 
         userScore++;
         groupScore++;
 
-        console.log(userScore);
+        console.log(`User score after increase: ${userScore}`);
         console.log(groupScore);
 
         const userPrimaryEmail = await this.loadPrimaryEmail();
@@ -213,7 +259,12 @@ export default class Dashboard extends Controller {
         if (userScore >= 10 || groupScore >= 10) {
             this.currentUser.session.invalidate();
         }
-        this.currentUser.session.invalidate();
+        return this.currentUser.session.invalidate();
+    }
+
+    @action
+    async decreaseRiskLevel() {
+        // decrement score here
     }
 
     @restartableTask

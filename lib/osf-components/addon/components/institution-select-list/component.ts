@@ -1,7 +1,8 @@
 import Component from '@ember/component';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import { InstitutionsManager } from 'osf-components/components/editable-field/institutions-manager/component';
+import { InstitutionsManager } from
+    'osf-components/components/editable-field/institutions-manager/component';
 import styles from './styles';
 import template from './template';
 
@@ -11,6 +12,6 @@ export default class InstitutionSelectList extends Component {
     manager!: InstitutionsManager;
 
     // optional properties
-    usePlaceholders = false;
+    usePlaceholders = this.manager.affiliatedList[0];
     reloadList!: (page?: number) => void;
 }

@@ -32,7 +32,7 @@ export default class FeInterceptModal extends Component {
     @service toast!: Toast;
 
     // Required arguments
-    @requiredAction afterReportCreated!: (newNode: Node) => void;
+    @requiredAction afterProjectCreated!: (newNode: Node) => void;
 
     // Optional arguments
     isPublic?: boolean;
@@ -110,7 +110,7 @@ export default class FeInterceptModal extends Component {
             this.toast.error(getApiErrorMessage(e), errorMessage);
         }
 
-        this.afterReportCreated(node);
+        this.afterProjectCreated(node);
     }
 
     @action
@@ -150,7 +150,7 @@ export default class FeInterceptModal extends Component {
         taskFor(this.createNodeTask).perform(
             this.nodeTitle,
             this.description,
-            this.selectedIssues,
+            this.issueTypes,
             this.templateFrom,
             this.isPublic,
         );

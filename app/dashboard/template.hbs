@@ -14,13 +14,12 @@
                 @closeModal={{action this.closeModal}}
             />
         {{/if}}
-        {{#unless this.reportIssue}}
-            <FeInterceptModal
-                @title={{t 'dashboard.fe_intercept.report_issue_modal'}}
-                @afterProjectCreated={{action this.projectCreated}}
-                @closeModal={{action this.closeModal}}
-            />
-        {{/unless}}
+    {{/if}}
+    {{#if this.reportIssue}}
+        <FeInterceptModal
+            @afterProjectCreated={{action this.projectCreated}}
+            @closeModal={{action this.closeModal}}
+        />
     {{/if}}
     <ScheduledBanner />
     <div local-class='quickSearch'>
@@ -47,7 +46,7 @@
                                         data-test-create-project-modal-button
                                         data-analytics-name='launch-aset'
                                         class='m-t-md f-w-xl'
-                                        @onClick={{action this.userAuthorization}}
+                                        @onClick={{action this.openReport}}
                                         @type='success'
                                     >
                                         {{t 'dashboard.fe_intercept.report_issue_button'}}

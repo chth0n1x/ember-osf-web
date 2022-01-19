@@ -124,7 +124,6 @@
         <BsButton
             data-test-fe-intercept-submit
             data-analytics-name='Issue submit'
-            disabled={{unless this.nodeTitle.length true}}
             @onClick={{action this.create}}
             @type='success'
         >
