@@ -1,4 +1,4 @@
-<div class='container' local-class='FileDetail_container'>
+<div class='container' local-class='FileDetail_container' aria-label={{t 'file_detail.aria.file_detail_container'}} >
     <div class='col-lg-12'>
         <div class='col-lg-11' local-class='FileDetail_leftPanel'>
             <div id='mainPanel' class='col-lg-12' local-class='FileDetail_main'>
@@ -7,12 +7,13 @@
                         <BsButton
                             data-test-project-link
                             data-analytics-name='Linked project'
+                            aria-label={{t 'file_detail.aria.project_link'}}
                             local-class='FileDetail__registration-link'
                             @bubble={{true}}
                             @type='link'
                             @onClick={{'#'}}
                         >
-                            <h3>
+                            <h3 aria-label={{t 'file_detail.aria.file_project'}}>
                                 {{t 'file_detail.file_project_placeholder'}}
                                 {{this.file.parentFolder}}
                             </h3>
@@ -22,7 +23,7 @@
                 <div class='row' local-class='FileDetail_filename-buttons'>
                     <div class='col-lg-10'>
                         <div local-class='FileDetail_file-name'>
-                            <h2>
+                            <h2 aria-label={{t 'file_detail.aria.file_name'}}>
                                 {{t 'file_detail.file_name_placeholder'}}
                                 {{this.file.name}}
                             </h2>
@@ -31,11 +32,13 @@
                     <div class='col-lg-2'>
                         <div class='btn btn-group'>
                             <ResponsiveDropdown
+                                aria-label={{t 'file_detail.aria.more_buttons'}}
                                 data-test-more-button
                                 data-analytics-scope='Files'
                                 as |dd|
                             >
                                 <dd.trigger
+                                    aria-label={{t 'file_detail.aria.more_buttons_trigger'}}
                                     data-test-more-button-trigger
                                     data-analytics-name='Toggle more buttons'
                                     local-class='FileDetail_dropdown-trigger'
@@ -51,6 +54,7 @@
                                 >
                                     <div local-class='FileDetail_main-download-button'>
                                         <BsButton
+                                            aria-label={{t 'file_detail.aria.download_button'}}
                                             data-analytics-name='Download button'
                                             data-test-download-button
                                             @type='link'
@@ -65,6 +69,7 @@
                                     </div>
                                     <div local-class='FileDetail_main-share-button'>
                                         <BsButton
+                                            aria-label={{t 'file_detail.aria.share_button'}}
                                             data-analytics-name='Share button'
                                             data-test-share-button
                                             @type='link'
@@ -83,7 +88,7 @@
                     </div>
                 </div>
                 <div class='row'>
-                    <div id='mfrIframeParent' local-class='FileDetail-file-render' class='col-lg-12'>
+                    <div id='mfrIframeParent' local-class='FileDetail-file-render' aria-label={{t 'file_detail.aria.file_viewer'}} class='col-lg-12'>
                         <p>{{t 'file_detail.file_viewer_placeholder'}}</p>
                     </div>
                 </div>
@@ -91,9 +96,9 @@
             <div class='row'>
                 <div hidden id='versions' class='pull-right' local-class='FilesDetail_Version-slide'>
                     <BsButton
-                        data-analytics-name='Close revision sidebar'
                         data-test-close-versions
-                        aria-label={{t 'general.close'}}
+                        aria-label={{t 'file_detail.aria.close_revisions'}}
+                        data-analytics-name='Close revision sidebar'
                         @type='link'
                         @onClick={{this.close}}
                         class='pull-right'
@@ -101,26 +106,28 @@
                     >
                         <FaIcon @icon='times' />
                     </BsButton>
-                    <div local-class='FileDetail_version-header'>
+                    <div local-class='FileDetail_version-header' aria-label={{t 'file_detail.aria.version_slide_header'}}>
                         <h2>{{t 'general.revisions'}}</h2>
                     </div>
                     <hr>
-                    <table local-class='FileDetail_Version-table'>
+                    <table local-class='FileDetail_Version-table' aria-label={{t 'file_detail.aria.version_table'}}>
                         <tbody>
                             <tr>
-                                <td local-class='FileDetaiil_revisions-tableVersionNumber'>
+                                <td local-class='FileDetaiil_revisions-tableVersionNumber' aria-label={{t 'file_detail.aria.version_number'}}>
                                     {{t 'file_detail.version.version_number'}}
                                 </td>
-                                <td local-class='FileDetaiil_revisions-tableDateCreated'>
+                                <td local-class='FileDetaiil_revisions-tableDateCreated' aria-label={{t 'file_detail.aria.version_date_created'}}>
                                     {{t 'file_detail.version.date_created'}}
                                 </td>
                                 <td>
                                     <ResponsiveDropdown
+                                        aria-label={{t 'file_detail.aria.version_more_buttons'}}
                                         data-test-more-buttons
                                         data-analytics-scope='Files'
                                         as |dd|
                                     >
                                         <dd.trigger
+                                            aria-label={{t 'file_detail.aria.version_more_buttons_trigger'}}
                                             data-test-detail-trigger
                                             data-analytics-name='Toggle more button options'
                                             local-class='FileDetail_dropdown-trigger'
@@ -151,6 +158,7 @@
                                                     <tr>
                                                         <td>
                                                             <BsButton
+                                                            aria-label={{t 'file_detail.aria.copy_md5'}}
                                                                 data-test-copy-md5
                                                                 data-analytics-name='Copy md5 button'
                                                                 @bubble={{true}}
@@ -175,6 +183,7 @@
                                                     <tr>
                                                         <td>
                                                             <BsButton
+                                                                aria-label={{t 'file_detail.aria.copy_sha2'}}
                                                                 data-test-copy-sha2
                                                                 data-analytics-name='Copy sha-2 button'
                                                                 @bubble={{true}}
@@ -199,6 +208,7 @@
                                                     <tr>
                                                         <td>
                                                             <BsButton
+                                                                aria-label={{t 'file_detail.aria.download_button'}}
                                                                 data-test-download-button
                                                                 data-analytics-name='Download button'
                                                                 @bubble={{true}}
@@ -230,9 +240,9 @@
             <div class='row'>
                 <div hidden id='tags' class='pull-right' local-class='FilesDetail_Tags-slide'>
                     <BsButton
+                        aria-label={{t 'file_detail.aria.close_tags'}}
                         data-analytics-name='Close tags slide'
                         data-test-close-tags
-                        aria-label={{t 'general.close'}}
                         @type='link'
                         @onClick={{this.close}}
                         class='pull-right'
