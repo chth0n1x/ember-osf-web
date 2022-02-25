@@ -1,19 +1,21 @@
 * {
     margin: 0;
     padding: 0;
+    text-decoration: none;
 }
 
-@media screen and (max-height: 450px) {
-    .right {padding-top: 15px;}
-    .right a {font-size: 18px;}
-    // TODO complete
-}
-    
 .FileDetail_container {
+    height: 100%;
     width: 100%;
     display: inline-flex;
     flex-direction: row;
     align-content: flex-start;
+
+    &.Mobile {
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+    }
 }
 
 .FileDetail_leftPanel {
@@ -21,6 +23,13 @@
     display: inline-flex;
     flex-direction: row;
     justify-content: flex-end; //was flex-start
+
+    &.Mobile {
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 0;
+        margin: 0;
+    }
 }
 
 .FileDetail_main {
@@ -30,17 +39,29 @@
     align-content: right;
 }
 
-.FileDetail-project-link {
+.FileDetail_project_link_div {
+    display: flex;
+    flex-direction: row;
+}
+
+.FileDetail_project_link {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    font-weight: bold;
-}
+    font-weight: 900;
 
+    &.Mobile h3 {
+        text-overflow: ellipsis;
+    }
+}
 
 .FileDetail_file-name {
     padding-left: 14px;
     font-weight: 900;
+
+    &.Mobile {
+        flex-wrap: wrap;
+    }
 }
 
 .FileDetail_filename-buttons {
@@ -194,7 +215,3 @@
     color: #000;
     background-color: #337ab7;
 }
-
-// h1 h2 h3 {
-//     font-weight: 900;
-// }
