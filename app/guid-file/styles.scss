@@ -9,10 +9,11 @@
     width: 100%;
     display: inline-flex;
     flex-direction: row;
-    align-content: flex-start;
+    align-content: flex-start; // was flex-end
 
     &.Mobile {
-        flex-direction: column;
+        // flex-direction: column;
+        flex-direction: column-reverse;
         padding: 0;
         margin: 0;
     }
@@ -22,13 +23,15 @@
     height: 100%;
     display: inline-flex;
     flex-direction: row;
-    justify-content: flex-end; //was flex-start
+    justify-content: flex-start; // was flex-start
+    order: 1;
 
     &.Mobile {
         flex-direction: column;
         justify-content: flex-start;
         padding: 0;
         margin: 0;
+        order: 2;
     }
 }
 
@@ -36,7 +39,8 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    align-content: right;
+    align-content: stretch;
+    justify-content: stretch;
 }
 
 .FileDetail_project_link_div {
@@ -48,15 +52,31 @@
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+
+    &.Mobile {
+        width: 20px;
+        text-overflow: ellipsis;
+    }
+}
+
+.FileDetail_project-link h3 {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
     font-weight: 900;
 
-    &.Mobile h3 {
+    &.Mobile {
+        width: 100%;
+        // flex-wrap: nowrap;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        white-space: nowrap;
         text-overflow: ellipsis;
     }
 }
 
 .FileDetail_file-name {
-    padding-left: 14px;
+    padding-left: 3px;
     font-weight: 900;
 
     &.Mobile {
@@ -65,7 +85,7 @@
 }
 
 .FileDetail_filename-buttons {
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
     align-content: flex-start;
 }
@@ -116,18 +136,55 @@
     flex-direction: row;
     justify-content: center;
     text-align: center;
+    padding-top: 10px;
+
+    &.Mobile {
+        padding-top: 6px;
+    }
 }
 
-// right navbar
-.FileDetail_right {
+.FileDetail_navbar-right {
     height: 100%;
     display: inline-flex;
     flex-direction: column;
-    background-color: rgb(0, 255, 255);
-    border-left: 1px solid rgb(102, 102, 102);
-    transition: 0.4s;
+    margin-top: 64px;
+    border-left: 1px solid rgba(102, 102, 102, 0.3);
+    transition: 0.2s;
+    // order: 2;
     z-index: 1;
+    text-align: center;
+
+    &.Mobile {
+        display: inline-flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        order: 1;
+    }
 }
+
+.FileDetail_navbar-buttons {
+
+    display: flex;
+    flex-direction: column;
+
+    &.Mobile {
+        display: inline-flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        order: 2;
+    }
+}
+
+// right navbar
+// .FileDetail-navbar-right {
+//     height: 100%;
+//     display: inline-flex;
+//     flex-direction: column;
+//     background-color: rgb(0, 255, 255);
+//     border-left: 1px solid rgb(102, 102, 102);
+//     transition: 0.4s;
+//     z-index: 1;
+// }
 
 .FilesDetail_Tags-slide {
     height: 100%;
@@ -135,8 +192,9 @@
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
-    transition: 0.4s ease-in;
-
+    transition: 0.3s ease-in;
+    padding-left: 50px;
+    margin-left: 50px;
 }
 
 .FilesDetail_Tags-slide:focus-visible {
@@ -156,8 +214,10 @@
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
-    transition: 0.4s ease-in;
-    text-align: center;
+    transition: 0.3s ease-in;
+    text-align: left;
+    padding-left: 50px;
+    margin-left: 50px;
 }
 
 .FilesDetail_Version-slide:focus-visible {
@@ -168,11 +228,6 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-}
-
-.FileDetail-navbar-right {
-    display: fixed;
-    top: 32px;
 }
 
 .FileDetail-navbar-buttons button {
@@ -215,3 +270,4 @@
     color: #000;
     background-color: #337ab7;
 }
+

@@ -1,24 +1,22 @@
 <div class='container' local-class='FileDetail_container {{if this.isMobile 'Mobile'}}' aria-label={{t 'file_detail.aria.file_detail_container'}} >
-    <div class='col-lg-12'>
-        <div class='col-lg-11' local-class='FileDetail_leftPanel {{if this.isMobile 'Mobile'}}'>
-            <div id='mainPanel' class='col-lg-12' local-class='FileDetail_main {{if this.isMobile 'Mobile'}}'>
+    <div class='col-lg-12 pull-left'>
+        <div class='col-lg-11 pull-left' local-class='FileDetail_leftPanel {{if this.isMobile 'Mobile'}}'>
+            <div id='mainPanel' class='col-lg-12 pull-left' local-class='FileDetail_main pull-left {{if this.isMobile 'Mobile'}}'>
                 <div class='row'>
                     <div local-class='FileDetail_project_link_div {{if this.isMobile 'Mobile'}}' class='col-lg-12'>
-                        <BsButton
+                        <a
                             data-test-project-link
                             data-analytics-name='Linked project'
                             aria-label={{t 'file_detail.aria.project_link'}}
-                            @bubble={{true}}
-                            @type='link'
-                            @onClick={{'#'}}
+                            href='#'
                         >
-                            <div local-class='FileDetail_project_link {{if this.isMobile 'Mobile'}}'>
+                            <div local-class='FileDetail_project-link {{if this.isMobile 'Mobile'}}'>
                                 <h3 aria-label={{t 'file_detail.aria.file_project'}}>
                                     {{t 'file_detail.file_project_placeholder'}}
                                     {{this.file.parentFolder}}
                                 </h3>
                             </div>
-                        </BsButton>
+                        </a>
                     </div>
                 </div>
                 <div class='row' local-class='FileDetail_filename-buttons'>
@@ -266,26 +264,26 @@
                 </div>
             </div>
         </div>
-        <div local-class='FileDetail-navbar-right' class='col-lg-1 pull-right'>
-            <div class='col-lg-12' local-class='FileDetail_navbar-buttons'>
-                <div local-class='FilesDetail_versions-button-div'>
+        <div local-class='FileDetail_navbar-right {{if this.isMobile 'Mobile'}}' class='col-lg-1 pull-right'>
+            <div class='col-lg-12' local-class='FileDetail_navbar-buttons {{if this.isMobile 'Mobile'}}'>
+                <div local-class='FilesDetail_versions-button-div {{if this.isMobile 'Mobile'}}'>
                     <BsButton
                         data-test-versions-button
                         data-analytics-name='Versions slide button'
                         class='button btn'
-                        local-class='FilesDetail_versions-button'
+                        local-class='FilesDetail_versions-button {{if this.isMobile 'Mobile'}}'
                         @size='lg'
                         @onClick={{this.toggleVersions}}
                     >
                         <FaIcon @icon='history' @fixedWidth={{true}}/>
                     </BsButton>
                 </div>
-                <div local-class='FilesDetail_tags-button-div'>
+                <div local-class='FilesDetail_tags-button-div {{if this.isMobile 'Mobile'}}'>
                     <BsButton
                         data-test-tags-button
                         data-analytics-name='Tags slide button'
                         class='button btn'
-                        local-class='FilesDetail_tags-button'
+                        local-class='FilesDetail_tags-button {{if this.isMobile 'Mobile'}}'
                         @size='lg'
                         @onClick={{this.toggleTags}}
                     >

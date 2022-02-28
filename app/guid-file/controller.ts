@@ -57,7 +57,7 @@ export default class GuidFile extends Controller {
         }
         const mainPanel = document.getElementById('mainPanel');
         if (mainPanel) {
-            mainPanel.classList.replace('col-lg-12', 'col-lg-8');
+            // mainPanel.classList.replace('col-lg-12', 'col-lg-8');
             mainPanel.style.marginLeft = '450px';
         }
         const versionSlide = document.getElementById('versions');
@@ -77,7 +77,7 @@ export default class GuidFile extends Controller {
         }
         const mainPanel = document.getElementById('mainPanel');
         if (mainPanel) {
-            mainPanel.classList.replace('col-lg-8', 'col-lg-12');
+            // mainPanel.classList.replace('col-lg-8', 'col-lg-12');
             mainPanel.style.marginLeft = '0px';
         }
     }
@@ -89,7 +89,7 @@ export default class GuidFile extends Controller {
         }
         const mainPanel = document.getElementById('mainPanel');
         if (mainPanel) {
-            mainPanel.classList.replace('col-lg-12', 'col-lg-8');
+            // mainPanel.classList.replace('col-lg-12', 'col-lg-8');
             mainPanel.style.marginLeft = '450px';
         }
         const tagsSlide = document.getElementById('tags');
@@ -109,7 +109,7 @@ export default class GuidFile extends Controller {
         }
         const mainPanel = document.getElementById('mainPanel');
         if (mainPanel) {
-            mainPanel.classList.replace('col-lg-8', 'col-lg-12');
+            // mainPanel.classList.replace('col-lg-8', 'col-lg-12');
             mainPanel.style.marginLeft = '0px';
         }
     }
