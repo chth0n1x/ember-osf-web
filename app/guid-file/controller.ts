@@ -5,7 +5,6 @@ import { inject as service } from '@ember/service';
 
 import Media from 'ember-responsive';
 
-
 export default class GuidFile extends Controller {
     @service media!: Media;
 
@@ -55,11 +54,6 @@ export default class GuidFile extends Controller {
             this.closeTags();
             this.tagsClicked = false;
         }
-        const mainPanel = document.getElementById('mainPanel');
-        if (mainPanel) {
-            // mainPanel.classList.replace('col-lg-12', 'col-lg-8');
-            mainPanel.style.marginLeft = '450px';
-        }
         const versionSlide = document.getElementById('versions');
         if (versionSlide) {
             versionSlide.hidden = false;
@@ -75,22 +69,12 @@ export default class GuidFile extends Controller {
             versionSlide.classList.remove('col-lg-4');
             versionSlide.style.width = '0px';
         }
-        const mainPanel = document.getElementById('mainPanel');
-        if (mainPanel) {
-            // mainPanel.classList.replace('col-lg-8', 'col-lg-12');
-            mainPanel.style.marginLeft = '0px';
-        }
     }
 
     openTags() {
         if (this.revisionClicked === true) {
             this.closeVersions();
             this.revisionClicked = false;
-        }
-        const mainPanel = document.getElementById('mainPanel');
-        if (mainPanel) {
-            // mainPanel.classList.replace('col-lg-12', 'col-lg-8');
-            mainPanel.style.marginLeft = '450px';
         }
         const tagsSlide = document.getElementById('tags');
         if (tagsSlide) {
@@ -106,11 +90,6 @@ export default class GuidFile extends Controller {
             tagsSlide.hidden = true;
             tagsSlide.classList.remove('col-lg-4');
             tagsSlide.style.width = '0px';
-        }
-        const mainPanel = document.getElementById('mainPanel');
-        if (mainPanel) {
-            // mainPanel.classList.replace('col-lg-8', 'col-lg-12');
-            mainPanel.style.marginLeft = '0px';
         }
     }
 }
