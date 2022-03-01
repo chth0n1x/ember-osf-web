@@ -11,9 +11,9 @@
                             href='#'
                         >
                             <div local-class='FileDetail_project-link {{if this.isMobile 'Mobile'}}'>
-                                <h3 aria-label={{t 'file_detail.aria.file_project'}}>
+                                <h3 aria-label={{t 'file_detail.aria.file_project'}} local-class='FileDetail_file-project-h3 {{if this.isMobile 'Mobile'}}'>
                                     {{t 'file_detail.file_project_placeholder'}}
-                                    {{this.file.parentFolder}}
+                                    {{this.model.parentFolder}}
                                 </h3>
                             </div>
                         </a>
@@ -22,9 +22,8 @@
                 <div class='row' local-class='FileDetail_filename-buttons'>
                     <div class='col-lg-10'>
                         <div local-class='FileDetail_file-name {{if this.isMobile 'Mobile'}}'>
-                            <h2 aria-label={{t 'file_detail.aria.file_name'}}>
-                                {{t 'file_detail.file_name_placeholder'}}
-                                {{this.file.name}}
+                            <h2 aria-label={{t 'file_detail.aria.file_name'}} local-class='FileDetail_file-name-h2 {{if this.isMobile 'Mobile'}}'>
+                                {{this.model.name}}
                             </h2>
                         </div>
                     </div>
@@ -87,13 +86,13 @@
                     </div>
                 </div>
                 <div class='row'>
-                    <div id='mfrIframeParent' local-class='FileDetail-file-render' aria-label={{t 'file_detail.aria.file_viewer'}} class='col-lg-12'>
+                    <div id='mfrIframeParent' local-class='FileDetail-file-render {{if this.isMobile 'Mobile'}}' aria-label={{t 'file_detail.aria.file_viewer'}} class='col-lg-12'>
                         <p>{{t 'file_detail.file_viewer_placeholder'}}</p>
                     </div>
                 </div>
             </div>
             <div class='row'>
-                <div hidden id='versions' class='pull-right' local-class='FilesDetail_Version-slide'>
+                <div hidden id='versions' class='pull-right' local-class='FilesDetail_Version-slide {{if this.isMobile 'Mobile'}}'>
                     <BsButton
                         data-test-close-versions
                         aria-label={{t 'file_detail.aria.close_revisions'}}
@@ -237,7 +236,7 @@
                 </div>
             </div>
             <div class='row'>
-                <div hidden id='tags' class='pull-right' local-class='FilesDetail_Tags-slide'>
+                <div hidden id='tags' class='pull-right' local-class='FilesDetail_Tags-slide {{if this.isMobile 'Mobile'}}'>
                     <BsButton
                         aria-label={{t 'file_detail.aria.close_tags'}}
                         data-analytics-name='Close tags slide'
@@ -264,7 +263,7 @@
                 </div>
             </div>
         </div>
-        <div local-class='FileDetail_navbar-right {{if this.isMobile 'Mobile'}}' class='col-lg-1 pull-right'>
+        <div local-class='FileDetail_navbar-right {{if this.isMobile 'Mobile col-lg-12 pull-right'}}' class='col-lg-1 pull-right'>
             <div class='col-lg-12' local-class='FileDetail_navbar-buttons {{if this.isMobile 'Mobile'}}'>
                 <div local-class='FilesDetail_versions-button-div {{if this.isMobile 'Mobile'}}'>
                     <BsButton
