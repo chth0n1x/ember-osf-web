@@ -13,7 +13,6 @@
                             <div local-class='FileDetail_project-link {{if this.isMobile 'Mobile'}}'>
                                 <h3 aria-label={{t 'file_detail.aria.file_project'}} local-class='FileDetail_file-project-h3 {{if this.isMobile 'Mobile'}}'>
                                     {{t 'file_detail.file_project_placeholder'}}
-                                    {{this.model.parentFolder}}
                                 </h3>
                             </div>
                         </a>
@@ -27,12 +26,13 @@
                             </h2>
                         </div>
                     </div>
-                    <div class='col-lg-2'>
+                    <div class='col-lg-2' local-class='FileDetail_more-buttons'>
                         <div class='btn btn-group'>
                             <ResponsiveDropdown
                                 aria-label={{t 'file_detail.aria.more_buttons'}}
                                 data-test-more-button
                                 data-analytics-scope='Files'
+                                local-class='FileDetail_dropdown-main'
                                 as |dd|
                             >
                                 <dd.trigger
@@ -86,8 +86,8 @@
                     </div>
                 </div>
                 <div class='row'>
-                    <div id='mfrIframeParent' local-class='FileDetail-file-render {{if this.isMobile 'Mobile'}}' aria-label={{t 'file_detail.aria.file_viewer'}} class='col-lg-12'>
-                        <p>{{t 'file_detail.file_viewer_placeholder'}}</p>
+                    <div data-test-file-renderer id='mfrIframeParent' local-class='FileDetail-file-render {{if this.isMobile 'Mobile'}}' aria-label={{t 'file_detail.aria.file_viewer'}} class='col-lg-12'>
+                        <FileRenderer @download={{this.model.links.download}} />
                     </div>
                 </div>
             </div>
@@ -106,6 +106,7 @@
                     </BsButton>
                     <div local-class='FileDetail_version-header' aria-label={{t 'file_detail.aria.version_slide_header'}}>
                         <h2>{{t 'general.revisions'}}</h2>
+                        <hr>
                     </div>
                     <hr>
                     <table local-class='FileDetail_Version-table' aria-label={{t 'file_detail.aria.version_table'}}>
@@ -248,9 +249,11 @@
                     >
                         <FaIcon @icon='times' />
                     </BsButton>
-                    <h2>
-                        {{t 'general.tags'}}
-                    </h2>
+                    <div local-class='FileDetail_tags-header' aria-label={{t 'file_detail.aria.version_slide_header'}}>
+                        <h2>
+                            {{t 'general.tags'}}
+                        </h2>
+                    </div>
                     <hr>
                     <div local-class='container-fluid FileDetail_tags-container'>
                         <p>

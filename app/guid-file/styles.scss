@@ -4,6 +4,9 @@
     text-decoration: none;
 }
 
+[hidden='true'] { display: none; }
+// [aria-hidden='false'] { display: block; }
+
 .FileDetail_container {
     height: 100%;
     width: 100%;
@@ -14,7 +17,8 @@
     &.Mobile {
         padding: 0;
         margin: 0;
-        max-height: 100vh;
+        height: 90vh;
+        max-height: 90vh;
         max-width: 100vw;
         display: flex;
         flex-direction: column-reverse;
@@ -30,6 +34,7 @@
 
     &.Mobile {
         width: 100vw;
+        max-height: 100vh;
         flex-direction: column;
         justify-content: flex-start;
         padding: 0;
@@ -63,14 +68,7 @@
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-
-    &.Mobile {
-        width: 90vw;
-        flex-wrap: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-    }
+  
 }
 
 .FileDetail_project-link h3 {
@@ -78,25 +76,15 @@
     flex-direction: row;
     align-items: flex-start;
     font-weight: 900;
-
-    &.Mobile {
-        max-width: 90vw;
-        flex-wrap: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-    }
-}
-
-.FileDetail_file-project-h3 {
     width: 100%;
 
     &.Mobile {
-        max-width: 90vw;
-        text-overflow: ellipsis;
-        flex-wrap: nowrap;
-        overflow: hidden;
         white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 90vw;
+        max-width: 100vw;
+        display: block;
+        overflow: hidden;
     }
 }
 
@@ -113,6 +101,16 @@
     display: inline-flex;
     flex-direction: row;
     align-content: flex-start;
+}
+
+.FileDetail_dropdown-main {
+    justify-content: flex-end;
+    align-items: flex-end;
+    align-self: end;
+}
+
+.FileDetail_more-buttons {
+    justify-content: flex-end;
 }
 
 .FileDetail_dropdown-list {
@@ -133,7 +131,6 @@
 }
 
 .FileDetail_dropdown-trigger-button {
-
     display: flex;
     justify-content: flex-end;
 }
@@ -168,11 +165,13 @@
     justify-content: center;
     text-align: center;
     padding-top: 10px;
-    border: 10px 5px solid rgba(110, 110, 110, 0.3);
+    margin-top: 110px;
+    border: 10px solid rgba(169, 169, 169, 0.6);
 
     &.Mobile {
         padding-top: 90px;
         order: 4;
+        [hidden='true'] { display: none; }
     }
 }
 
@@ -182,25 +181,29 @@
     flex-direction: column;
     margin-top: 64px;
     border-left: 1px solid rgba(102, 102, 102, 0.3);
-    transition: 0.4s;
+    transition: 0.4s ease-out;
     z-index: 1;
     text-align: center;
 
     &.Mobile {
         padding: 0;
         margin: 0;
+        padding-top: 13px;
         display: inline-flex;
         flex-direction: row;
         border-left: 0 solid transparent;
         border-top: 1px solid rgba(102, 102, 102, 0.3);
-        padding-top: 6px;
-        justify-content: space-evenly;
+        border-bottom: 1px solid rgba(102, 102, 102, 0.3);
+        justify-content: space-around;
         overflow: hidden;
         position: fixed;
+        // position: -webkit-sticky;
         left: 0;
         top: 154px;
         width: 100%;
+        height: fit-content;
         text-align: center;
+        overflow-y: scroll;
     }
 }
 
@@ -228,9 +231,17 @@
     &.Mobile {
         padding: 0;
         margin: 0;
-        max-height: 30vh;
-        max-width: 90vw;
-        justify-content: left;
+        margin-top: -100vh;
+        margin-right: 7vw;
+        margin-left: auto;
+        height: 100vh;
+        max-height: 100vh;
+        max-width: 100vw;
+        transition: 0.2s linear;
+        justify-content: stretch;
+        align-items: flex-start;
+        background-color: #fff;
+        order: 2;
     }
 }
 
@@ -259,17 +270,26 @@
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
+    overflow-y: hidden;
     transition: 0.4s ease-out;
     text-align: left;
     padding-left: 50px;
     margin-left: 50px;
+    offset-position: 8.33%;
+    background-color: #fff;
 
     &.Mobile {
         padding: 0;
         margin: 0;
-        max-height: 30vh;
-        max-width: 90vw;
-        justify-content: left;
+        margin-top: 177px;
+        margin-right: 7vw;
+        margin-left: auto;
+        height: 100vh;
+        max-height: 100vh;
+        max-width: 100vw;
+        transition: 0.2s linear;
+        justify-content: stretch;
+        order: 2;
     }
 }
 
@@ -289,8 +309,33 @@
 
     &.Mobile {
         justify-content: flex-start;
+        padding-top: 5px;
+        padding-right: 5px;
     }
 }
+
+.FileDetail_version-header h2 {
+    font-weight: 900;
+    padding-left: 18px;
+}
+
+.FileDetail_Version-table table {
+    padding-left: 18px;
+}
+
+.FileDetaiil_revisions-tableVersionNumber {
+    padding-left: 18px;
+}
+
+.FileDetail_tags-header h2 {
+    font-weight: 900;
+    padding-left: 18px;
+}
+
+.FileDetail_tags-container p > a {
+    padding-left: 18px;
+}
+
 
 .FileDetail-navbar-buttons button {
     display: flex;
@@ -308,9 +353,6 @@
     &.Mobile {
         display: inline-block;
         position: relative;
-        // position: -webkit-sticky;
-        // position: sticky;
-        // top: 60px;
     }
 }
 
@@ -325,10 +367,7 @@
     &.Mobile {
         display: inline-block;
         position: relative;
-        margin-right: 30px;
-        // position: -webkit-sticky;
-        // position: sticky;
-        // top: 60px;
+        margin-right: 40px;
     }
 }
 
@@ -347,10 +386,7 @@
     &.Mobile {
         display: inline-block;
         position: relative;
-        margin-left: 30px;
-        // position: -webkit-sticky;
-        // position: sticky;
-        // top: 60px;
+        margin-left: 40px;
     }
 }
 

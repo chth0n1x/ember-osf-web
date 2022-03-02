@@ -60,6 +60,14 @@ export default class GuidFile extends Controller {
             versionSlide.classList.add('col-lg-4');
             versionSlide.style.width = '450px';
         }
+
+        if (this.isMobile) {
+            console.log('Mobile device detected.');
+            const fileViewer = document.getElementById('mfrIframeParent');
+            if (fileViewer) {
+                fileViewer.hidden = true;
+            }
+        }
     }
 
     closeVersions() {
