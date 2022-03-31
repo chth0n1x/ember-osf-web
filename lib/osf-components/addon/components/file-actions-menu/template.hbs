@@ -2,31 +2,36 @@
     local-class='DownloadShareDropdown'
     @buttonStyling={{true}}
     @horizontalPosition='right'
+    id='dropdown'
     as |dropdown|
 >
     <dropdown.trigger
         aria-label={{t 'file_actions_menu.actions' filename=@item.name}} 
         data-test-file-download-share-trigger
         data-analytics-name='File actions'
-    >
-        <FaIcon @icon='ellipsis-v' />
+        id='actionsEllipse'
+        {{on 'blur' this.focusActions}}
+    >   <FaIcon @icon='ellipsis-v' />
     </dropdown.trigger>
     <dropdown.content local-class='DropdownList'>
         <OsfLink
             data-test-download-button
             @href={{@item.links.download}}
+            id='downloadButton'
+            local-class='Download'
         >
-            <FaIcon @icon='download' />
+            <FaIcon tabindex='0' id=‘downloadButton’ @icon='download' />
             {{t 'general.download'}}
         </OsfLink>
-        <FileEmbedMenu @file={{@item}} as |dd|>
+        <FileEmbedMenu  @file={{@item}} as |dd|>
             <dd.trigger
                 data-test-embed-button
                 data-analytics-name='Expand embed menu'
                 aria-label={{t 'general.embed'}}
                 local-class='DropdownItem'
             >
-                <FaIcon @icon='file-import' />
+                <FaIcon tabindex='0' id=‘embedButton’ @icon='file-import' />
+
                 {{t 'general.embed'}}
             </dd.trigger>
         </FileEmbedMenu>
