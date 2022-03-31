@@ -10,7 +10,7 @@
         data-test-file-download-share-trigger
         data-analytics-name='File actions'
         id='actionsEllipse'
-        {{on 'blur' this.focusActions}}
+        {{on 'keypress' this.focusActions}}
     >   <FaIcon @icon='ellipsis-v' />
     </dropdown.trigger>
     <dropdown.content local-class='DropdownList'>

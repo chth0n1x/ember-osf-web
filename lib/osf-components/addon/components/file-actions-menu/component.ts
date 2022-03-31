@@ -7,7 +7,7 @@ export default class FileActionsMenu extends Component {
 
     @action
     focusActions() {
-        $(document).keypress(function(e) {
+        document.addEventListener('keypress', function(e) {
             if (e.code == 'Enter' || e.code == 'Tab') {
                 const trigger = document.getElementById('actionsEllipse');
                 if(trigger) {
