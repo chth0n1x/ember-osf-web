@@ -1,3 +1,13 @@
+html {
+    scroll-behavior: smooth;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted #000;
+};
+
 .ContentBackground {
     display: flex;
     flex-grow: 1;
@@ -73,4 +83,46 @@
     h2 {
         margin-bottom: 20px;
     }
+}
+
+.EditFilenameField {
+    display: inline-flex;
+    align-self: flex-start;
+    height: 50px;
+}
+
+.RenameButton {
+    height: 44px;
+    width: fit-content;
+    max-width: 70vw;
+    text-align: center;
+}
+
+.UserInputField {
+    padding: 0;
+    margin: 0;
+    display: inline-flex;
+    height: 44px;
+    width: fit-content;
+    // width: calc(fit-content + 5px);
+    // min-width: 250px;
+    max-width: 70vw;
+}
+
+.CancelButton {
+    // padding: 0;
+    // margin: 0;
+    display: flex;
+    align-items: center;
+    height: 44px;
+    width: 44px;
+    border-radius: 50%;
+}
+
+.FileActionsButton {
+    height: 44px;
+    width: 44px;
+    display: flex;
+    flex-direction: row;
+    align-self: right;
 }
