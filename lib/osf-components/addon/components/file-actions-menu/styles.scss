@@ -22,3 +22,7 @@
     composes: FakeLink from '../button/styles.scss';
     margin: 6px 0;
 }
+
+.RenameLink {
+    padding-top: 10px;
+}

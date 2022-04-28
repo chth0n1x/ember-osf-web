@@ -100,12 +100,20 @@ general:
     tags: 'Tags'
     science: 'science'
     engineering: 'engineering'
+    cancel_button: 'X'
+
 file_actions_menu:
     actions: '{filename} actions'
     copy_js: 'Copy dynamic JS iFrame'
     copy_html: 'Copy static HTML iFrame'
     success_message: 'Copied to clipboard'
     error_message: 'Could not copy to clipboard'
+    rename: 'Rename'
+    rename_message: 'Rename file to: '
+    rename_button: 'Rename'
+    cancel_rename: 'Cancel'
+    rename_button_aria: 'Rename file button'
+    cancel_rename_aria: 'Cancel rename button'
 node_categories:
     analysis: Analysis
     communication: Communication
