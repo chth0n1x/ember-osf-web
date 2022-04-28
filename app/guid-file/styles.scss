@@ -3,8 +3,8 @@ html {
 }
 
 .tooltip {
+    display: flex;
     position: relative;
-    display: inline-block;
     border-bottom: 1px dotted #000;
 };
 
@@ -88,14 +88,18 @@ html {
 .EditFilenameField {
     display: inline-flex;
     align-self: flex-start;
-    height: 50px;
+    width: 100%;
 }
 
 .RenameButton {
     height: 44px;
     width: fit-content;
-    max-width: 70vw;
+    max-width: 100px;
     text-align: center;
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    font-weight: 300;
 }
 
 .UserInputField {
@@ -103,16 +107,17 @@ html {
     margin: 0;
     display: inline-flex;
     height: 44px;
-    width: fit-content;
+    // width: calc(100% + 10px);
     // width: calc(fit-content + 5px);
     // min-width: 250px;
-    max-width: 70vw;
+    // max-width: 300px;
 }
 
 .CancelButton {
     // padding: 0;
     // margin: 0;
     display: flex;
+    justify-content: center;
     align-items: center;
     height: 44px;
     width: 44px;
@@ -123,6 +128,12 @@ html {
     height: 44px;
     width: 44px;
     display: flex;
-    flex-direction: row;
     align-self: right;
 }
+
+.DialogBox {
+    display: block;
+    font-size: 2em;
+    color: #f00;
+}
+

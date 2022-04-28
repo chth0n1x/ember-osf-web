@@ -5,9 +5,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { alias, and } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
-import { restartableTask } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Media from 'ember-responsive';
 import Toast from 'ember-toastr/services/toast';
@@ -43,31 +41,97 @@ export default class GuidFile extends Controller {
     @action
     shouldShowEditToggle() {
         this.toggleProperty('shouldShowEdit');
+        // window.scrollTo(0, 0);
         const userInput = document.getElementById('userInput');
+        // const placeholder = document.getElementById('userInput-placeholder');
         if (userInput){
+            // const userInput = document.getElementById('userInput').getAttribute('placeholder');
+            // const placeHolderText = document.getElementById('userInput').getAttribute('placeholder');
+            // console.log('Placeholder text: ', placeHolderText);
+            // const placeHolderLength = placeHolderText.length * 2;
+            // .toString();
+            // if (placeHolderName) {
+            // userInput.setAttribute('size', placeHolderName);
+            // placeHolderLength.toString();
+            // const placeholderSize = placeHolderLength.toString() + 'ch';
+            // const placeholderPixel = placeHolderText.valueOf + 'px';
+            // userInput.style.width = placeholderSize;
+            const currentFileName = this.model.name;
+            console.log('File name is:', currentFileName);
+            const inputWidth = currentFileName.length;
+            console.log('File name length is:', inputWidth);
+            // userInput.style.width = inputWidth + 'px';
+            userInput.style.width = '1000px';
+            // if (placeHolderText) {
+            //     userInput.style.width = inputWidth + 'px';//  + 'px';
+            // }
+            // console.log(userInput.style.width);
+            // console.log('Size is ', placeholderSize);
+            // console.log('Pixels are ', placeholderPixel);
             window.scrollTo(0, 0);
             userInput.focus();
         }
     }
 
-    @restartableTask
-    @waitFor
-    async renameFile() {
+    //     var input = document.getElementById('input-1');
+
+    // // measure width of same text as placeholder
+    // var placeholder =  document.getElementById('input-1-placeholder');
+
+
+    // input.style.width = placeholder.offsetWidth + "px"
+
+    @action
+    renameFile() {
         const input = document.getElementById('userInput');
         if (input) {
             const newName = input.value;
             console.log('The files new name is:', newName);
-        }
+            try {
+                const dialogBox = document.getElementById('dialogBox');
+                let message = '';
+                console.log('The model is: ', this.model);
+                const currentFileName = this.model.name;
 
-        try {
-            console.log(this.model);
-            console.log(this.model.file);
-            console.log(this.model.fileModel.target);
-            // this.model.file.rename(newName);
+                if (newName == '' || newName == null || newName == undefined) {
+                    console.log('No name entered');
+                    message = 'Please enter a name.';
+                }
+                if (newName == currentFileName) {
+                    console.log('File name and user input SAME');
+                    message = 'Please rename the file.';
+                    this.clearField();
 
-        } catch (e) {
-            throw new Error('That didnt work');
+                } else {
+                    console.log('File name and user input DIFFERENT');
+                    message = 'Rename successful';
+                }
+                const p = document.createElement('p');
+                const textNode = document.createTextNode('td');
+                textNode.textContent = message;
+                p.appendChild(textNode);
+                if (dialogBox) {
+                    dialogBox.appendChild(p);
+
+                    setTimeout(() => {
+                        dialogBox.removeChild(p);
+                        // textNode.remove();
+                        // p.remove();
+                    }, 5000);
+                }
+
+                console.log('The file model target is', this.model.fileModel.target);
+                // this.model.file.rename(newName);
+            } catch (e) {
+                throw new Error('That didnt work');
+            }
         }
+    }
+
+    @action
+    cancelRename() {
+        console.log('cancel button clicked');
+        this.shouldShowEdit = false;
     }
 
     @action

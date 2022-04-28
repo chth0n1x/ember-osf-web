@@ -111,6 +111,9 @@ file_actions_menu:
     rename: 'Rename'
     rename_message: 'Rename file to: '
     rename_button: 'Rename'
+    cancel_rename: 'Cancel'
+    rename_button_aria: 'Rename file button'
+    cancel_rename_aria: 'Cancel rename button'
 node_categories:
     analysis: Analysis
     communication: Communication

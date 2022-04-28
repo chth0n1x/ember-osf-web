@@ -14,59 +14,68 @@
                 {{this.model.fileModel.target.title}}
             </OsfLink>
         </h3>
+        <div
+            id='dialogBox'
+            local-class='DialogBox'
+        {{!--
+            data-toggle='tooltip'
+            data-tip='Rename file to: in file'
+            data-placement='top'
+            data-target='#userInput' --}}
+        >
+        </div>
         <div local-class='FlexContainerRow'>
             {{#if this.shouldShowEdit}}
-                <h2>
-                    <div local-class='EditFilenameField' id='fileName'>
-                        <div
+                <div local-class='EditFilenameField' id='fileName'>
+                    <h2>
+                        <input
+                            id='userInput'
+                            type='search'
+                            local-class='UserInputField'
+                            data-toggle='tooltip'
+                            data-placement='top'
+                            data-target='#userInput'
+                            data-tip='tooltip'
+                            title={{t 'file_actions_menu.rename_message' this.model.name}}
+                            {{!-- alt={{t 'file_actions_menu.rename_message' this.model.name}} --}}
+                            name={{this.model.name}}
+                            placeholder={{this.model.name}}
+                            key-press={{action this.validateFileName}}
+                        />
+                    </h2>
+                    <BsButton
+                        @onClick={{this.clearField}}
+                        local-class='CancelButton'
+                    >
+                        {{t 'general.cancel_button'}}
+                    </BsButton>
+                    <span>
+                        <BsTooltip
                             data-toggle='tooltip'
                             data-tip='tooltip'
                             data-placement='top'
                             data-target='#userInput'
-                            title={{t 'file_actions_menu.rename_message' this.model.name}}
                         >
-                            <input
-                                id='userInput'
-                                type='search'
-                                local-class='UserInputField'
-                                data-toggle='tooltip'
-                                data-placement='top'
-                                data-target='#userInput'
-                                data-tip='tooltip'
-                                title={{t 'file_actions_menu.rename_message' this.model.name}}
-                                alt={{t 'file_actions_menu.rename_message' this.model.name}}
-                                name={{this.model.name}}
-                                placeholder={{this.model.name}}
-                                key-press={{action this.validateFileName}}
-                            />
-                        </div>
-                        <BsButton
-                            @onClick={{this.clearField}}
-                            local-class='CancelButton'
-                        >
-                            {{t 'general.cancel_button'}}
-                        </BsButton>
-                        <span>
-                            <BsTooltip
-                                data-toggle='tooltip'
-                                data-tip='tooltip'
-                                data-placement='top'
-                                data-target='#userInput'
-                            >
-                                {{t 'file_actions_menu.rename_message' this.model.name}}
-                            </BsTooltip>
-                        </span>
-                        <BsButton
-                            {{!-- type='submit' --}}
-                            role='button'
-                            {{!-- value={{t 'file_actions_menu.rename_button'}} --}}
-                            local-class='RenameButton'
-                            click={{this.renameFile}}
-                        >
-                            {{t 'file_actions_menu.rename_button'}}
-                        </BsButton>
-                    </div>
-                </h2>
+                            {{t 'file_actions_menu.rename_message' this.model.name}}
+                        </BsTooltip>
+                    </span>
+                    <BsButton
+                        role='button'
+                        local-class='RenameButton'
+                        aria-label={{t 'file_actions_menu.rename_button_aria'}}
+                        @onClick={{action this.renameFile}}
+                    >
+                        {{t 'file_actions_menu.rename_button'}}
+                    </BsButton>
+                    <BsButton
+                        role='button'
+                        local-class='RenameButton'
+                        aria-label={{t 'file_actions_menu.cancel_rename_aria'}}
+                        @onClick={{action this.cancelRename}}
+                    >
+                        {{t 'file_actions_menu.cancel_rename'}}
+                    </BsButton>
+                </div>
             {{else}}
                 <h2 data-test-filename>
                     {{this.model.name}}
