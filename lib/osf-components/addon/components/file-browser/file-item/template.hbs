@@ -4,19 +4,82 @@
     local-class={{if @manager.parentFolder 'FileList__item Indent' 'FileList__item'}}
 >
     {{!-- Analytics/test-selector should know if it is a file or folder --}}
-    <OsfLink
-        data-analytics-name='Open file'
-        @href={{@item.links.html}}
-        @target='_blank'
-        local-class='FileList__item__options'
-    >
-        <FaIcon
-            @prefix='far' @icon='file-alt' @fixedWidth={{true}}
-        />
-        <span data-test-file-name>
-            {{@item.name}}
-        </span>
-    </OsfLink>
+    {{#if this.shouldShowEdit}}
+        <div local-class='EditFilenameField' id='fileName'>
+            <h2>
+                <input
+                    id='userInput'
+                    type='search'
+                    local-class='UserInputField'
+                    data-toggle='tooltip'
+                    data-placement='top'
+                    data-target='#userInput'
+                    data-tip='tooltip'
+                    title={{t 'file_actions_menu.rename_message' this.model.name}}
+                    {{!-- alt={{t 'file_actions_menu.rename_message' this.model.name}} --}}
+                    name={{this.model.name}}
+                    placeholder={{this.model.name}}
+                    key-press={{action this.validateFileName}}
+                />
+            </h2>
+            <BsButton
+                @onClick={{this.clearField}}
+                local-class='CancelButton'
+            >
+                {{t 'general.cancel_button'}}
+            </BsButton>
+            <span>
+                <BsTooltip
+                    data-toggle='tooltip'
+                    data-tip='tooltip'
+                    data-placement='top'
+                    data-target='#userInput'
+                >
+                    {{t 'file_actions_menu.rename_message' this.model.name}}
+                </BsTooltip>
+            </span>
+            <BsButton
+                role='button'
+                local-class='RenameButton'
+                aria-label={{t 'file_actions_menu.rename_button_aria'}}
+                @onClick={{action this.renameFile}}
+            >
+                {{t 'file_actions_menu.rename_button'}}
+            </BsButton>
+            <BsButton
+                role='button'
+                local-class='RenameButton'
+                aria-label={{t 'file_actions_menu.cancel_rename_aria'}}
+                @onClick={{action this.cancelRename}}
+            >
+                {{t 'file_actions_menu.cancel_rename'}}
+            </BsButton>
+        </div>
+        <div
+            id='dialogBox'
+            local-class='DialogBox'
+        {{!--
+            data-toggle='tooltip'
+            data-tip='Rename file to: in file'
+            data-placement='top'
+            data-target='#userInput' --}}
+        >
+        </div>
+    {{else}}
+        <OsfLink
+            data-analytics-name='Open file'
+            @href={{@item.links.html}}
+            @target='_blank'
+            local-class='FileList__item__options'
+        >
+            <FaIcon
+                @prefix='far' @icon='file-alt' @fixedWidth={{true}}
+            />
+            <span data-test-file-name>
+                {{@item.name}}
+            </span>
+        </OsfLink>
+    {{/if}}
     <div
         data-test-file-list-date
         local-class='FileList__item__options NoShrink'
@@ -26,6 +89,10 @@
                 {{moment-format @item.dateModified 'YYYY-MM-DD hh:mm A'}}
             </span>
         {{/if}}
-        <FileActionsMenu @item={{@item}} />
+        <FileActionsMenu
+            @item={{@item}}
+            @shouldShowEditToggle={{this.shouldShowEditToggle}}
+            local-class='FileActionsButton'
+            />
     </div>
 </li>

@@ -33,9 +33,9 @@
             <span data-test-file-name local-class='filename'>{{this.item.itemName}}</span>
         </div>
         {{#unless this.item.isFolder}}
-            <time local-class='date-modified' data-test-file-date-modified>
+            {{!-- <time local-class='date-modified' data-test-file-date-modified>
                 {{this.date}}
-            </time>
+            </time><p>Time</p> --}}
             {{#if @filesManager.canEdit}}
                 <span local-class='delete-button'>
                     <DeleteButton
