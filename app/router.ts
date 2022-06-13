@@ -98,6 +98,7 @@ Router.map(function() {
     // All non-guid routes (except error routes) belong above "Guid Routing"
     this.route('home', { path: '/' });
     this.route('dashboard');
+    this.route('zīliào');
     this.route('goodbye');
     this.route('institutions', function() {
         this.route('dashboard', { path: '/:institution_id/dashboard' });

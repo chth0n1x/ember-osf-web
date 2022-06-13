@@ -1,0 +1,104 @@
+.wrapper {
+    display: grid;
+    grid-gap: 10px;
+    font-family: Arial, sans-serif;
+    grid-template-columns: auto;
+	grid-template-rows: auto;
+    grid-template-areas:
+        'header'
+        'aboutMe'
+        'badges'
+        'myResearch'
+        'rssFeed';
+}
+
+.wrapper > div {
+    padding: 1em;
+    border-radius: 1em;
+}
+
+header {
+    display: inline-flex;
+    background-color: darkblue;
+    grid-area: header;
+    grid-template-areas:
+        'avatar'
+        'nameMembershipGroup';
+}
+
+.avatar {
+    background-color: indigo;
+    grid-area: avatar;
+    grid-column: 1/3;
+    grid-row: 1/2;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+}
+
+.name-membership-group {
+    background-color: indigo;
+    grid-area: nameMembershipGroup;
+}
+
+.name-and-membership {
+    display: inline-flex;
+    text-align: left;
+    background-color: indianred;
+    grid-area: nameAndMembership;
+}
+
+.name-and-membership > h2 {
+    display: inline-block;
+}
+
+.user-group {
+    color: navy;
+    grid-area: userGroup;
+}
+
+.about-me {
+    background-color: black;
+    grid-area: aboutMe;
+}
+
+.badges {
+    background-color: white;
+    grid-area: badges;
+}
+
+.my-research {
+    background-color: darkgray;
+    grid-area: myResearch;
+}
+
+.rss-feed {
+    background-color: cadetblue;
+    grid-area: rssFeed;
+}
+
+@media (min-width: 650px) {
+    .wrapper {
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+        grid-template-areas:
+            'header header header header'
+            'aboutMe aboutMe aboutMe .'
+            'badges badges badges .'
+            'myResearch myResearch myResearch myResearch'
+            'rsseed rsseed rsseed rssFeed rssFeed';
+    }
+
+    header {
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+        grid-template-areas: 'avatar nameMembershipGroup nameMembershipGroup nameMembershipGroup';
+    }
+
+    // .user-data {
+    //     grid-template-columns: auto;
+    //     grid-template-rows: auto;
+    //     grid-template-areas:
+    //         'avatar nameMembershipGroup nameMembershipGroup nameMembershipGroup';
+    // }
+}

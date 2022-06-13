@@ -1,0 +1,106 @@
+{{log this.user}}
+{{log this.sparse-node}}
+{{log this.institution}}
+<div local-class='wrapper'>
+    <header>
+        <div local-class='avatar'>
+            <img src='../../public/assets/images/ISS-hover.jpeg'>
+        </div>
+        <div local-class='name-membership-group'>
+            <div local-class='name-and-membership'>
+                <h3>{{this.user.fullName}}</h3>
+                <h3>Member Since: {{this.user.dateRegistered}}</h3>
+            </div>
+            <br>
+            <div local-class='user-group'>
+                <h4>User Group/Company/Institution {{this.user.employment}}</h4>
+            </div>
+        </div>
+    </header>
+    <div local-class='about-me'>
+        <p>About Me</p>
+        <p>160 character description about the user</p>
+    </div>
+    <div local-class='badges'>
+        <img id='badgeOne' local-class='badge' src='#' style='height: 50px;width: 50px;'>
+        <img id='badgeTwo' local-class='badge' src='#' style='height: 50px;width: 50px;'>
+        <img id='badgeThree' local-class='badge' src='#' style='height: 50px;width: 50px;'>
+        <img id='badgeFour' local-class='badge' src='#' style='height: 50px;width: 50px;'>
+    </div>
+    <div local-class='my-research'>
+        <p>My Research</p>
+        <BsCarousel
+            data-test-my-research
+            @interval={{0}}
+            @tabindex={{0}}
+            @showIndicators={{true}}
+            @prevControlLabel={{t 'general.previous'}}
+            @nextControlLabel={{t 'general.next'}}
+            as |myresearch|
+        >
+            <myresearch.slide>
+                <OsfLink
+                    data-analytics-name='visit_projects'
+                    @href='#'
+                >
+                    <p id='myProjects' local-class='research'>My Projects</p>
+                </OsfLink>
+            </myresearch.slide>
+            <myresearch.slide>
+                <OsfLink
+                    data-analytics-name='visit_projects'
+                    @href='#'
+                >
+                    <p id='myComponents' local-class='research'>My Components</p>
+                </OsfLink>
+            </myresearch.slide>
+            <myresearch.slide>
+                <OsfLink
+                    data-analytics-name='visit_projects'
+                    @href='#'
+                >
+                    <p id='myRegistrations' local-class='research'>My Registrations</p>
+                </OsfLink>
+            </myresearch.slide>
+        </BsCarousel>
+    </div>
+    {{!--Include Social tab where those feeds are streamed through the carousel slide --}}
+    <div local-class='rss-feed'>
+        <p>My Feed</p>
+        <BsCarousel
+            data-test-my-research
+            @interval={{0}}
+            @tabindex={{0}}
+            @showIndicators={{true}}
+            @prevControlLabel={{t 'general.previous'}}
+            @nextControlLabel={{t 'general.next'}}
+            as |rssFeed|
+        >
+            <rssFeed.slide>
+                {{!-- rearrange based on user clicks/navigation to these things, present them first --}}
+                <OsfLink
+                    data-analytics-name='visit_projects'
+                    @href='#'
+                >
+                    <p id='preprints' local-class='research'>OSF Preprints</p>
+                </OsfLink>
+            </rssFeed.slide>
+            <rssFeed.slide>
+                <OsfLink
+                    data-analytics-name='visit_projects'
+                    @href='#'
+                >
+                    <p id='registrations' local-class='research'>OSF Registrations</p>
+                </OsfLink>
+            </rssFeed.slide>
+            <rssFeed.slide>
+                <OsfLink
+                    data-analytics-name='visit_projects'
+                    @href='#'
+                >
+                    <p id='projects' local-class='research'>OSF Projects</p>
+                </OsfLink>
+            </rssFeed.slide>
+        </BsCarousel>
+    </div>
+</div>
