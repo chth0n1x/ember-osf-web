@@ -26,6 +26,7 @@ export default class ZīliàoController extends Controller {
 
     @tracked newDescription?: string;
     @tracked originalDescription?: string;
+    isUserEditing = false;
 
     filter!: string | null;
     'failedLoading-noteworthy' = false;

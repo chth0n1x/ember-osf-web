@@ -1,15 +1,19 @@
+.bg-class {
+    background-color: #fff;
+}
+
 .wrapper {
     display: grid;
     grid-gap: 10px;
     font-family: Arial, sans-serif;
-    grid-template-columns: auto;
-	grid-template-rows: auto;
-    grid-template-areas:
-        'header'
-        'aboutMe'
-        'badges'
-        'myResearch'
-        'rssFeed';
+    // grid-template-columns: auto;
+	// grid-template-rows: auto;
+    // grid-template-areas:
+    //     'header'
+    //     'aboutMe'
+    //     'badges'
+    //     'myResearch'
+    //     'rssFeed';
 }
 
 .wrapper > div {
@@ -18,45 +22,55 @@
 }
 
 header {
-    display: inline-flex;
+    display: grid;
     background-color: darkblue;
-    grid-area: header;
-    grid-template-areas:
-        'avatar'
-        'nameMembershipGroup';
+    // grid-area: header;
+    // grid-template-areas:
+    //     'avatar'
+    //     'userName'
+    //     'userMembership'
+    //     'userGroup';
 }
 
 .avatar {
     background-color: indigo;
     grid-area: avatar;
-    grid-column: 1/3;
-    grid-row: 1/2;
+    // grid-column: 1/3;
+    // grid-row: 1/2;
     height: 100px;
     width: 100px;
     border-radius: 50%;
 }
 
 .name-membership-group {
-    display: flex;
+    display: grid;
     background-color: indigo;
     grid-area: nameMembershipGroup;
 }
 
 .name-and-membership {
-    display: inline-flex;
-    justify-content: space-between;
+    display: grid;
     text-align: left;
     background-color: indianred;
     grid-area: nameAndMembership;
 }
 
-.name-and-membership > h2 {
+.name-and-membership > h3 {
     display: inline-block;
 }
 
 .UserData {
     margin: 20px;
     padding: 10px;
+}
+
+.user-name {
+    grid-area: userName;
+}
+
+.user-membership {
+    grid-area: userMembership;
+
 }
 
 .user-group {
@@ -85,22 +99,66 @@ header {
 }
 
 @media (min-width: 650px) {
-    .wrapper {
-        grid-template-columns: auto;
-        grid-template-rows: auto;
-        grid-template-areas:
-            'header header header header'
-            'aboutMe aboutMe aboutMe .'
-            'badges badges badges .'
-            'myResearch myResearch myResearch myResearch'
-            'rsseed rsseed rsseed rssFeed rssFeed';
+    // .wrapper {
+    //     grid-template-columns: auto;
+    //     grid-template-rows: auto;
+    //     grid-template-areas:
+    //         'header'
+    //         'aboutMe'
+    //         'badges'
+    //         'myResearch'
+    //         'rssFeed';
+    // }
+
+    .avatar {
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
     }
 
-    header {
-        grid-template-columns: auto;
-        grid-template-rows: auto;
-        grid-template-areas: 'avatar nameMembershipGroup nameMembershipGroup nameMembershipGroup';
+    .user-name {
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
     }
+
+    .user-membership {
+        grid-column: 3 / 4;
+        grid-row: 1 / 2;
+    }
+
+    .user-group {
+        grid-column: 2 / 4;
+        grid-row: 2 / 3;
+    }
+
+    .about-me {
+        grid-column: 2 / 4;
+        grid-row: 3 / 4;
+    }
+
+    .badges {
+        grid-column: 2 / 4;
+        grid-row: 4 / 5;
+    }
+
+    .my-research {
+        grid-column: 2 / 4;
+        grid-row: 5 / 6;
+    }
+
+    .rss-feed {
+        grid-column: 2 / 4;
+        grid-row: 6 / 7;
+    }
+
+}
+
+    // .nameMembershipGroup {
+    //     grid-template-columns: auto;
+    //     grid-template-rows: repeat(4, 1fr);
+    //     grid-template-areas: 
+    //         'userName userName userMembership userMembership'
+    //         'userGroup userGroup';
+    // }
 
     // .user-data {
     //     grid-template-columns: auto;
@@ -108,4 +166,3 @@ header {
     //     grid-template-areas:
     //         'avatar nameMembershipGroup nameMembershipGroup nameMembershipGroup';
     // }
-}
