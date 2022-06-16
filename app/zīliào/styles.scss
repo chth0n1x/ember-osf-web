@@ -37,12 +37,14 @@ header {
 }
 
 .name-membership-group {
+    display: flex;
     background-color: indigo;
     grid-area: nameMembershipGroup;
 }
 
 .name-and-membership {
     display: inline-flex;
+    justify-content: space-between;
     text-align: left;
     background-color: indianred;
     grid-area: nameAndMembership;
@@ -50,6 +52,11 @@ header {
 
 .name-and-membership > h2 {
     display: inline-block;
+}
+
+.UserData {
+    margin: 20px;
+    padding: 10px;
 }
 
 .user-group {

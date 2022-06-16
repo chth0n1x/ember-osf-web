@@ -4,12 +4,12 @@
 <div local-class='wrapper'>
     <header>
         <div local-class='avatar'>
-            <img src='../../public/assets/images/ISS-hover.jpeg'>
+            <img src='/assets/images/new-profile/ISS-hover.jpeg' alt='User Profile Avatar' class='img-responsive center-block'/>
         </div>
         <div local-class='name-membership-group'>
             <div local-class='name-and-membership'>
-                <h3>{{this.user.fullName}}</h3>
-                <h3>Member Since: {{this.user.dateRegistered}}</h3>
+                <h3 local-class='UserData'>{{this.user.fullName}}</h3>
+                <h3 local-class='UserData'>Member Since: {{moment-format this.user.dateRegistered 'LL'}}</h3>
             </div>
             <br>
             <div local-class='user-group'>
@@ -19,7 +19,15 @@
     </header>
     <div local-class='about-me'>
         <p>About Me</p>
-        <p>160 character description about the user</p>
+         <h2>
+            <textarea
+                rows=1
+                value='AboutMe'
+                placeholder={{this.originalDescription}}
+                name={{'aboutMe'}}
+                {{on 'blur' this.updateDescription}}
+            ></textarea>
+        </h2>
     </div>
     <div local-class='badges'>
         <img id='badgeOne' local-class='badge' src='#' style='height: 50px;width: 50px;'>
