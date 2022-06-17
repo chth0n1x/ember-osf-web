@@ -1,114 +1,112 @@
 .bg-class {
-    background-color: #fff;
+    display: grid;
+    grid-gap: 10px;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        // background-image: url('img/bg-light.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        filter: grayscale(1);
+    }
 }
 
 .wrapper {
-    display: grid;
+    font-family: 'Open Sans', 'Helvetica Neue', sans-serif !important;
     grid-gap: 10px;
-    font-family: Arial, sans-serif;
-    // grid-template-columns: auto;
-	// grid-template-rows: auto;
-    // grid-template-areas:
-    //     'header'
-    //     'aboutMe'
-    //     'badges'
-    //     'myResearch'
-    //     'rssFeed';
 }
 
-.wrapper > div {
-    padding: 1em;
-    border-radius: 1em;
-}
-
-header {
-    display: grid;
-    background-color: darkblue;
-    // grid-area: header;
-    // grid-template-areas:
-    //     'avatar'
-    //     'userName'
-    //     'userMembership'
-    //     'userGroup';
+.left-nav li {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    text-align: left;
+    align-items: stretch;
+    font-weight: 700;
+    border-radius: 10%;
 }
 
 .avatar {
     background-color: indigo;
-    grid-area: avatar;
-    // grid-column: 1/3;
-    // grid-row: 1/2;
+    padding: 0;
+    margin: auto;
+}
+
+.avatar > img {
+    text-align: center;
     height: 100px;
     width: 100px;
     border-radius: 50%;
+    padding: 0;
+    margin: 10px;
 }
 
 .name-membership-group {
-    display: grid;
     background-color: indigo;
-    grid-area: nameMembershipGroup;
 }
 
 .name-and-membership {
-    display: grid;
     text-align: left;
     background-color: indianred;
-    grid-area: nameAndMembership;
 }
 
 .name-and-membership > h3 {
     display: inline-block;
 }
 
-.UserData {
-    margin: 20px;
-    padding: 10px;
-}
-
 .user-name {
-    grid-area: userName;
+    background-color: violet;
 }
 
 .user-membership {
-    grid-area: userMembership;
-
+    background-color: darkblue;
 }
 
 .user-group {
     color: navy;
-    grid-area: userGroup;
 }
 
 .about-me {
     background-color: black;
-    grid-area: aboutMe;
 }
 
 .badges {
+    display: flex;
+    justify-content: left;
+    margin-left: 15px;
     background-color: white;
-    grid-area: badges;
 }
 
+.badges > * {
+    // color: $primary-blue;
+    text-align: center;
+    color: #337ab7;
+    height: 60px;
+    width: 60px;
+    // height: 100%;
+    // width: 100%;
+    margin: 3px;
+}
 .my-research {
     background-color: darkgray;
-    grid-area: myResearch;
+    padding-top: -15px;
 }
 
 .rss-feed {
     background-color: cadetblue;
-    grid-area: rssFeed;
 }
 
 @media (min-width: 650px) {
-    // .wrapper {
-    //     grid-template-columns: auto;
-    //     grid-template-rows: auto;
-    //     grid-template-areas:
-    //         'header'
-    //         'aboutMe'
-    //         'badges'
-    //         'myResearch'
-    //         'rssFeed';
-    // }
+    .wrapper {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: 60px ;
+    }
 
     .avatar {
         grid-column: 1 / 2;
@@ -116,53 +114,37 @@ header {
     }
 
     .user-name {
-        grid-column: 2 / 3;
+        grid-column: 2 / 4;
         grid-row: 1 / 2;
     }
 
     .user-membership {
-        grid-column: 3 / 4;
+        grid-column: 4 / 5;
         grid-row: 1 / 2;
     }
 
     .user-group {
-        grid-column: 2 / 4;
+        grid-column: 2 / 5;
         grid-row: 2 / 3;
     }
 
     .about-me {
-        grid-column: 2 / 4;
+        grid-column: 2 / 5;
         grid-row: 3 / 4;
     }
 
     .badges {
-        grid-column: 2 / 4;
+        grid-column: 2 / 5;
         grid-row: 4 / 5;
     }
 
     .my-research {
-        grid-column: 2 / 4;
+        grid-column: 2 / 5;
         grid-row: 5 / 6;
     }
 
     .rss-feed {
-        grid-column: 2 / 4;
+        grid-column: 2 / 5;
         grid-row: 6 / 7;
     }
-
 }
-
-    // .nameMembershipGroup {
-    //     grid-template-columns: auto;
-    //     grid-template-rows: repeat(4, 1fr);
-    //     grid-template-areas: 
-    //         'userName userName userMembership userMembership'
-    //         'userGroup userGroup';
-    // }
-
-    // .user-data {
-    //     grid-template-columns: auto;
-    //     grid-template-rows: auto;
-    //     grid-template-areas:
-    //         'avatar nameMembershipGroup nameMembershipGroup nameMembershipGroup';
-    // }

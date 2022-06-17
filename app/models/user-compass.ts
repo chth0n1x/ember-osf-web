@@ -13,11 +13,24 @@ export interface Badges {
     url: string;
 }
 
+export interface NodeData {
+    name: string; // name of project, component, or registraton
+    type: string; // node type;
+    isLiked: number;
+    isFavorited: number;
+    isDisliked: number;
+    isNoshow: number;
+}
+
 export default class UserCompassModel extends OsfModel {
     @attr('fixstring') description!: string;
-    @attr('fixstring') totalRisk!: string;
-    @attr('fixstring') totalReputation!: string;
-    @attr('fixstring') badges!: Badges[]; // create badges class
+    @attr('fixstring') totalRisk!: number;
+    @attr('fixstring') totalReputation!: number;
+    @attr('fixstring') badges!: Badges[];
+    @attr('fixstring') favorited!:  NodeData[];
+    @attr('fixstring') liked!: NodeData[];
+    @attr('fixstring') disliked!: NodeData[];
+    @attr('fixstring') noshow!: NodeData[];
 
     @belongsTo('user') user!: User;
 

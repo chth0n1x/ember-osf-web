@@ -1,8 +1,184 @@
+<link rel="stylesheet" href="~/lib/Font-Awesome/css/fontawesome.min.css">
+<link rel="stylesheet" href="~/lib/Font-Awesome/css/regular.min.css">
+<link rel="stylesheet" href="~/lib/Font-Awesome/css/solid.min.css">
+{{log user}}
 <OsfLayout @backgroundClass={{local-class 'bg-class'}}  as |layout|>
     <layout.left>
-        Left hand text
+        <OsfLayout::RegistriesSideNav
+            as |sideNav|
+        >
+            <div local-class='left-nav'>
+                <ul>
+                    <li>
+                        <Button @layout='fake-link'>Overview</Button>
+                        <Button @layout='fake-link'>Files</Button>
+                        <Button @layout='fake-link'>Wiki</Button>
+                        <Button @layout='fake-link'>Components</Button>
+                        <Button @layout='fake-link'>Links</Button>
+                        <Button @layout='fake-link'>Analytics</Button>
+                        <Button @layout='fake-link'>Comments</Button>
+                    </li>
+                </ul>
+            </div>
+        </OsfLayout::RegistriesSideNav>
     </layout.left>
+    <layout.heading>
+        <div class='hidden' local-class='user-notifications'>
+            <p>You earned a new badge!</p>
+        </div>
+    </layout.heading>
     <layout.main>
-        Some Text
+        <div local-class='wrapper'>
+            <div local-class='avatar'>
+                <img src='/assets/images/new-profile/ISS-hover.jpeg' alt='User Profile Avatar' class='img-responsive rounded-corners'/>
+            </div>
+            <div local-class='user-name'>
+                <h3>{{this.user.fullName}}</h3>
+            </div>
+            <div local-class='user-membership'>
+                <h4>Member Since:
+                <br>
+                {{moment-format this.user.dateRegistered 'LL'}}</h4>
+            </div>
+            <div local-class='user-group'>
+                <h4>{{this.groupName}}</h4>
+            </div>
+
+            <div local-class='about-me'>
+                <h4>About Me</h4>
+                {{#if this.isUserEditing}}
+                    <Input
+                        rows=1
+                        value='AboutMe'
+                        placeholder={{this.originalDescription}}
+                        name={{'aboutMe'}}
+                        {{on 'blur' this.updateDescription}}
+                    ></Input>
+                {{else}}
+                    <h4>
+                        {{this.originalDescription}}
+                    </h4>
+                {{/if}}
+            </div>
+            <div local-class='badges'>
+                <div local-class='badge'>
+                    <FaIcon class='fa-2x' @icon='user-shield' />
+                    <BsTooltip
+                        data-test-badge-tooltip
+                        @placement='bottom'
+                        @triggerEvents='hover focus'
+                    >
+                        A badge earned on the OSF.
+                    </BsTooltip>
+                </div>
+                <div local-class='badge'>
+                    <FaIcon class='fa-2x' @icon='code' />
+                    <BsTooltip
+                        data-test-badge-tooltip
+                        @placement='bottom'
+                        @triggerEvents='hover focus'
+                    >
+                        A badge earned on the OSF.
+                    </BsTooltip>
+                </div>
+                <div local-class='badge'>
+                    {{!-- <FaIcon class='fa-2x' @icon='fa-keynote' /> --}}
+                    <img src='/assets/images/new-profile/keynote.jpeg' alt='Keynote badge' class='img-responsive' style='height: 40px; width:40px; padding-top: -10px; padding-left: 6px'/>
+                    <BsTooltip
+                        data-test-badge-tooltip
+                        @placement='bottom'
+                        @triggerEvents='hover focus'
+                    >
+                        A badge earned on the OSF.
+                    </BsTooltip>
+                </div>
+                <div dlocal-class='badge'>
+                    <FaIcon class='fa-2x' @icon='mobile' />
+                     <BsTooltip
+                        data-test-badge-tooltip
+                        @placement='bottom'
+                        @triggerEvents='hover focus'
+                    >
+                        A badge earned on the OSF.
+                    </BsTooltip>
+                </div>
+            </div>
+            <div local-class='my-research'>
+                <h4>My Research</h4>
+                <BsCarousel
+                    data-test-my-research
+                    @interval={{0}}
+                    @tabindex={{0}}
+                    @showIndicators={{true}}
+                    @prevControlLabel={{t 'general.previous'}}
+                    @nextControlLabel={{t 'general.next'}}
+                    as |myresearch|
+                >
+                    <myresearch.slide>
+                        <OsfLink
+                            data-analytics-name='visit_projects'
+                            @href='#'
+                        >
+                            <p id='myProjects' local-class='research-slide'>My Projects</p>
+                        </OsfLink>
+                    </myresearch.slide>
+                    <myresearch.slide>
+                        <OsfLink
+                            data-analytics-name='visit_projects'
+                            @href='#'
+                        >
+                            <p id='myComponents' local-class='research-slide'>My Components</p>
+                        </OsfLink>
+                    </myresearch.slide>
+                    <myresearch.slide>
+                        <OsfLink
+                            data-analytics-name='visit_projects'
+                            @href='#'
+                        >
+                            <p id='myRegistrations' local-class='research-slide'>My Registrations</p>
+                        </OsfLink>
+                    </myresearch.slide>
+                </BsCarousel>
+            </div>
+            {{!--Include Social tab where those feeds are streamed through the carousel slide --}}
+            <div local-class='rss-feed'>
+                <h4>My Feed</h4>
+                <BsCarousel
+                    data-test-my-research
+                    @interval={{0}}
+                    @tabindex={{0}}
+                    @showIndicators={{true}}
+                    @prevControlLabel={{t 'general.previous'}}
+                    @nextControlLabel={{t 'general.next'}}
+                    as |rssFeed|
+                >
+                    <rssFeed.slide>
+                        {{!-- rearrange based on user clicks/navigation to these things, present them first --}}
+                        <OsfLink
+                            data-analytics-name='visit_preprints'
+                            @href='#'
+                        >
+                            <p id='preprints' local-class='feed-slide'>OSF Preprints</p>
+                        </OsfLink>
+                    </rssFeed.slide>
+                    <rssFeed.slide>
+                        <OsfLink
+                            data-analytics-name='visit_registrations'
+                            @href='#'
+                        >
+                            <p id='registrations' local-class='feed-slide'>OSF Registrations</p>
+                        </OsfLink>
+                    </rssFeed.slide>
+                    <rssFeed.slide>
+                        <OsfLink
+                            data-analytics-name='visit_projects'
+                            @href='#'
+                        >
+                            <p id='projects' local-class='feed-slide'>OSF Projects</p>
+                        </OsfLink>
+                    </rssFeed.slide>
+                </BsCarousel>
+            </div>
+        </div>
     </layout.main>
 </OsfLayout>

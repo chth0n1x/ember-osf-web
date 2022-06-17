@@ -12,6 +12,7 @@ import CurrentUserService from 'ember-osf-web/services/current-user';
 import Institution from 'ember-osf-web/models/institution';
 import User from 'ember-osf-web/models/user';
 import { A } from '@ember/array';
+import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 
 // TODO pull these from the database
 const {
@@ -26,19 +27,22 @@ export default class ZīliàoController extends Controller {
 
     @tracked newDescription?: string;
     @tracked originalDescription?: string;
-    isUserEditing = false;
 
+    // TODO transfer to model
+    @tracked favorited?: string[];
+    @tracked liked?: QueryHasManyResult<Node>;
+    @tracked disliked?: QueryHasManyResult<Node>;
+    @tracked noshow?: QueryHasManyResult<Node>;
+
+    nodes?: QueryHasManyResult<Node>;
+    popular!: QueryHasManyResult<Node>;
     filter!: string | null;
     'failedLoading-noteworthy' = false;
     'failedLoading-popular' = false;
+    isUserEditing = false;
 
     institutions: Institution[] = A([]);
-    // nodes?: QueryHasManyResult<Node>;
-    // popular!: QueryHasManyResult<Node>;
-    // liked?: QueryHasManyResult<Node>;
-    // favorited?: QueryHasManyResult<Node>;
-    // disliked?: QueryHasManyResult<Node>;
-    // noshow?: QueryHasManyResult<Node>;
+    groupName = '';
 
     @alias('currentUser.user') user!: User;
 
@@ -55,6 +59,13 @@ export default class ZīliàoController extends Controller {
         console.log('Institutions are:', institutions);
         const registrations = this.store.findAll('registration');
         console.log('Registrations are:', registrations);
+        const userGroup = this.user.employment.firstObject;
+        console.log('User group (employment):', userGroup);
+        if (userGroup) {
+            const groupName = userGroup.institution;
+            console.log('Group name is:', groupName);
+            this.set('groupName', groupName);
+        }
 
         // await all([
         //     institutions,
@@ -65,6 +76,11 @@ export default class ZīliàoController extends Controller {
         // ]);
 
         // this.set('institutions', institutions.toArray());
+    }
+
+    @action
+    async getTrending() {
+        console.log('inside getTrendingFnx');
     }
 
     @action

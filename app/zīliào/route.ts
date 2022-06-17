@@ -1,54 +1,48 @@
 import { action } from '@ember/object';
-import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-// import { taskFor } from 'ember-concurrency-ts';
+import { taskFor } from 'ember-concurrency-ts';
 import Features from 'ember-feature-flags/services/features';
-import config from 'ember-get-config';
+// import config from 'ember-get-config';
+import Session from 'ember-simple-auth/services/session';
 
 import requireAuth from 'ember-osf-web/decorators/require-auth';
-import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import Analytics from 'ember-osf-web/services/analytics';
+import CurrentUser from 'ember-osf-web/services/current-user';
+import Ready from 'ember-osf-web/services/ready';
 import ZīliàoController from './controller';
 
-const {
-    featureFlagNames: {
-        egapAdmins,
-    },
-} = config;
+// const {
+//     featureFlagNames: {
+//         egapAdmins,
+//     },
+// } = config;
 
-@requireAuth()
+@requireAuth('home')
 export default class ZīliàoRoute extends Route {
     @service analytics!: Analytics;
     @service features!: Features;
+    @service currentUser!: CurrentUser;
+    @service ready!: Ready;
+    @service session!: Session;
 
-    model() {
-        return this.modelFor('branded');
-    }
+    // model() {
+    //     return this.modelFor('branded');
+    // }
 
-    afterModel(provider: RegistrationProviderModel) {
-        const { href, origin } = window.location;
-        // const currentUrl = href.replace(origin, '');
+    // afterModel(provider: RegistrationProviderModel) {
+    //     const { href, origin } = window.location;
+    // }
 
-        // // if (!provider.allowSubmissions && !provider.currentUserCanReview) {
-        //     this.transitionTo('page-not-found', currentUrl.slice(1));
-        // }
+    async setupController(controller: ZīliàoController): Promise<void> {
+        const blocker = this.ready.getBlocker();
 
-        // // TODO: Remove this when moderation is in place
-        // if (provider.id === 'egap' && !this.features.isEnabled(egapAdmins)) {
-        //     this.transitionTo('page-not-found', currentUrl.slice(1));
-        // }
-    }
-
-    setupController(
-        controller: ZīliàoController,
-        model: RegistrationProviderModel,
-        transition: Transition,
-    ) {
-        super.setupController(controller, model, transition);
-
-        // taskFor(controller.projectSearch).perform();
-        // taskFor(controller.findAllSchemas).perform();
+        try {
+            await taskFor(controller.setupTask).perform();
+            blocker.done();
+        } catch(e) {
+            blocker.errored(e);
+        }
     }
 
     @action
