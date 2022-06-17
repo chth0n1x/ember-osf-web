@@ -32,7 +32,6 @@
 }
 
 .avatar {
-    background-color: indigo;
     padding: 0;
     margin: auto;
 }
@@ -47,12 +46,10 @@
 }
 
 .name-membership-group {
-    background-color: indigo;
 }
 
 .name-and-membership {
     text-align: left;
-    background-color: indianred;
 }
 
 .name-and-membership > h3 {
@@ -60,26 +57,21 @@
 }
 
 .user-name {
-    background-color: violet;
 }
 
 .user-membership {
-    background-color: darkblue;
 }
 
 .user-group {
-    color: navy;
 }
 
 .about-me {
-    background-color: black;
 }
 
 .badges {
     display: flex;
     justify-content: left;
     margin-left: 15px;
-    background-color: white;
 }
 
 .badges > * {
@@ -93,12 +85,10 @@
     margin: 3px;
 }
 .my-research {
-    background-color: darkgray;
     padding-top: -15px;
 }
 
 .rss-feed {
-    background-color: cadetblue;
 }
 
 @media (min-width: 650px) {
