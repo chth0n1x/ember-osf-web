@@ -1,6 +1,3 @@
-<link rel="stylesheet" href="~/lib/Font-Awesome/css/fontawesome.min.css">
-<link rel="stylesheet" href="~/lib/Font-Awesome/css/regular.min.css">
-<link rel="stylesheet" href="~/lib/Font-Awesome/css/solid.min.css">
 {{log user}}
 <OsfLayout @backgroundClass={{local-class 'bg-class'}}  as |layout|>
     <layout.left>
@@ -24,6 +21,9 @@
     </layout.left>
     <layout.heading>
         <div class='hidden' local-class='user-notifications'>
+            <Button>
+                X
+            </Button>
             <p>You earned a new badge!</p>
         </div>
     </layout.heading>
@@ -36,28 +36,26 @@
                 <h3>{{this.user.fullName}}</h3>
             </div>
             <div local-class='user-membership'>
-                <h4>Member Since:
-                <br>
-                {{moment-format this.user.dateRegistered 'LL'}}</h4>
+                <h4>Member Since: {{moment-format this.user.dateRegistered 'LL'}}</h4>
             </div>
             <div local-class='user-group'>
                 <h4>{{this.groupName}}</h4>
             </div>
-
             <div local-class='about-me'>
                 <h4>About Me</h4>
                 {{#if this.isUserEditing}}
                     <Input
-                        rows=1
-                        value='AboutMe'
-                        placeholder={{this.originalDescription}}
-                        name={{'aboutMe'}}
+                        @rows=1
+                        @value='AboutMe'
+                        @placeholder={{this.originalDescription}}
+                        @name={{'aboutMe'}}
+                        id='aboutMe'
                         {{on 'blur' this.updateDescription}}
                     ></Input>
                 {{else}}
-                    <h4>
+                    <div onclick={{this.editDescription}}>
                         {{this.originalDescription}}
-                    </h4>
+                    </div>
                 {{/if}}
             </div>
             <div local-class='badges'>
@@ -135,7 +133,9 @@
                             data-analytics-name='visit_projects'
                             @href='#'
                         >
-                            <p id='myRegistrations' local-class='research-slide'>My Registrations</p>
+                            <p>My Registrations</p>
+                            <div id='myRegistrations' local-class='research-slide'>
+                            </div>
                         </OsfLink>
                     </myresearch.slide>
                 </BsCarousel>
@@ -152,8 +152,16 @@
                     @nextControlLabel={{t 'general.next'}}
                     as |rssFeed|
                 >
-                    <rssFeed.slide>
                         {{!-- rearrange based on user clicks/navigation to these things, present them first --}}
+                    <rssFeed.slide>
+                        <OsfLink
+                            data-analytics-name='visit_registrations'
+                            @href='#'
+                        >
+                            <p id='registrations' local-class='feed-slide'>OSF Researchers</p> {{!--other user profile pages that have matching interests--}}
+                        </OsfLink>
+                    </rssFeed.slide>
+                    <rssFeed.slide>
                         <OsfLink
                             data-analytics-name='visit_preprints'
                             @href='#'
@@ -166,7 +174,23 @@
                             data-analytics-name='visit_registrations'
                             @href='#'
                         >
-                            <p id='registrations' local-class='feed-slide'>OSF Registrations</p>
+                            <div id='registrations' local-class='feed-slide'>
+                                <div id='registrationState'>Embargoed</div>
+                                <div id='nodeName'></div>
+                                <div id='dateCreated'></div>
+                                <div id='dateLastModified'></div>
+                                <div id='Contributors'></div>
+                                <div id='nodeDescription'></div>
+                                <div id='tags'></div>
+                                <div id='favorited'>
+                                    <Button onclick={{this.toggleFavorited}}>
+                                        <FaIcon @icon='fa-regular fa-heart' />
+                                    </Button>
+                                </div>
+                                <div id='liked'></div>
+                                <div id='disliked'></div>
+                                {{this.topRegistration}}
+                            </div>
                         </OsfLink>
                     </rssFeed.slide>
                     <rssFeed.slide>
@@ -181,4 +205,14 @@
             </div>
         </div>
     </layout.main>
+    <layout.right>
+        <div local-class='RSSFeed_Live'>
+            <div local-class='user-name-feed'>
+                <h5>{{this.user.givenName}}'s Live Feed</h5>
+            </div>
+            {{yield (hash feed=(component 'zīliào/-components/zīliào-kou'))}}
+            <ul id='rssFeed' local-class='FeedData_List'>
+            </ul>
+        </div>
+    </layout.right>
 </OsfLayout>

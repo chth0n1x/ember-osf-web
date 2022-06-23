@@ -1,3 +1,7 @@
+* {
+    list-style: none;
+}
+
 .bg-class {
     display: grid;
     grid-gap: 10px;
@@ -29,6 +33,7 @@
     align-items: stretch;
     font-weight: 700;
     border-radius: 10%;
+    height: 44px;
 }
 
 .avatar {
@@ -48,15 +53,12 @@
 .name-membership-group {
 }
 
-.name-and-membership {
-    text-align: left;
-}
-
 .name-and-membership > h3 {
-    display: inline-block;
 }
 
 .user-name {
+    font-weight: 500;
+    font-style: italic;
 }
 
 .user-membership {
@@ -88,7 +90,25 @@
     padding-top: -15px;
 }
 
+.RSSFeed_Live {
+    min-width: 120px;
+}
+
 .rss-feed {
+}
+
+.FeedData_List {
+    list-style: none;
+}
+
+.user-name-feed {
+    margin-top: 0;
+    text-align: center;
+    font-weight: 500;
+    color: #fff;
+    background: #263947;
+    // background-image: linear-gradient(to bottom, $color-link-blue 0, $color-shadow-white 100%);
+    border-bottom: 1px solid $color-border-gray-darker;
 }
 
 @media (min-width: 650px) {

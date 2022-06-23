@@ -23,6 +23,8 @@ export interface NodeData {
 }
 
 export default class UserCompassModel extends OsfModel {
+    @attr('fixstring') id!: string;
+    @attr('fixstring') fullname!: string;
     @attr('fixstring') description!: string;
     @attr('fixstring') totalRisk!: number;
     @attr('fixstring') totalReputation!: number;
