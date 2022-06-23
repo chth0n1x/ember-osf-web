@@ -1,0 +1,80 @@
+<?xml version="1.0" ?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>My Research Feed</title>
+    <link>https://osf.io</link>
+    <atom:link href="https://librivox.org/rss/latest_releases" rel="self" type="application/rss+xml" />
+    <description>Trending research for the user sorted by likes and interests.</description>
+    <!-- TODO create this list from registrations returned by server -->
+    <item>
+      <title>Registration 1</title>
+      <description>First registration in the RSS FEED.</description>
+      <link><![CDATA[https://librivox.org/the-endeavour-journal-of-sir-joseph-banks-from-25-august-1768-12-july-1771-by-joseph-banks/]]></link>
+      <guid><![CDATA[https://librivox.org/the-endeavour-journal-of-sir-joseph-banks-from-25-august-1768-12-july-1771-by-joseph-banks/]]></guid>
+      <pubDate><![CDATA[Sat, 15 May 2021 12:55:51 -0400]]></pubDate>
+    </item>
+      <item>
+      <title>Registration 2</title>
+      <description>Second registration in the RSS FEED.</description>
+      <link><![CDATA[https://librivox.org/the-endeavour-journal-of-sir-joseph-banks-from-25-august-1768-12-july-1771-by-joseph-banks/]]></link>
+      <guid><![CDATA[https://librivox.org/the-endeavour-journal-of-sir-joseph-banks-from-25-august-1768-12-july-1771-by-joseph-banks/]]></guid>
+      <pubDate><![CDATA[Sat, 15 May 2021 12:55:51 -0400]]></pubDate>
+    </item>
+      <item>
+      <title>Registration 3</title>
+      <description>Third registration in the RSS FEED.</description>
+      <link><![CDATA[https://librivox.org/the-endeavour-journal-of-sir-joseph-banks-from-25-august-1768-12-july-1771-by-joseph-banks/]]></link>
+      <guid><![CDATA[https://librivox.org/the-endeavour-journal-of-sir-joseph-banks-from-25-august-1768-12-july-1771-by-joseph-banks/]]></guid>
+      <pubDate><![CDATA[Sat, 15 May 2021 12:55:51 -0400]]></pubDate>
+    </item>
+      <item>
+      <title>Registration 4</title>
+      <description>Fourth registration in the RSS FEED.</description>
+      <link><![CDATA[https://librivox.org/the-endeavour-journal-of-sir-joseph-banks-from-25-august-1768-12-july-1771-by-joseph-banks/]]></link>
+      <guid><![CDATA[https://librivox.org/the-endeavour-journal-of-sir-joseph-banks-from-25-august-1768-12-july-1771-by-joseph-banks/]]></guid>
+      <pubDate><![CDATA[Sat, 15 May 2021 12:55:51 -0400]]></pubDate>
+    </item>
+      <item>
+      <title>Registration 5</title>
+      <description>Fifth registration in the RSS FEED.</description>
+      <link><![CDATA[https://librivox.org/the-endeavour-journal-of-sir-joseph-banks-from-25-august-1768-12-july-1771-by-joseph-banks/]]></link>
+      <guid><![CDATA[https://librivox.org/the-endeavour-journal-of-sir-joseph-banks-from-25-august-1768-12-july-1771-by-joseph-banks/]]></guid>
+      <pubDate><![CDATA[Sat, 15 May 2021 12:55:51 -0400]]></pubDate>
+    </item>
+      <item>
+      <title>Registration 6</title>
+      <description>Sixth registration in the RSS FEED.</description>
+      <link><![CDATA[https://librivox.org/the-endeavour-journal-of-sir-joseph-banks-from-25-august-1768-12-july-1771-by-joseph-banks/]]></link>
+      <guid><![CDATA[https://librivox.org/the-endeavour-journal-of-sir-joseph-banks-from-25-august-1768-12-july-1771-by-joseph-banks/]]></guid>
+      <pubDate><![CDATA[Sat, 15 May 2021 12:55:51 -0400]]></pubDate>
+    </item>
+      <item>
+      <title>Registration 7</title>
+      <description>Seventh registration in the RSS FEED.</description>
+      <link><![CDATA[https://librivox.org/the-endeavour-journal-of-sir-joseph-banks-from-25-august-1768-12-july-1771-by-joseph-banks/]]></link>
+      <guid><![CDATA[https://librivox.org/the-endeavour-journal-of-sir-joseph-banks-from-25-august-1768-12-july-1771-by-joseph-banks/]]></guid>
+      <pubDate><![CDATA[Sat, 15 May 2021 12:55:51 -0400]]></pubDate>
+    </item>
+      <item>
+      <title>Registration 8</title>
+      <description>Eight registration in the RSS FEED.</description>
+      <link><![CDATA[https://librivox.org/the-endeavour-journal-of-sir-joseph-banks-from-25-august-1768-12-july-1771-by-joseph-banks/]]></link>
+      <guid><![CDATA[https://librivox.org/the-endeavour-journal-of-sir-joseph-banks-from-25-august-1768-12-july-1771-by-joseph-banks/]]></guid>
+      <pubDate><![CDATA[Sat, 15 May 2021 12:55:51 -0400]]></pubDate>
+    </item>
+      <item>
+      <title>Registration 9</title>
+      <description>Ninth registration in the RSS FEED.</description>
+      <link><![CDATA[https://librivox.org/the-endeavour-journal-of-sir-joseph-banks-from-25-august-1768-12-july-1771-by-joseph-banks/]]></link>
+      <guid><![CDATA[https://librivox.org/the-endeavour-journal-of-sir-joseph-banks-from-25-august-1768-12-july-1771-by-joseph-banks/]]></guid>
+      <pubDate><![CDATA[Sat, 15 May 2021 12:55:51 -0400]]></pubDate>
+    </item>
+      <item>
+      <title>Registration 10</title>
+      <description>Last registration in the RSS FEED.</description>
+      <link><![CDATA[https://librivox.org/the-endeavour-journal-of-sir-joseph-banks-from-25-august-1768-12-july-1771-by-joseph-banks/]]></link>
+      <guid><![CDATA[https://librivox.org/the-endeavour-journal-of-sir-joseph-banks-from-25-august-1768-12-july-1771-by-joseph-banks/]]></guid>
+      <pubDate><![CDATA[Sat, 15 May 2021 12:55:51 -0400]]></pubDate>
+    </item>
+      <!-- end file loop -->
+  </channel>
+</rss>

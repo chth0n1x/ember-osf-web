@@ -1,0 +1,351 @@
+{
+    "guid": "1",
+    "fullname": "Ashley Robinson",
+    "description": "I am a software developer interested in open source code.",
+    "totalRisk": 5,
+    "totalReputation": 5,
+    "badges": [
+        1,5,22,72
+    ],
+    "favorited": [
+        {
+            "guid": {
+                "id":"9",
+                "state": "public",
+                "title": "Test Feed Registration 1",
+                "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "lastModified": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "contributors": ["Ashley Robinson", "Ashley Robinson"],
+                "description": "A registration on the OSF."
+            },
+            "type": "registration",
+            "status": {
+                "favorited": {
+                    "count": 10,
+                    "reason": ["notableResearch"]
+                },
+                "liked": {
+                    "count": 20,
+                    "reason": ["notableResearch, clearDocumentation, publishedResults"]
+                },
+                "disliked": {
+                    "count": 3,
+                    "reason": ["missingMaterials"]
+                },
+                "isNoshow": [false, []]
+            }
+        },
+        {
+            "guid": {
+                "id":"100",
+                "state": "public",
+                "title": "Test Feed Registration 2",
+                "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "lastModified": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "contributors": ["Ashley Robinson", "Ashley Robinson"],
+                "description": "A registration on the OSF."
+            },
+            "type": "registration",
+            "status": {
+                "favorited": {
+                    "count": 10,
+                    "reason": ["notableResearch"]
+                },
+                "liked": {
+                    "count": 20,
+                    "reason": ["similarMethods"]
+                },
+                "disliked": {
+                    "count": 3,
+                    "reason": ["missingMaterials"]
+                },
+                "isNoshow": [false, []]
+            }
+        },
+        {
+            "guid": {
+                "id":"520000",
+                "state": "public",
+                "title": "Test Feed Registration 3",
+                "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "lastModified": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "contributors": ["Ashley Robinson", "Ashley Robinson"],
+                "description": "A registration on the OSF."
+            },
+            "type": "registration",
+            "status": {
+                "favorited": {
+                    "count": 10,
+                    "reason": ["notableResearch"]
+                },
+                "liked": {
+                    "count": 20,
+                    "reason": ["notableResearch, clearDocumentation, publishedResults"]
+                },
+                "disliked": {
+                    "count": 3,
+                    "reason": ["missingMaterials"]
+                },
+                "isNoshow": [false, []]
+            }
+        }],
+    "liked": [
+        {
+            "guid":  {
+                "id":"9",
+                "state": "public",
+                "title": "Test Feed Registration 4",
+                "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "lastModified": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "contributors": ["Ashley Robinson", "Ashley Robinson"],
+                "description": "A registration on the OSF."
+            },
+            "type": "registration",
+            "status": {
+                "favorited": {
+                    "count": 10,
+                    "reason": ["notableResearch"]
+                },
+                "liked": {
+                    "count": 20,
+                    "reason": ["notableResearch, clearDocumentation, publishedResults"]
+                },
+                "disliked": {
+                    "count": 3,
+                    "reason": ["missingMaterials"]
+                },
+                "isNoshow": [false, []]
+            },
+            "ranking": 91
+        },
+        {
+            "guid":  {
+                "id":"1001",
+                "state": "public",
+                "title": "Test Feed Registration 5",
+                "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "lastModified": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "contributors": ["Ashley Robinson", "Ashley Robinson"],
+                "description": "A registration on the OSF."
+            },
+            "type": "registration",
+            "status": {
+                "favorited": {
+                    "count": 10,
+                    "reason": ["notableResearch"]
+                },
+                "liked": {
+                    "count": 20,
+                    "reason": ["notableResearch, clearDocumentation, publishedResults"]
+                },
+                "disliked": {
+                    "count": 3,
+                    "reason": ["missingMaterials"]
+                },
+                "isNoshow": [false, []]
+            },
+            "ranking": "3"
+        },
+        {
+            "guid": {
+                "id":"520000",
+                "state": "public",
+                "title": "Test Feed Registration 6",
+                "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "lastModified": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "contributors": ["Ashley Robinson", "Ashley Robinson"],
+                "description": "A registration on the OSF."
+            },
+            "type": "registration",
+            "status": {
+                "favorited": {
+                    "count": 10,
+                    "reason": ["notableResearch"]
+                },
+                "liked": {
+                    "count": 20,
+                    "reason": ["notableResearch, clearDocumentation, publishedResults"]
+                },
+                "disliked": {
+                    "count": 3,
+                    "reason": ["missingMaterials"]
+                },
+                "isNoshow": [false, []]
+            },
+            "ranking": "52"
+        }],
+    "disliked": [
+        {
+            "guid": {
+                "id":"92",
+                "state": "public",
+                "title": "Test Feed Registration 7",
+                "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "lastModified": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "contributors": ["Ashley Robinson", "Ashley Robinson"],
+                "description": "A registration on the OSF."
+            },
+            "type": "registration",
+            "status": {
+                "favorited": {
+                    "count": 10,
+                    "reason": ["notableResearch"]
+                },
+                "liked": {
+                    "count": 20,
+                    "reason": ["notableResearch, clearDocumentation, publishedResults"]
+                },
+                "disliked": {
+                    "count": 3,
+                    "reason": ["missingMaterials"]
+                },
+                "isNoshow": [false, []]
+            },
+            "ranking": 100502
+        },
+        {
+            "guid": {
+                "id":"1002",
+                "state": "public",
+                "title": "Test Feed Registration 8",
+                "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "lastModified": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "contributors": ["Ashley Robinson", "Ashley Robinson"],
+                "description": "A registration on the OSF."
+            },
+            "type": "registration",
+            "status": {
+                "favorited": {
+                    "count": 10,
+                    "reason": ["notableResearch"]
+                },
+                "liked": {
+                    "count": 20,
+                    "reason": ["notableResearch, clearDocumentation, publishedResults"]
+                },
+                "disliked": {
+                    "count": 3,
+                    "reason": ["missingMaterials"]
+                },
+                "isNoshow": [false, []]
+            },
+            "ranking": 4
+        },
+        {
+            "guid": {
+                "id":"5200002",
+                "state": "public",
+                "title": "Test Feed Registration 9",
+                "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "lastModified": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "contributors": ["Ashley Robinson", "Ashley Robinson"],
+                "description": "A registration on the OSF."
+            },
+            "type": "registration",
+            "status": {
+                "favorited": {
+                    "count": 10,
+                    "reason": ["notableResearch"]
+                },
+                "liked": {
+                    "count": 20,
+                    "reason": ["notableResearch, clearDocumentation, publishedResults"]
+                },
+                "disliked": {
+                    "count": 3,
+                    "reason": ["missingMaterials"]
+                },
+                "isNoshow": [false, []]
+            },
+            "ranking": 100001
+        }],
+    "noshow": [
+        {
+            "guid": {
+                "id":"93",
+                "state": "public",
+                "title": "Test Feed Registration 10",
+                "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "lastModified": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "contributors": ["Ashley Robinson", "Ashley Robinson"],
+                "description": "A registration on the OSF."
+            },
+            "type": "registration",
+            "status": {
+                "favorited": {
+                    "count": 0,
+                    "reason": ["notableResearch"]
+                },
+                "liked": {
+                    "count": 0,
+                    "reason": ["notableResearch, clearDocumentation, publishedResults"]
+                },
+                "disliked": {
+                    "count": 300000,
+                    "reason": ["missingMaterials"]
+                },
+                "isNoshow": [true, []]
+            },
+            "ranking": 500000,
+            "reason": "irrelevant"
+        },
+        {
+            "guid": {
+                "id":"1003",
+                "state": "public",
+                "title": "Test Feed Registration 11",
+                "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "lastModified": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "contributors": ["Ashley Robinson", "Ashley Robinson"],
+                "description": "A registration on the OSF."
+            },
+            "type": "registration",
+            "status": {
+                "favorited": {
+                    "count": 100,
+                    "reason": ["notableResearch"]
+                },
+                "liked": {
+                    "count": 100,
+                    "reason": ["notableResearch, clearDocumentation, publishedResults"]
+                },
+                "disliked": {
+                    "count": 3000,
+                    "reason": ["missingMaterials"]
+                },
+                "isNoshow": [true, []]
+            },
+            "ranking": 237000,
+            "reason": "spam"
+        },
+        {
+            "guid": {
+                "id":"5200003",
+                "state": "public",
+                "title": "Test Feed Registration 12",
+                "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "lastModified": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "contributors": ["Ashley Robinson", "Ashley Robinson"],
+                "description": "A registration on the OSF."
+            },
+            "type": "registration",
+            "status": {
+                "favorited": {
+                    "count": 10,
+                    "reason": ["notableResearch"]
+                },
+                "liked": {
+                    "count": 53,
+                    "reason": ["notableResearch, clearDocumentation, publishedResults"]
+                },
+                "disliked": {
+                    "count": 10003,
+                    "reason": ["missingMaterials"]
+                },
+                "isNoshow": [true, []]
+            },
+            "ranking": 290000,
+            "reason": "offensive"
+        }
+    ]
+}

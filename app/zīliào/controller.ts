@@ -338,8 +338,13 @@ export default class ZīliàoController extends Controller {
                 }
             });
             if (registrationsFeed) {
-                const rssCard = '<li>' + title + '</div>' + '<br>' + '<li>' + contributors +
-                '</div>' + '<li>' + dateCreated + '</div>' + '<li>' + lastModified + '</li><br>';
+                const rssCard = '<li local-class="table-item">' + '<table>' +
+                    '<tr>' + '<td>' + title + '</td>' + '</tr>' +
+                    '<tr>' + '<td>' + contributors + '</td>' + '</tr>' +
+                    '<tr>' + '<td>' + dateCreated + '</td>' + '</tr>' +
+                    '<tr>' + '<td>' + lastModified + '</td>' + '</tr>' +
+                    '<tr>' + '<td>' + description + '</td>' + '</tr>' +
+                    '</table>' + '</li>';
                 registrationsFeed.insertAdjacentHTML('afterend', rssCard);
             }
         });
