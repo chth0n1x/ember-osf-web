@@ -39,6 +39,9 @@ export default class UserCompassModel extends OsfModel {
     @hasMany('node')
     nodes!: AsyncHasMany<NodeModel>;
 
+    @hasMany('institution', { inverse: 'users' })
+    institutions!: AsyncHasMany<InstitutionModel>;
+
     @hasMany('registrations')
     registrations!: AsyncHasMany<RegistrationModel>;
 
@@ -48,9 +51,11 @@ export default class UserCompassModel extends OsfModel {
     @hasMany('collections')
     collections!: AsyncHasMany<CollectionModel>;
 
-    @hasMany('institution', { inverse: 'users' })
-    institutions!: AsyncHasMany<InstitutionModel>;
+    @hasMany('meetings', { inverse: 'users' })
+    meetings!: AsyncHasMany<InstitutionModel>;
 
     // increaseRisk(id, increment, group) { console.log('risk increased')};
     // decreaseRisk(id, decrement, group) { console.log('risk decreased')};
+    // increaseReputation(id, increment, group) { console.log('reputation increased')};
+    // decreaseReputation(id, decrement, group) { console.log('risk decreased')};
 }

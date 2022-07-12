@@ -207,12 +207,9 @@
     </layout.main>
     <layout.right>
         <div local-class='RSSFeed_Live_Wrapper'>
-            <div local-class='UserName_LiveFeed'>
+            <div local-class='UserName_LiveFeed' id='rssFeed'>
                 <h5>{{this.user.givenName}}'s Live Feed</h5>
             </div>
-            {{yield (hash feed=(component 'zīliào/-components/zīliào-kou'))}}
-            <ul id='rssFeed' local-class='FeedData_List'>
-            </ul>
-        </div>
+</div>
     </layout.right>
 </OsfLayout>

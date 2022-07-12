@@ -10,7 +10,7 @@
     "favorited": [
         {
             "guid": {
-                "id":"9",
+                "id": "1",
                 "state": "public",
                 "title": "Test Feed Registration 1",
                 "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
@@ -33,11 +33,12 @@
                     "reason": ["missingMaterials"]
                 },
                 "isNoshow": [false, []]
-            }
+            },
+            "ranking": 10
         },
         {
             "guid": {
-                "id":"100",
+                "id":"2",
                 "state": "public",
                 "title": "Test Feed Registration 2",
                 "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
@@ -60,11 +61,12 @@
                     "reason": ["missingMaterials"]
                 },
                 "isNoshow": [false, []]
-            }
+            },
+            "ranking": 100000
         },
         {
             "guid": {
-                "id":"520000",
+                "id":"3",
                 "state": "public",
                 "title": "Test Feed Registration 3",
                 "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
@@ -87,12 +89,41 @@
                     "reason": ["missingMaterials"]
                 },
                 "isNoshow": [false, []]
-            }
+            },
+            "ranking": 100001
+        },
+        {
+            "guid":  {
+                "id":"4",
+                "state": "public",
+                "title": "Test Feed Registration 4",
+                "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "lastModified": "Tue Jun 21 2022 17:58:22 GMT-0400",
+                "contributors": ["Ashley Robinson", "Ashley Robinson"],
+                "description": "A registration on the OSF."
+            },
+            "type": "registration",
+            "status": {
+                "favorited": {
+                    "count": 10,
+                    "reason": ["notableResearch"]
+                },
+                "liked": {
+                    "count": 20,
+                    "reason": ["notableResearch, clearDocumentation, publishedResults"]
+                },
+                "disliked": {
+                    "count": 3,
+                    "reason": ["missingMaterials"]
+                },
+                "isNoshow": [false, []]
+            },
+            "ranking": 91
         }],
     "liked": [
         {
             "guid":  {
-                "id":"9",
+                "id":"4",
                 "state": "public",
                 "title": "Test Feed Registration 4",
                 "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
@@ -120,7 +151,7 @@
         },
         {
             "guid":  {
-                "id":"1001",
+                "id":"5",
                 "state": "public",
                 "title": "Test Feed Registration 5",
                 "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
@@ -144,11 +175,11 @@
                 },
                 "isNoshow": [false, []]
             },
-            "ranking": "3"
+            "ranking": 3
         },
         {
             "guid": {
-                "id":"520000",
+                "id":"6",
                 "state": "public",
                 "title": "Test Feed Registration 6",
                 "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
@@ -172,12 +203,12 @@
                 },
                 "isNoshow": [false, []]
             },
-            "ranking": "52"
+            "ranking": 52
         }],
     "disliked": [
         {
             "guid": {
-                "id":"92",
+                "id":"7",
                 "state": "public",
                 "title": "Test Feed Registration 7",
                 "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
@@ -205,7 +236,7 @@
         },
         {
             "guid": {
-                "id":"1002",
+                "id":"8",
                 "state": "public",
                 "title": "Test Feed Registration 8",
                 "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
@@ -233,7 +264,7 @@
         },
         {
             "guid": {
-                "id":"5200002",
+                "id":"9",
                 "state": "public",
                 "title": "Test Feed Registration 9",
                 "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
@@ -262,7 +293,7 @@
     "noshow": [
         {
             "guid": {
-                "id":"93",
+                "id":"10",
                 "state": "public",
                 "title": "Test Feed Registration 10",
                 "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
@@ -291,7 +322,7 @@
         },
         {
             "guid": {
-                "id":"1003",
+                "id":"11",
                 "state": "public",
                 "title": "Test Feed Registration 11",
                 "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
@@ -320,7 +351,7 @@
         },
         {
             "guid": {
-                "id":"5200003",
+                "id":"12",
                 "state": "public",
                 "title": "Test Feed Registration 12",
                 "dateCreated": "Tue Jun 21 2022 17:58:22 GMT-0400",
