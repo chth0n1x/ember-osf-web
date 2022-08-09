@@ -30,7 +30,7 @@
     <layout.main>
         <div local-class='wrapper'>
             <div local-class='avatar'>
-                <img src='/assets/images/new-profile/ISS-hover.jpeg' alt='User Profile Avatar' class='img-responsive rounded-corners'/>
+                <img src='/public/assets/images/new-profile/spider-cat-profile.gif' alt='Umbra' class='img-responsive rounded-corners'/>
             </div>
             <div local-class='user-name'>
                 <h3>{{this.user.fullName}}</h3>
@@ -183,9 +183,9 @@
                                 <div id='nodeDescription'></div>
                                 <div id='tags'></div>
                                 <div id='favorited'>
-                                    <Button onclick={{this.toggleFavorited}}>
+                                    <BsButton>
                                         <FaIcon @icon='fa-regular fa-heart' />
-                                    </Button>
+                                    </BsButton>
                                 </div>
                                 <div id='liked'></div>
                                 <div id='disliked'></div>

@@ -30,7 +30,7 @@ import { typeOf } from '@ember/utils';
 //     },
 // ];
 
-class JSHTMLElement {
+export class JSHTMLElement {
     static HTML = new JSHTMLElement('<html>');
     static DIV = new JSHTMLElement('<div>');
     static BODY = new JSHTMLElement('<body>');
@@ -61,14 +61,15 @@ export default class ZīliàoController extends Controller {
     @tracked noshow?: any[]; // filtered out items, text, and profiles based on default and added tagged filters
     @tracked compassJSON?: {};
 
+    @tracked registrationsFeed = document.getElementById('rssFeed');
+
     node?: Node | Registration;
     nodes?: QueryHasManyResult<Node>;
     popular!: QueryHasManyResult<Node>;
     filter!: string | null;
-    isUserEditing = false;
-    descriptionEditMode = false;
-
     institutions: Institution[] = A([]);
+
+    isEditing = false;
     rssRegistrations = [];
     rssSocial = [];
     topRegistration = [];
@@ -89,9 +90,7 @@ export default class ZīliàoController extends Controller {
             console.log('Institutions are:', institutions);
         }
 
-        // refresh to be set here
-        // TODO determine how events are pushed
-        // save will look for event hook <- research for front end
+        // TODO set refresh here
         const registrations = this.store.findAll('registration');
         if (registrations) {
             console.log('Registrations are:', registrations);
@@ -116,6 +115,7 @@ export default class ZīliàoController extends Controller {
         console.log('Liked items in setup task', this.likedItems);
         console.log('Favorited items in setup task', this.favoritedItems);
         console.log('Compass data in setup task', this.compassJSON);
+
         // this.set('institutions', institutions.toArray());
         // this.set('registrations', registrations.toArray());
     }
@@ -132,140 +132,137 @@ export default class ZīliàoController extends Controller {
             cache: 'default',
         });
 
-        fetch(compassData)
-            .then(response => {
-                const responseJSON = response.json();
+        fetch(compassData).then(response => {
+            const responseJSON = response.json();
 
-                // const likedReponses = userLiked.filter(({liked}) => {    <---- remember this is here
-                //     console.log('liked responses are ');
-                // });
+            // const likedReponses = userLiked.filter(({liked}) => {    <---- ***remember this is here
+            //     console.log('liked responses are ');
+            // });
 
-                const dataText = JSON.stringify(response);
-                const isTextPresent = dataText.indexOf('guid') !== -1;
-                // console.log('Guid regex: ', guidRegex);
-                console.log('Data text after response.json is: ', dataText);
-                console.log('is guid found in compass data?', isTextPresent);
-                return responseJSON;
-            })
-            .then(data => {
-                console.log('Data after fetch is', data);
-                this.set('compassJSON', data);
-                console.log('Set compassJSON is : ', this.compassJSON);
-                let message = '';
-                let guidValue = '';
-                let userDescription = '';
-                let earnedBadges = [];
-                let userTotalRisk = [];
-                let userTotalReputation = [];
+            const dataText = JSON.stringify(response); // used to update feed object
+            const isTextPresent = dataText.indexOf('guid') !== -1;
+            // console.log('Guid regex: ', guidRegex); // for noshow items array
+            console.log('Data text after response.json is: ', dataText);
+            console.log('is guid found in compass data?', isTextPresent);
+            return responseJSON;
+        }).then(data => {
+            console.log('Data after fetch is', data);
+            this.set('compassJSON', data);
+            console.log('Set compassJSON is : ', this.compassJSON);
+            let message = '';
+            let guidValue = '';
+            let fullName = '';
+            let userDescription = '';
+            let earnedBadges = [];
+            let userTotalRisk = [];
+            let userTotalReputation = [];
 
-                let likedItem: any[] = [];
-                let favoritedItem: any[] = [];
+            let likedItem: any[] = [];
+            let favoritedItem: any[] = [];
 
-                Object.keys(data).forEach(key => {
-                    // console.log('Key is: ', key);
-                    // console.log('Data at key: ', data[key]); // 'Bob', 47
-                    const dataAtKey = data[key];
-                    const readKey = key;
-                    const keyString = String(readKey);
+            Object.keys(data).forEach(key => {
+                // console.log('Key is: ', key);
+                // console.log('Data at key: ', data[key]); // 'Bob', 47
+                const dataAtKey = data[key];
+                const readKey = key;
+                const keyString = String(readKey);
 
-                    switch(keyString) {
-                    case 'guid':
-                        guidValue = dataAtKey;
-                        console.log('Guid is: ', dataAtKey);
-                        console.log('guidValue at key: ', guidValue);
-                        break;
-                    case 'fullname':
-                        // userFullname = dataAtKey;
-                        console.log('Full name is: ', dataAtKey);
-                        break;
-                    case 'description':
-                        userDescription = dataAtKey;
-                        console.log('Description is: ', dataAtKey);
-                        break;
-                    // calculate values here
-                    case 'totalRisk':
-                        userTotalRisk = dataAtKey;
-                        console.log('User\'s total risk is: ', dataAtKey);
-                        break;
-                    case 'totalReputation':
-                        userTotalReputation = dataAtKey;
-                        console.log('User\'s total reputation is: ', dataAtKey);
-                        break;
-                    case 'badges':
-                        earnedBadges = dataAtKey;
-                        console.log('Earned badges are: ', dataAtKey);
-                        break;
-                    case 'favorited':
-                        favoritedItem = dataAtKey;
-                        this.set('favoritedItems', favoritedItem);
-                        break;
-                    case 'liked':
-                        likedItem = dataAtKey;
-                        this.set('likedItems', likedItem);
-                        console.log('likedItem in switch is:', likedItem);
-                        break;
-                    case 'disliked':
-                        // dislikedItem = dataAtKey;
-                        console.log('Disliked items are:', dataAtKey);
-                        break;
-                    default:
-                        message = 'No content to display.';
-                        console.log('No other elements to parse.', message);
-                        break;
-                    }
-                });
-                const userLikedArray: any[] = [];
-                const userFavoritedArray: any[] = [];
-                console.log('User guid outside switch: ', guidValue);
-                console.log('User liked array outside switch: ', userLikedArray);
-                console.log('Favorited item array outside switch: ', userFavoritedArray);
-
-                if (favoritedItem) {
-                    Object.entries(favoritedItem).forEach(item => {
-                        const favoriteItemObject = item.lastObject;
-                        userFavoritedArray.push(favoriteItemObject);
-                        console.log('iteration of liked item', item);
-                        console.log('favoriteItemObject in userFavoritedArray creation: ', favoriteItemObject);
-                    });
-                    console.log('favorited item array after iteration in switch', userFavoritedArray);
+                switch(keyString) {
+                case 'guid':
+                    guidValue = dataAtKey;
+                    console.log('Guid is: ', dataAtKey);
+                    break;
+                case 'fullname':
+                    fullName = dataAtKey;
+                    console.log('Full name is: ', dataAtKey);
+                    break;
+                case 'description':
+                    userDescription = dataAtKey;
+                    console.log('Description is: ', dataAtKey);
+                    break;
+                // TODO calculate values here
+                case 'totalRisk':
+                    userTotalRisk = dataAtKey;
+                    console.log('User\'s total risk is: ', dataAtKey);
+                    break;
+                case 'totalReputation':
+                    userTotalReputation = dataAtKey;
+                    console.log('User\'s total reputation is: ', dataAtKey);
+                    break;
+                case 'badges':
+                    earnedBadges = dataAtKey;
+                    console.log('Earned badges are: ', dataAtKey);
+                    break;
+                case 'favorited':
+                    favoritedItem = dataAtKey;
+                    this.set('favoritedItems', favoritedItem);
+                    break;
+                case 'liked':
+                    likedItem = dataAtKey;
+                    // userLikedArray.push(likedItem);
+                    this.set('likedItems', likedItem);
+                    console.log('likedItem in switch is:', likedItem);
+                    break;
+                case 'disliked':
+                    // dislikedItem = dataAtKey;
+                    console.log('Disliked items are:', dataAtKey);
+                    break;
+                default:
+                    message = 'No content to display.';
+                    console.log('No other elements to parse.', message);
+                    break;
                 }
-
-                if (likedItem) {
-                    Object.entries(likedItem).forEach(item => {
-                        const likedItemObject = item.lastObject;
-                        userLikedArray.push(likedItemObject);
-                        console.log('iteration of liked item in for each in switch', item);
-                        console.log('favoriteItemObject in userFavoritedArray creation: ', likedItemObject);
-                    });
-                    console.log('userLikedArray in switch:', userLikedArray);
-                }
-                console.log('favoritedItems tracked after switch: ', this.favoritedItems);
-                console.log('data after switch before favorite items set', data);
-                taskFor(this.createRegistrationsFeed).perform(userLikedArray, userFavoritedArray);
             });
+            const userLikedArray: any[] = [];
+            const userFavoritedArray: any[] = [];
+            console.log('User guid outside switch: ', guidValue);
+            console.log('User liked array outside switch: ', userLikedArray);
+            console.log('Favorited item array outside switch: ', userFavoritedArray);
+
+            if (favoritedItem) {
+                Object.entries(favoritedItem).forEach(item => {
+                    const favoriteItemObject = item.lastObject;
+                    userFavoritedArray.push(favoriteItemObject);
+                    console.log('iteration of liked item', item);
+                    console.log('favoriteItemObject in userFavoritedArray creation: ', favoriteItemObject);
+                });
+                console.log('favorited item array after iteration in switch', userFavoritedArray);
+            }
+
+            if (likedItem) {
+                Object.entries(likedItem).forEach(item => {
+                    const likedItemObject = item.lastObject;
+                    userLikedArray.push(likedItemObject);
+                    console.log('iteration of liked item in for each in switch', item);
+                    console.log('favoriteItemObject in userFavoritedArray creation: ', likedItemObject);
+                });
+                console.log('userLikedArray in switch:', userLikedArray);
+            }
+            console.log('favoritedItems tracked after switch: ', this.favoritedItems);
+            console.log('data after switch before favorite items set', data);
+            taskFor(this.createRegistrationsFeed).perform(userLikedArray, userFavoritedArray);
+        });
     }
 
     @task
     @waitFor
     async createRegistrationsFeed(userLikedArray: any[], userFavoritedArray: any[]) {
-        const registrationsFeed = document.getElementById('rssFeed');
-        const favoritedCardID: [] = [];
+
         let guidRegex;
-        let state: String;
-        let title: String;
+        let state: string;
+        let title: string;
         let dateCreated: Date;
         let lastModified: Date;
         let contributors: [];
         let description : string;
-        let type: string; // TODO make enum
+        let type: string; // TODO make as enum
         let status: {};
         let ranking: number;
         let message = '';
 
-        let newObject: {};
         let innerKeyId = '';
-        const userLiked = this.likedItems; // tracked
-        const favoritedGuidArray = userFavoritedArray;
+        const userLiked = this.likedItems;
+        // const favoritedGuidArray = userFavoritedArray;
 
         // concat arrays for liked and favorited, remove duplicated, sort by ranking
         // add clicker that increments and decrements likes, write to local storage
@@ -274,29 +271,22 @@ export default class ZīliàoController extends Controller {
             console.log('userLikedArray as parameter in createRegistrationsFeed', userLikedArray);
             console.log('userFavoritedArray as parameter in createRegistrationsFeed', userFavoritedArray);
             userLiked.forEach(item => {
-                // const innerItem = item;
-                // console.log('innerItem in userLiked array from this.likedItems:', innerItem);
                 Object.keys(item).forEach(key => {
                     console.log('Key in createLikedFeed is:', key);
-                    const keyString = String(key);
                     const dataAtKey = item[key];
-                    // const dataAtKeyStr = String(dataAtKey);
 
-                    switch(keyString) {
+                    switch(key) {
                     case 'guid':
                         guidRegex = dataAtKey;
                         console.log('Guid regex new assignment is: ', guidRegex);
-                        newObject = dataAtKey;
-                        console.log('newObject is: ', newObject);
-                        typeOf(newObject);
-                        Object.keys(newObject).forEach(guidKey => {
-                            const innerKey = String(guidKey);
-                            const innerDataAtKey = newObject[innerKey];
+                        Object.keys(dataAtKey).forEach(guidKey => {
+                            const innerKey = guidKey;
+                            const innerDataAtKey = dataAtKey[guidKey];
                             // const innerDataAtKey = <T extends object, U extends keyof T>(testKey: U) => (newTestObj: T) => newTestObj[testKey];
                             console.log('Inner Key in guid JSON is:', innerKey);
                             console.log('Inner data at Key in guid JSON is:', innerDataAtKey);
 
-                            switch (innerKey) {
+                            switch (guidKey) {
                             case 'id':
                                 innerKeyId = innerDataAtKey;
                                 console.log('Type of innerKeyID:', typeOf(innerKeyId));
@@ -334,11 +324,7 @@ export default class ZīliàoController extends Controller {
                                 description = innerDataAtKey;
                                 console.log('Description of liked item:', innerDataAtKey);
                                 console.log('Description of item variable: ', description);
-                                // test for removing prohibited stirngs
-                                // allow in Selenium tests for user inputed or Excel sourced strings
-                                // removeString = 'Function(' ;
-                                // create dictionary for terms and items to be removed
-                                // let editedString = description.slice(1,6);
+                                // use for testing prohibited noshow stirngs
                                 break;
                             default:
                                 break;
@@ -364,66 +350,61 @@ export default class ZīliàoController extends Controller {
                     }
                 });
 
-                if (registrationsFeed) {
-                    console.log('innerKeyId before RSS card construct', innerKeyId);
-                    // const method = 'action this.toggleFavorited';
-                    // const method = '@onClick={{action this.toggleFavorited}}';
-                    // const buttonText = '<div>' + '<FaIcon @icon="fa-regular fa-heart" />' + '</div>';
-                    const likeButton = '<link rel="icon" type="image/ico" src="/assets/images/new-profile/like.svg" alt="like icon">';
-                    const dislikeButton = '<link rel="icon" type="image/ico" src="/assets/images/new-profile/dislike.svg" alt="dislike icon">';
-                    const favoriteButton = '<link rel="icon" type="image/ico" src="/assets/images/new-profile/heart-regular.svg" alt="favorite icon">';
-                    // const buttonText = '<p>Heart</p>';
-                    // const rssCard = '<div class="card" local-class="RegistrationCard">' + '<dl data-test-rss-card>' + '<dt>' + title + '</dt>' +
-                    // '<dd data-test-contributors>' + contributors + '</dd>' + '<br />' +
-                    // '<dd data-test-date-created>' + dateCreated + '</dd>' + '<br />' +
-                    // '<dd data-test-last-modified>' + lastModified + '</dd>' + '<br />' +
-                    // '<dd data-test-description>' + description + '</dd>' + '</dl>' +
-                    // '<div class="like-btn" style="width:50px; height: 50px; border: 1px solid #000;">' + likeButton + '</div>' +
-                    // '<div class="dislike-btn" style="width:50px; height: 50px; border: 1px solid #000;">' + dislikeButton + '</div>' +
-                    // '<div class="favorite-btn" style="width:50px; height: 50px; border: 1px solid #000;">' + favoriteButton + '</div>' +
-                    // '<div class="hidden" data-test-description>' + String(innerKeyId) + '</div>' + '</div>';
-                    const rssCard = '<div class="card" local-class="RegistrationCard">' +
-                    '<dl data-test-rss-card>' + '<dt>' + title + '</dt>' +
-                    '<dd data-test-contributors>' + contributors + '</dd>' + '<br />' +
-                    '<dd data-test-date-created>' + dateCreated + '</dd>' + '<br />' +
-                    '<dd data-test-last-modified>' + lastModified + '</dd>' + '<br />' +
-                    '<dd data-test-description>' + description + '</dd>' + '</dl>' +
-                    '<div id="totalCount">' + '</div>' +
-                    '<div class="like-btn" style="width:50px; height: 50px; border: 1px solid #000;">' + likeButton + '</div>' +
-                    '<div class="dislike-btn" style="width:50px; height: 50px; border: 1px solid #000;">' + dislikeButton + '</div>' +
-                    '<div class="favorite-btn" style="width:50px; height: 50px; border: 1px solid #000;">' + favoriteButton + '</div>' +
-                    '<div class="hidden" data-test-description>' + String(innerKeyId) + '</div>' + '</div>';
+                // TODO update to a for each for liked items
+                console.log('innerKeyId before RSS card construct', innerKeyId);
+                // const method = 'action this.toggleFavorited';
+                // const method = '@onClick={{action this.toggleFavorited}}';
+                // const buttonText = '<div>' + '<FaIcon @icon="fa-regular fa-heart" />' + '</div>';
+                const likeButton = '<link rel="icon" type="image/ico" src="/assets/images/new-profile/like.svg" alt="like icon">';
+                const dislikeButton = '<link rel="icon" type="image/ico" src="/assets/images/new-profile/dislike.svg" alt="dislike icon">';
+                const favoriteButton = '<link rel="icon" type="image/ico" src="/assets/images/new-profile/heart-regular.svg" alt="favorite icon">';
+                // const buttonText = '<p>Heart</p>';
+                let cardID = innerKeyId;
 
-                    console.log('RSS card is: ', rssCard);
+                const rssCard = '<div class="card" local-class="RegistrationCard">' +
+                '<dl data-test-rss-card>' + '<dt>' + title + '</dt>' +
+                '<dd data-test-contributors>' + contributors + '</dd>' + '<br />' +
+                '<dd data-test-date-created>' + dateCreated + '</dd>' + '<br />' +
+                '<dd data-test-last-modified>' + lastModified + '</dd>' + '<br />' +
+                '<dd data-test-description>' + description + '</dd>' + '</dl>' +
+                '<div id="totalCount">' + '</div>' +
+                '<div class="like-btn" style="width:50px; height: 50px; border: 1px solid #000;">' + likeButton + '</div>' +
+                '<div class="dislike-btn" style="width:50px; height: 50px; border: 1px solid #000;">' + dislikeButton + '</div>' +
+                '<div class="favorite-btn" style="width:50px; height: 50px; border: 1px solid #000;">' + favoriteButton + '</div>' +
+                '<div class="hidden" data-test-description>' + cardID + '</div>' + '</div>';
 
-                    registrationsFeed.insertAdjacentHTML('beforeend', rssCard);
-                    console.log('current registration feed: ', registrationsFeed);
+                console.log('RSS card is: ', rssCard);
+
+                if (this.registrationsFeed) {
+                    this.registrationsFeed.insertAdjacentHTML('beforeend', rssCard);
+                    console.log('current registration feed: ', this.registrationsFeed);
                 }
             });
 
-            if (registrationsFeed) {
-                // TODO partition algorithm for likes, dislikes and favorites
-                const userFavoritedItems = userFavoritedArray; // tracked
-                const rssCards = registrationsFeed.querySelectorAll('div.card');
+            // TODO partition algorithm for likes, dislikes and favorites
+            if (this.registrationsFeed !== null) {
+                const rssCards = this.registrationsFeed.querySelectorAll('div.card');
+                let favoritedIDs = []; // TODO update from Object
+                let favoriteIcons: NodeListOf<HTMLDivElement> = this.registrationsFeed.querySelectorAll('div.favorite-btn');
+                // const userFavoritedItems = userFavoritedArray; // tracked
                 console.log('total rss cards:', rssCards.length);
-                const favoriteIcons: NodeListOf<HTMLDivElement> = registrationsFeed.querySelectorAll('div.favorite-btn');
-                const favoriteIcons: NodeListOf<HTMLDivElement> = registrationsFeed.querySelectorAll('div.favorite-btn');
                 console.log('total favorite buttons: ', favoriteIcons.length);
                 for (let i=0; i < rssCards.length; i++) {
                     const currentCard = rssCards[i].lastChild;
-                    let isFavorited = false;
-
+                    let isFavorited;
                     if (currentCard) {
-                        const elementsID = currentCard.textContent || '';
-                        let guidFavorite = {}; // TODO update from Object
+                        const elementsID = currentCard.textContent;
                         console.log('rss card elementsID in rss.length for loop', elementsID);
-                        favoritedCardID.push(elementsID);
 
-                        likeditemButton[i].addEventListener('click', e => {
+                        if (elementsID) {
+                            favoritedIDs.push(elementsID);
+                            console.log('favoritedIDs inside event listener: ', elementsID);
+                        }
+
+                        // rssCards[i].addEventListener('click', e => {
 
                         favoriteIcons[i].addEventListener('click', e => {
-                            console.log('(favoritedCardID) inside event listener: ', favoritedCardID);
-                            console.log('favoritedGuidArray inside event listener: ', favoritedGuidArray);
+                            // console.log('favoritedGuidArray inside event listener: ', favoritedGuidArray);
 
                             if (rssCards[i].classList.contains('favorited-item')) {
                                 isFavorited = true;
@@ -431,13 +412,14 @@ export default class ZīliàoController extends Controller {
                                 isFavorited = false;
                             }
 
-                            if (userFavoritedItems) {
-                                console.log('userFavoritedItems:', userFavoritedItems);
+                            if (userFavoritedArray) {
+                                let guidFavorite = {};
+                                console.log('userFavoritedItems:', userFavoritedArray);
 
-                                const userFavoritedValues = Object.values(userFavoritedItems);
+                                const userFavoritedValues = Object.values(userFavoritedArray);
                                 console.log('userFavoritedValues: ', userFavoritedValues);
 
-                                userFavoritedValues.forEach(entry => { // TODO update to find
+                                userFavoritedValues.forEach(entry => {
                                     const dataAtKey = entry;
                                     console.log('data entry at key in newSetFavoriteValues', dataAtKey);
 
@@ -454,7 +436,7 @@ export default class ZīliàoController extends Controller {
                                         const filteredKeyGuidValue = guidID2a;
 
                                         console.log('rss card guid id is' + elementsID + 'and the current favorited key guid value is' + filteredKeyGuidValue);
-                                        console.log('favoritedGuidArray before push', favoritedGuidArray);
+                                        // console.log('favoritedGuidArray before push', favoritedGuidArray);
                                         console.log('String rss card guid id is' + String(elementsID) + 'and the String current favorited key guid value is' + String(filteredKeyGuidValue));
                                         const filteredKeyGuidValueStr = String(filteredKeyGuidValue);
                                         typeOf(filteredKeyGuidValueStr);
@@ -477,15 +459,20 @@ export default class ZīliàoController extends Controller {
                                 console.log('isFavorited after loop:', isFavorited);
                                 const rssCardsClassList = rssCards[i].classList;
                                 console.log('rssCards[i] class list ', rssCardsClassList);
+
                                 if (isFavorited === true) {
-                                    rssCards[i].classList.add('favorited-item');
-                                    console.log('rssCard[i] with favorited-item', rssCards[i]);
-                                    favoriteIcons[i].style.backgroundColor='#cd5c5c';
-                                    favoriteIcons[i].style.color='#fff';
-                                    console.log('before update userFavoritedArray', userFavoritedArray);
-                                    userFavoritedArray.push(guidFavorite); // this.favoritedItems
-                                    userFavoritedArray = [... new Set(userFavoritedArray)];
-                                    console.log('updated userFavoritedArray with Set', userFavoritedArray);
+                                    let classList = rssCards[i].classList;
+                                    let isCurrentFavorite = classList.contains('favorite-item');
+                                    if (!isCurrentFavorite) {
+                                        rssCards[i].classList.add('favorited-item');
+                                        console.log('rssCard[i] with favorited-item', rssCards[i]);
+                                        favoriteIcons[i].style.backgroundColor='#cd5c5c';
+                                        favoriteIcons[i].style.color='#fff';
+                                        console.log('before update userFavoritedArray', userFavoritedArray);
+                                        userFavoritedArray.push(guidFavorite); // this.favoritedItems
+                                        userFavoritedArray = [... new Set(userFavoritedArray)];
+                                        console.log('updated userFavoritedArray with Set', userFavoritedArray);
+                                    }
                                 } else if (isFavorited === false) {
                                     rssCards[i].classList.remove('card', 'favorited-item');
                                     rssCards[i].classList.add('card');
@@ -496,41 +483,25 @@ export default class ZīliàoController extends Controller {
                                 } else {
                                     alert('something else occured');
                                 }
+
                                 const rssCardsClassListToggle = rssCards[i].classList;
                                 console.log('rssCards[i] class list ', rssCardsClassListToggle);
                                 // favoritedCardID = [];
-                                console.log('favoritedCardID in favorited-item', favoritedCardID);
+                                // console.log('favoritedCardID in favorited-item', favoritedCardID);
                                 const setFavorites = JSON.stringify(userFavoritedArray);
                                 // userFavoritedArray = setFavorites;
                                 this.set('favoritedItems', setFavorites);
                                 console.log('favorited items after Set: ' , this.favoritedItems);
                             }
-                        });
-                    }
-                    // return rssCards;
+                    });
                 }
             }
         }
+
     }
+}
 
-    // @action
-    // toggleFavorites(e: Event, icon: NodeListOf<HTMLElement>) {
-    //     const activeButton = document.getElementsByClassName("active");
-    //     let isFavorited;
-    //     this.toggleProperty('isFavorited'); // TODO fix
-    //     console.log('active button is ', activeButton);
-
-    //     if (isFavorited == true) {
-    //         icon[i].style.backgroundColor='#cd5c5c';
-    //         icon[i].style.color='#fff';
-    //     }
-    //     if (isFavorited == false) {
-    //         icon[i].style.backgroundColor='#fff';
-    //         icon[i].style.color='#000';
-    //     }
-    //     console.log('Is favorited? after fxn', isFavorited);
-    // }
-
+    @action
     updateFeed(...args: any[]) {
         // taskFor(this.createRegistrationsFeed).perform(this.likedItems, this.favoritedItems);
         console.log('inside updateFeed() fxn');
@@ -541,6 +512,7 @@ export default class ZīliàoController extends Controller {
         console.log('inside getTrending() fnx');
     }
 
+    @action
     increaseLikes() {
         let count = 0;
         const increaseLikeButton = document.getElementById('likeButton');
@@ -569,7 +541,7 @@ export default class ZīliàoController extends Controller {
 
     @action
     editDescription() {
-        this.toggleProperty('descriptionEditMode');
+        this.toggleProperty('isEditing');
     }
 
     @action
