@@ -34,7 +34,7 @@ func formatSnakeCase(translationFile string) string {
 }
 
 func main() {
-    file, err := os.Open("../resources/en-us-language-map.txt") // yml extension must first be converted to txt
+    file, err := os.Open("../translations/en-us-language-map.txt") // yml extension must first be converted to txt
 																// copied and renamed text file is deleted after conversion
     if err != nil {
       fmt.Println(err)
