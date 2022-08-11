@@ -37,10 +37,7 @@ func formatSnakeCase(translationFile string) string {
 
 func main() {
     file, err := os.Open("../resources/en-us-language-map.txt")
-    new_file, err := os.Create("../resources/en-us-language-map_conversion.txt")
-
-    fmt.Println("file before replace", file)
-    fmt.Println("new_file before replace", new_file)
+    new_file, err := os.Create("../resources/en-us-language-map_conversion_with_space.txt")
 
     if err != nil {
       fmt.Println(err)
@@ -52,6 +49,7 @@ func main() {
       var scan_text = scanner.Text()
       iterated := formatSnakeCase(scan_text)
       new_file.Write([]byte(iterated))
+	  new_file.Write([]byte(" "))
       fmt.Println("file after replace", new_file)
     }
 
