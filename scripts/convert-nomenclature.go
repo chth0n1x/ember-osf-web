@@ -6,55 +6,52 @@ import (
     "regexp"
     "os"
     "bufio"
-    // "io/ioutil"
 )
 
-type value string
+func formatSnakeCase(tf string) string {
 
-func formatSnakeCase(translationFile string) string {
-
-    re := regexp.MustCompile(`[\wa-zA-Z][+:]`)
+    re := regexp.MustCompile(`([a-zA-Z-_]+[a-zA-Z-_]+)(:+)`)  // find key
+    var v []string = re.Split(tf, -1)                         // find value
     var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
     var matchAllCap   = regexp.MustCompile("([a-z0-9])([A-Z])")
 
-    var formatted_char = ""
-
-    key_string := re.FindStringSubmatch(translationFile)
-    if len(key_string) != 0 {
-      snake := matchFirstCap.ReplaceAllString(translationFile, "${1}_${2}")
-      snake  = matchAllCap.ReplaceAllString(snake, "${1}_${2}")
-      snake = strings.ToLower(snake)
-      fmt.Println("\nformatted \n", snake)
-      formatted_char = snake
-      return formatted_char
+    km := re.FindStringSubmatch(tf)                           // find match in line passed
+    if len(km) != 0 {
+      ks := km[0]                                             // it's going to be the 1st one
+      s := matchFirstCap.ReplaceAllString(ks, "${1}_${2}")
+      s  = matchAllCap.ReplaceAllString(s, "${1}_${2}")
+      s = strings.ToLower(s)
+      fmt.Println("value is", v)
+      p := v[1]                                               // set value
+      l := [2]string{s, p}
+                                                              // if predicate is nil, add new line
+      // fmt.Println(l)
+      r := string(l[0] + l[1])
+      fmt.Println(r)
+      return r
       } else {
-        formatted_char = translationFile // TODO update to unformatted with tertiary fxn
-        fmt.Println("\nnot formatted \n", translationFile)
-        return formatted_char
+        return string(tf)
       }
-
 }
 
 func main() {
-    file, err := os.Open("../resources/en-us-language-map.txt")
-    new_file, err := os.Create("../resources/en-us-language-map_conversion_with_space.txt")
+    f, err := os.Open("../resources/en-us-language-map.txt")
+    nf, err := os.Create("../resources/en-us_conversion_file.txt")
 
     if err != nil {
       fmt.Println(err)
     }
 
-    scanner := bufio.NewScanner(file)
-    scanner.Split(bufio.ScanWords)
+    scanner := bufio.NewScanner(f)
+    scanner.Split(bufio.ScanLines)
     for scanner.Scan() {
-      var scan_text = scanner.Text()
-      iterated := formatSnakeCase(scan_text)
-      new_file.Write([]byte(iterated))
-	  new_file.Write([]byte(" "))
-      fmt.Println("file after replace", new_file)
+      var st = scanner.Text()
+      var itr = formatSnakeCase(st)
+      nf.Write([]byte(itr))
     }
 
     if err := scanner.Err(); err != nil {
       fmt.Println(err)
     }
-    defer file.Close()
+    defer f.Close()
 }
