@@ -22,7 +22,15 @@ func formatSnakeCase(tf string) string {
       s  = matchAllCap.ReplaceAllString(s, "${1}_${2}")
       s = strings.ToLower(s)
       fmt.Println("value is", v)
-      p := v[1]                                               // set value
+      var p string
+      if (len(v[1]) == 0) {
+        p = "\n"
+        fmt.Println("value empty", len(v[1]))
+      } else {
+        fmt.Println("value nonempty", len(v[1]))
+        p = v[1]
+      }
+                                               // set value
       l := [2]string{s, p}
                                                               // if predicate is nil, add new line
       // fmt.Println(l)
@@ -36,7 +44,7 @@ func formatSnakeCase(tf string) string {
 
 func main() {
     f, err := os.Open("../resources/en-us-language-map.txt")
-    nf, err := os.Create("../resources/en-us_conversion_file.txt")
+    nf, err := os.Create("../resources/en-us_conversion_file.yml")
 
     if err != nil {
       fmt.Println(err)
@@ -48,6 +56,8 @@ func main() {
       var st = scanner.Text()
       var itr = formatSnakeCase(st)
       nf.Write([]byte(itr))
+      nf.Write([]byte(" "))
+      nf.Write([]byte("\n"))
     }
 
     if err := scanner.Err(); err != nil {
