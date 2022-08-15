@@ -11,30 +11,39 @@ import (
 func formatSnakeCase(tf string) string {
 
     re := regexp.MustCompile(`([a-zA-Z-_]+[a-zA-Z-_]+)(:+)`)  // find key
+    ws := regexp.MustCompile(`^\s+`)
     var v []string = re.Split(tf, -1)                         // find value
     var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
     var matchAllCap   = regexp.MustCompile("([a-z0-9])([A-Z])")
 
     km := re.FindStringSubmatch(tf)                           // find match in line passed
     if len(km) != 0 {
+
       ks := km[0]                                             // it's going to be the 1st one
       s := matchFirstCap.ReplaceAllString(ks, "${1}_${2}")
-      s  = matchAllCap.ReplaceAllString(s, "${1}_${2}")
+      s = matchAllCap.ReplaceAllString(s, "${1}_${2}")
       s = strings.ToLower(s)
       fmt.Println("value is", v)
+
       var p string
+      present_padding := ws.FindStringSubmatch(tf)              // find padding at the beginning of the line
+
+      add_padding := strings.Join(present_padding, " ")
+
+      fmt.Println("extra padding: ", present_padding)
       if (len(v[1]) == 0) {
-        p = "\n"
+        p = add_padding
         fmt.Println("value empty", len(v[1]))
       } else {
         fmt.Println("value nonempty", len(v[1]))
-        p = v[1]
+        p = v[1]                                              // set value if non-empty
       }
-                                               // set value
+
       l := [2]string{s, p}
-                                                              // if predicate is nil, add new line
+
+      fmt.Println()                                           // if predicate is nil, add new line
       // fmt.Println(l)
-      r := string(l[0] + l[1])
+      r := string(add_padding + l[0] + l[1] + "\n")
       fmt.Println(r)
       return r
       } else {
@@ -56,8 +65,6 @@ func main() {
       var st = scanner.Text()
       var itr = formatSnakeCase(st)
       nf.Write([]byte(itr))
-      nf.Write([]byte(" "))
-      nf.Write([]byte("\n"))
     }
 
     if err := scanner.Err(); err != nil {
