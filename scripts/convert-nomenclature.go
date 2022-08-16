@@ -9,47 +9,54 @@ import (
 )
 
 func formatSnakeCase(tf string) string {
-
-    re := regexp.MustCompile(`([a-zA-Z-_]+[a-zA-Z-_]+)(:+)`)  // find key
-    ws := regexp.MustCompile(`^\s+`)
-    var v []string = re.Split(tf, -1)                         // find value
+    re := regexp.MustCompile(`[\wa-zA-Z]+[+:]`)                         // find key
+    ro := regexp.MustCompile(`:+([\s\S]*)$`)                            // find value
+    ws := regexp.MustCompile(`^\s+`)                                    // find whitespace
+    var v []string = ro.FindStringSubmatch(tf)                          // match for items
+    km := re.FindStringSubmatch(tf)
     var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
-    var matchAllCap   = regexp.MustCompile("([a-z0-9])([A-Z])")
+    var matchAllCap = regexp.MustCompile("([a-z0-9])([A-Z])")
 
-    km := re.FindStringSubmatch(tf)                           // find match in line passed
     if len(km) != 0 {
-
-      ks := km[0]                                             // it's going to be the 1st one
-      s := matchFirstCap.ReplaceAllString(ks, "${1}_${2}")
+      ks := km[0]                                                       // key is the 1st one
+      s := matchFirstCap.ReplaceAllString(ks, "${1}_${2}")              // convert key to snake case
       s = matchAllCap.ReplaceAllString(s, "${1}_${2}")
       s = strings.ToLower(s)
-      fmt.Println("value is", v)
 
       var p string
-      present_padding := ws.FindStringSubmatch(tf)              // find padding at the beginning of the line
+      sp := ws.FindStringSubmatch(tf)                                   // find beginning formatting
+      i := strings.Join(sp, "")
 
-      add_padding := strings.Join(present_padding, " ")
-
-      fmt.Println("extra padding: ", present_padding)
       if (len(v[1]) == 0) {
-        p = add_padding
-        fmt.Println("value empty", len(v[1]))
+        p = ""                                                          // set to empty if empty
       } else {
-        fmt.Println("value nonempty", len(v[1]))
-        p = v[1]                                              // set value if non-empty
+        var firstCharacter = regexp.MustCompile("[']")                  // check if value is quoted
+        fc := firstCharacter.FindStringSubmatch(v[1])
+        if (len(fc) == 0) {
+          w := strings.TrimLeft(v[1], " ")                              // remove any leading spaces
+          p = string(byte(32)) + string(byte(39)) + w + string(byte(39))// add corrected value with quotes
+        } else {
+          p = v[1]
+        }
       }
 
-      l := [2]string{s, p}
-
-      fmt.Println()                                           // if predicate is nil, add new line
-      // fmt.Println(l)
-      r := string(add_padding + l[0] + l[1] + "\n")
-      fmt.Println(r)
-      return r
+      l := [2]string{s, p}                                              // form converted line
+      r := string(i + l[0] + l[1] + "\n")                               // preserve formatting
+      return r                                                          // return line for write
       } else {
         return string(tf)
       }
 }
+
+func formatKebobCase(tf string) string { return "file kebob-case formatted" }
+
+func formatPascalCase(tf string) string { return "file PascalCase formatted" }
+
+func addSingleQuotes(tf string) string {
+  return "string value hashed"
+}
+
+func returnHash(tf string) string { return "value in string hashed" }
 
 func main() {
     f, err := os.Open("../resources/en-us-language-map.txt")
