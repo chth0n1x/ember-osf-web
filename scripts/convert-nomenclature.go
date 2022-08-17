@@ -6,6 +6,8 @@ import (
     "regexp"
     "os"
     "bufio"
+    "path/filepath"
+    "io/fs"
 )
 
 func formatSnakeCase(tf string) string {
@@ -40,6 +42,9 @@ func formatSnakeCase(tf string) string {
         }
       }
 
+      folder := "/Users/ashley/Documents/NGC896/COS/Repositories/ember-osf-web/lib/registries"
+      filepath.WalkDir(folder, walk)
+
       l := [2]string{s, p}                                              // form converted line
       r := string(i + l[0] + l[1] + "\n")                               // preserve formatting
       return r                                                          // return line for write
@@ -58,10 +63,31 @@ func addSingleQuotes(tf string) string {
 
 func returnHash(tf string) string { return "value in string hashed" }
 
+func walk(s string, d fs.DirEntry, err error) error {
+   // TODO determine entry point for component name
+   c, err := regexp.Compile("navbar")
+
+   kl, err := os.OpenFile("../resources/key_log.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+
+   if err != nil {
+      return err
+   }
+   if ! d.IsDir() && c.MatchString(s) {
+      kl.WriteString(s + "\n")
+
+      if err != nil {
+        panic(err)
+      }
+      defer kl.Close()
+      println(s)
+   }
+   return nil
+}
+
 func main() {
     f, err := os.Open("../resources/en-us-language-map.txt")
     nf, err := os.Create("../resources/en-us_conversion_file.yml")
-
+    os.Create("../resources/key_log.txt")                                 // create key log
     if err != nil {
       fmt.Println(err)
     }
@@ -77,5 +103,8 @@ func main() {
     if err := scanner.Err(); err != nil {
       fmt.Println(err)
     }
+    // fmt.Println(key)
     defer f.Close()
+
+    // make a file with all the keys
 }
