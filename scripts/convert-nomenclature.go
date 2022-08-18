@@ -85,8 +85,8 @@ func walk(s string, d fs.DirEntry, err error) error {
 }
 
 func main() {
-    f, err := os.Open("../resources/en-us-language-map.txt")
-    nf, err := os.Create("../resources/en-us_conversion_file.yml")
+    f, err := os.Open("../translations/en-us-language-map.txt")
+    nf, err := os.Create("../translations/en-us_conversion_file.yml")
     os.Create("../resources/key_log.txt")                                 // create key log
     if err != nil {
       fmt.Println(err)
@@ -103,8 +103,5 @@ func main() {
     if err := scanner.Err(); err != nil {
       fmt.Println(err)
     }
-    // fmt.Println(key)
     defer f.Close()
-
-    // make a file with all the keys
 }
