@@ -163,6 +163,10 @@ dashboard:
         title: 'Browse the latest research'
         description: 'Check out the latest preprints hosted on OSF covering a variety of research areas.'
         button: 'View preprints'
+    aria_label:
+        new_project_button_aria_label: 'Create a new project button'
+        new_project_modal_aria_label: 'New project submission form'
+        new_project_created_aria_label: 'Stay here or go to created project'
 new_project:
     header: 'Create new project'
     title_placeholder: 'Enter project title'
