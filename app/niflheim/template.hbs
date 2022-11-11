@@ -1,0 +1,167 @@
+{{outlet}}
+<div local-class='test-browser'>
+    <div local-class='wrapper'>
+        <div local-class='container'>
+            <div local-class='left'>
+                <img
+                    data-test-tester-profile
+                    local-class='tester-profile'
+                    alt='#'
+                    src='/assets/images/new-profile/spider-cat-profile-a99dc17d79f29bf10572b7547b334e18.png'
+                >
+                <h3>{{t 'fe_intercept.test_browser.oxygen_browser'}}</h3>
+                <p>{{t 'fe_intercept.test_browser.browser_description'}}</p>
+            </div>
+            <div local-class='middle'>
+                <div local-class='codebase-analyzed-container'>
+                    <div local-class='repository-name'>
+                        <h2>
+                            {{t 'fe_intercept.test_browser.codebase_analyzed'}}
+                        </h2>
+                    </div>
+                    <div>
+                        <p local-class='resource-link'>
+                            {{t 'fe_intercept.test_browser.resource_link'}}
+                            <a
+                                local-class='resource-link'
+                                href='https://github.com/CenterForOpenScience/ember-osf-web'
+                            >
+                                {{this.codeAnalyzedLink}}
+                                {{t 'fe_intercept.test_browser.current_url_hardcoded'}}
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div local-class='input-output-search'>
+                    <Input
+                        @type='text'
+                        local-class='shiva-search'
+                        @placeholder={{t 'fe_intercept.test_browser.shiva_url'}}
+                    />
+                    <Input
+                        @type='text'
+                        local-class='ifrit-search'
+                        @placeholder={{t 'fe_intercept.test_browser.ifrit_url'}}
+                    />
+                </div>
+                <div local-class='elementals-container'>
+                    <ul>
+                        {{#each this.elements as |element|}}
+                            <li>
+                                <BsButton
+                                    @type='success'
+                                    @onClick={{action this.callElement}}
+                                >
+                                    {{element}}
+                                </BsButton>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                <div local-class='repo-container'>
+                    <div local-class='pie-chart'>
+                        <svg class='donut' width='300' height='300' viewBox='0 0 42 42'>
+                            <circle class='donut-hole' cx='150' cy='150' r='121' fill='#000'></circle>
+                            {{#each this.itemsAnalyzed as |ia index|}}
+                                <circle id={{ia.index}} cx='150' cy='150' r='121' fill='transparent' stroke='#ff007f' stroke-width='3' stroke-dasharray='0 100' stroke-dashoffset='25'>
+                                </circle>
+                            {{/each}}
+                        </svg>
+                    </div>
+                    <div local-class='user-story-data-container'>
+                        <div local-class='user-story-real-time'>
+
+                        </div>
+                        <div local-class='current-element'>
+                            {{t 'fe_intercept.test_browser.current_element'}}
+                        </div>
+                        <div local-class='status-buttons'>
+                            <BsButton
+                                @type='success'
+                                @onClick={{action this.startUserStory}}
+                            >
+                                {{t 'fe_intercept.test_browser.status_buttons.play'}}
+                            </BsButton>
+                            <BsButton
+                                @type='success'
+                                @onClick={{action this.stopUserStory}}
+                            >
+                                {{t 'fe_intercept.test_browser.status_buttons.pause_stop'}}
+                            </BsButton>
+                            <RadioButton
+                                local-class='dot'
+                                data-test-status-button
+                                @type='info'
+                            >
+                            </RadioButton>
+                            <RadioButton
+                                local-class='dot'
+                                data-test-status-button
+                                @type='info'
+                            >
+                            </RadioButton>
+                            <RadioButton
+                                local-class='dot'
+                                data-test-status-button
+                                @type='info'
+                            >
+                            </RadioButton>
+                        </div>
+                        <div local-class='further-data'>
+                            <div local-class='more-data header-type'>
+                            </div>
+                            <div local-class='more-data method-type'>
+                            </div>
+                            <div local-class='more-data request-type'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div local-class='data-relationships-container'>
+                    <h4>
+                        {{t 'fe_intercept.test_browser.relationships.data_relationships'}}
+                    </h4>
+                    <div local-class='current-blacklist'>
+                        <p>{{t 'fe_intercept.test_browser.relationships.number_blacklisted'}}</p>
+                        <a
+                            local-class='blacklist-link'
+                            href='#'
+                        >
+                            <p>{{t 'fe_intercept.test_browser.relationships.current_blacklist'}}</p>
+                        </a>
+                    </div>
+                    <div local-class='links'>
+                        <h5>
+                            {{t 'fe_intercept.test_browser.relationships.hyperlinks'}}
+                        </h5>
+                    </div>
+                    <div local-class='images'>
+                        <h5>
+                            {{t 'fe_intercept.test_browser.relationships.images'}}
+                        </h5>
+                    </div>
+                    <div local-class='metadata'>
+                        <h5>
+                            {{t 'fe_intercept.test_browser.relationships.metadata'}}
+                        </h5>
+                    </div>
+                    <div local-class='framework'>
+                        <h5>
+                            {{t 'fe_intercept.test_browser.relationships.framework'}}
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div local-class='right'>
+                <div local-class='mini-menu'>
+                    <BsButton
+                        @type='success'
+                        @role='button'
+                    >
+                        <FaIcon @icon='fa-regular fa-fire-flame-simple' @size='medium' />
+                    </BsButton>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

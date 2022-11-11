@@ -2369,3 +2369,24 @@ dev_tools:
     options:
         toast_events: 'Display toast for tracked events'
         show_url_bar: 'Show URL bar -- navigate by URL without reloading'
+fe_intercept:
+    test_browser:
+        oxygen_browser: 'Oxygen Browser'
+        browser_description: 'A test browser'
+        codebase_analyzed: 'Codebase Analyzed: ember-osf-web'
+        resource_link: 'Resource link:'
+        current_url_hardcoded: 'https://github.com/CenterForOpenScience/ember-osf-web'
+        shiva_url: 'https://www.shiva.io'
+        ifrit_url: 'https://ifrit.io'
+        current_element: 'Current element: osf-navbar'
+        status_buttons:
+            play: '▷'
+            pause_stop: '☐'
+        relationships:
+            data_relationships: 'Data Relationships'
+            number_blacklisted: '0 urls in blacklist'
+            current_blacklist: 'Current Blacklist'
+            hyperlinks: 'Hyperlinks'
+            images: 'Images'
+            metadata: 'Metadata'
+            framework: 'Framework'

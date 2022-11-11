@@ -48,6 +48,5 @@ export default buildRoutes(function() {
         this.route('metadata');
     });
 
-
     this.route('page-not-found', { path: '/*path' });
 });
