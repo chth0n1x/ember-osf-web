@@ -1,14 +1,22 @@
 {{outlet}}
+<div local-class='skip-link hidden'>
+    {{t 'fe_intercept.skip_link'}}
+</div>
 <div local-class='test-browser'>
     <div local-class='wrapper'>
         <div local-class='container'>
             <div local-class='left'>
-                <img
-                    data-test-tester-profile
-                    local-class='tester-profile'
-                    alt='#'
-                    src='/assets/images/new-profile/spider-cat-profile-a99dc17d79f29bf10572b7547b334e18.png'
+                <a
+                    local-class='resource-link'
+                    href='https://github.com/chth0n1x'
                 >
+                    <img
+                        data-test-tester-profile
+                        local-class='tester-profile'
+                        alt='#'
+                        src='/assets/images/new-profile/82047646.jpeg'
+                    >
+                </a>
                 <h3>{{t 'fe_intercept.test_browser.oxygen_browser'}}</h3>
                 <p>{{t 'fe_intercept.test_browser.browser_description'}}</p>
             </div>
@@ -27,7 +35,6 @@
                                 href='https://github.com/CenterForOpenScience/ember-osf-web'
                             >
                                 {{this.codeAnalyzedLink}}
-                                {{t 'fe_intercept.test_browser.current_url_hardcoded'}}
                             </a>
                         </p>
                     </div>
@@ -50,7 +57,7 @@
                             <li>
                                 <BsButton
                                     @type='success'
-                                    @onClick={{action this.callElement}}
+                                    @onClick={{action this.callElement element}}
                                 >
                                     {{element}}
                                 </BsButton>
@@ -59,31 +66,60 @@
                     </ul>
                 </div>
                 <div local-class='repo-container'>
-                    <div local-class='pie-chart'>
-                        <svg class='donut' width='300' height='300' viewBox='0 0 42 42'>
-                            <circle class='donut-hole' cx='150' cy='150' r='121' fill='#000'></circle>
-                            {{#each this.itemsAnalyzed as |ia index|}}
-                                <circle id={{ia.index}} cx='150' cy='150' r='121' fill='transparent' stroke='#ff007f' stroke-width='3' stroke-dasharray='0 100' stroke-dashoffset='25'>
-                                </circle>
-                            {{/each}}
-                        </svg>
+                    <div local-class='donut-chart'>
+                        <div>
+                            <svg aria-hidden='true' focusable='false' width='200' height='200' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 42 42' class='donut'>
+                                <circle class='donut-hole' cx='21' cy='21' r='15.91549430918954' fill='#fff'></circle>
+                                <circle class='donut-ring' cx='21' cy='21' r='15.91549430918954' fill='transparent' stroke='#d2d3d4' stroke-width='3'></circle>
+                                {{#each this.requestTypes}}
+                                    <circle class='request-type' cx='21' cy='21' r='15.91549430918954' fill='transparent' stroke='#b1c94e' stroke-width='3' stroke-dasharray='40 60' stroke-dashoffset='25'></circle>
+                                {{/each}}
+                                <g class='chart-text'>
+                                    <text x='50%' y='50%' class='chart-number'>{{t 'fe_intercept.test_browser.donut_chart.total_value'}}</text>
+                                    <text x='50%' y='50%' class='chart-label'>{{t 'fe_intercept.test_browser.donut_chart.total_label'}}</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <div>
+                            <label local-class='switch'>
+                                <Input
+                                    @type='checkbox'
+                                    @change={{action this.displayRiskAreas}}
+                                />
+                                <span local-class='round slider'></span>
+                            </label>
+                        </div>
                     </div>
                     <div local-class='user-story-data-container'>
                         <div local-class='user-story-real-time'>
-
+                            <ol local-class='user-interaction' name='time-data'>
+                            </ol>
+                            <h5>
+                                {{t 'fe_intercept.test_browser.user_story_timeline.user_story_title'}}
+                            </h5>
                         </div>
-                        <div local-class='current-element'>
-                            {{t 'fe_intercept.test_browser.current_element'}}
+                        <div local-class='current-element' name='current-element'>
+                            <ol local-class='current-element-list' name='current-element-list'>
+                            </ol>
+                            <p>
+                                {{t 'fe_intercept.test_browser.current_element'}}
+                            </p>
+                            <BsButton
+                                @type='primary'
+                                @onClick={{action this.findInRepo}}
+                            >
+                                {{t 'fe_intercept.test_browser.user_story_timeline.codebase_locate_button'}}
+                            </BsButton>
                         </div>
                         <div local-class='status-buttons'>
                             <BsButton
-                                @type='success'
+                                @type='primary'
                                 @onClick={{action this.startUserStory}}
                             >
                                 {{t 'fe_intercept.test_browser.status_buttons.play'}}
                             </BsButton>
                             <BsButton
-                                @type='success'
+                                @type='primary'
                                 @onClick={{action this.stopUserStory}}
                             >
                                 {{t 'fe_intercept.test_browser.status_buttons.pause_stop'}}
@@ -108,12 +144,20 @@
                             </RadioButton>
                         </div>
                         <div local-class='further-data'>
-                            <div local-class='more-data header-type'>
-                            </div>
-                            <div local-class='more-data method-type'>
-                            </div>
-                            <div local-class='more-data request-type'>
-                            </div>
+                            {{#each this.itemsAnalyzed as |data|}}
+                                <div local-class='more-data data-type'>
+                                    <svg aria-hidden='true' focusable='false' width='30' height='30' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 42 42' class='donut'>
+                                        <circle class='donut-hole' cx='21' cy='21' r='15.91549430918954' fill='#fff'></circle>
+                                        <circle class='donut-ring' cx='21' cy='21' r='15.91549430918954' fill='transparent' stroke='#d2d3d4' stroke-width='3'></circle>
+                                        {{#each this.requestTypes}}
+                                            <circle class='request-type' cx='21' cy='21' r='15.91549430918954' fill='transparent' stroke='#b1c94e' stroke-width='3' stroke-dasharray='40 60' stroke-dashoffset='25'></circle>
+                                        {{/each}}
+                                    </svg>
+                                    <label>
+                                        {{data}}
+                                    </label>
+                                </div>
+                            {{/each}}
                         </div>
                     </div>
                 </div>
@@ -155,11 +199,59 @@
             <div local-class='right'>
                 <div local-class='mini-menu'>
                     <BsButton
-                        @type='success'
+                        @type='primary'
                         @role='button'
+                        @onClick={{action this.wireVulnerability}}
                     >
                         <FaIcon @icon='fa-regular fa-fire-flame-simple' @size='medium' />
                     </BsButton>
+                    <label>
+                        {{t 'fe_intercept.test_browser.mini_menu.listen_to_user'}}
+                    </label>
+                    <BsButton
+                        @type='primary'
+                        @role='button'
+                        @onClick={{action this.returnUserSession}}
+                    >
+                    </BsButton>
+                    <label>
+                        {{t 'fe_intercept.test_browser.mini_menu.user_session_data'}}
+                    </label>
+                    <BsButton
+                        @type='primary'
+                        @role='button'
+                        @onClick={{action this.increaseRiskLevel}}
+                    >
+                    </BsButton>
+                    <label>
+                        {{t 'fe_intercept.test_browser.mini_menu.increase_risk_button'}}
+                    </label>
+                    <BsButton
+                        @type='primary'
+                        @role='button'
+                        @onClick={{action this.decreaseRiskLevel}}
+                    >
+                    </BsButton>
+                    <label>
+                        {{t 'fe_intercept.test_browser.mini_menu.decrease_risk_button'}}
+                    </label>
+                    <Input @type='file' name='files[]' accept='txt' @onChange={{action this.readFile}} />
+                    <label>
+                    </label>
+                    <BsButton
+                        @type='primary'
+                        @role='button'
+                        @onClick={{action this.readFile}}
+                    >
+                    </BsButton>
+                    <label>
+                        {{t 'fe_intercept.test_browser.mini_menu.read_upload_label'}}
+                    </label>
+                    <div name='output'>
+                    </div>
+                    <label>
+                        {{t 'fe_intercept.test_browser.mini_menu.analysis_file_output'}}
+                    </label>
                 </div>
             </div>
         </div>

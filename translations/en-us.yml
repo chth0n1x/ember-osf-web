@@ -2370,6 +2370,7 @@ dev_tools:
         toast_events: 'Display toast for tracked events'
         show_url_bar: 'Show URL bar -- navigate by URL without reloading'
 fe_intercept:
+    skip_link: 'Skip link'
     test_browser:
         oxygen_browser: 'Oxygen Browser'
         browser_description: 'A test browser'
@@ -2378,10 +2379,16 @@ fe_intercept:
         current_url_hardcoded: 'https://github.com/CenterForOpenScience/ember-osf-web'
         shiva_url: 'https://www.shiva.io'
         ifrit_url: 'https://ifrit.io'
-        current_element: 'Current element: osf-navbar'
+        donut_chart: 
+            total_value: '0'
+            total_label: 'Total'
+        current_element: 'Current element: '
         status_buttons:
             play: '▷'
             pause_stop: '☐'
+        user_story_timeline:
+            user_story_title: 'User Story 1'
+            codebase_locate_button: 'Find in Codebase'
         relationships:
             data_relationships: 'Data Relationships'
             number_blacklisted: '0 urls in blacklist'
@@ -2390,3 +2397,11 @@ fe_intercept:
             images: 'Images'
             metadata: 'Metadata'
             framework: 'Framework'
+        mini_menu:
+            listen_to_user: 'Listen to User'
+            user_session_data: 'User Session Data'
+            increase_risk_button: 'Increase risk'
+            decrease_risk_button: 'Decrease risk'
+            upload_config_label: 'Upload Configuration'
+            read_upload_label: 'Read Upload'
+            analysis_file_output: 'Analysis File'
