@@ -110,6 +110,11 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
             this.metadata = guidRecord.customMetadata as CustomItemMetadataRecordModel;
             notifyPropertyChange(this, 'metadata');
             this.changeset = buildChangeset(this.metadata, null);
+            this.changeset.languageObject = {
+                code: this.metadata.language,
+                name: this.languageFromCode,
+            };
+            this.changeset.execute();
         }
     }
 
@@ -137,6 +142,11 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
             this.saveErrored = false;
         }
         this.changeset.rollback();
+        this.changeset.languageObject = {
+            code: this.metadata.language,
+            name: this.languageFromCode,
+        };
+        this.changeset.execute();
         this.inEditMode = false;
     }
 
