@@ -165,6 +165,7 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
         try {
             this.changeset.execute();
             this.inEditMode = false;
+            this.saveErrored = false;
         } catch (e) {
             this.saveErrored = true;
             const errorTitle = this.intl.t('osf-components.item-metadata-manager.error-saving-metadata');
