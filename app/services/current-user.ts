@@ -11,6 +11,7 @@ import User from 'ember-osf-web/models/user';
 import { addQueryParam } from 'ember-osf-web/utils/url-parts';
 
 import $ from 'jquery';
+import UserModel from 'ember-osf-web/models/user';
 
 const {
     OSF: {
@@ -75,6 +76,16 @@ export default class CurrentUserService extends Service {
             return this.store.peekRecord('user', this.currentUserId);
         }
         return null;
+    }
+
+    @computed('currentUserId')
+    get userID(): UserModel | null | undefined {
+        let userID;
+        if (this.currentUserId) {
+            const userIDPeek =  this.store.peekRecord('user', this.currentUserId);
+            userID = userIDPeek;
+        }
+        return userID;
     }
 
     constructor(...args: any[]) {

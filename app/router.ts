@@ -41,8 +41,14 @@ Router.map(function() {
             this.route('create');
         });
     });
+
     this.route('support');
-    this.route('niflheim');
+
+    this.route('niflheim', function() {
+        this.route('log4j');
+    });
+
+
     this.route('meetings', function() {
         this.route('detail', { path: '/:meeting_id' });
     });
@@ -101,6 +107,7 @@ Router.map(function() {
     // eslint-disable-next-line ember/no-shadow-route-definition
     this.route('not-found', { path: '*path' });
 });
+
 
 /* eslint-enable array-callback-return */
 

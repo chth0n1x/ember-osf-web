@@ -33,3 +33,7 @@ export function userRegistrationList(this: HandlerContext, schema: Schema, reque
 export function claimUnregisteredUser(this: HandlerContext) {
     return new Response(204);
 }
+
+export function showCurrentUser(this: HandlerContext) {
+    return '1234';
+}

@@ -1,42 +1,223 @@
-{{outlet}}
+{{outlet 'niflheim'}}
 <div local-class='skip-link hidden'>
     {{t 'fe_intercept.skip_link'}}
 </div>
-<div local-class='test-browser'>
+<div local-class='test-browser' name='test-browser' data-test-test-browser>
     <div local-class='wrapper'>
         <div local-class='container'>
-            <div local-class='left'>
-                <a
-                    local-class='resource-link'
-                    href='https://github.com/chth0n1x'
-                >
-                    <img
-                        data-test-tester-profile
-                        local-class='tester-profile'
-                        alt='#'
-                        src='/assets/images/new-profile/82047646.jpeg'
+            <div local-class='left' data-test-left-nav>
+                <div local-class='tester-profile-div'>
+                    <a
+                        local-class='tester-profile-link'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        href='https://www.github.com/chth0n1x'
                     >
-                </a>
-                <h3>{{t 'fe_intercept.test_browser.oxygen_browser'}}</h3>
-                <p>{{t 'fe_intercept.test_browser.browser_description'}}</p>
+                        <img
+                            data-test-tester-profile
+                            local-class='tester-profile'
+                            alt='#'
+                            src='/assets/images/new-profile/82047646.jpeg'
+                        >
+                    </a>
+                    <h3>{{t 'fe_intercept.test_browser.oxygen_browser'}}</h3>
+                    <p>{{t 'fe_intercept.test_browser.browser_description'}}</p>
+                </div>
+                <nav
+                    data-test-side-nav='1'
+                    data-test-collapsed='{{this.isCollapsed}}'
+                    local-class='SideNav {{if this.isCollapsed 'Collapsed'}}'
+                    ...attributes
+                >
+                    <div local-class='Links'>
+                        {{yield (hash
+                            link=(component 'side-nav/x-link'
+                                onClick=@onLinkClicked
+                                isCollapsed=this.isCollapsed
+                            )
+                        )}}
+                    </div>
+                    {{#let (component 'side-nav/x-link') as |SideNavLink|}}
+                        <SideNavLink
+                            data-analytics-name={{if this.isCollapsed 'Ifrit Active' 'Ifrit Inactive'}}
+                            @onClick={{action this.toggleFunctionality}}
+                            @isCollapsed={{this.isCollapsed}}
+                            @route='niflheim'
+                            @icon={{if this.isCollapsed 'chevron-right' 'chevron-left'}}
+                            @label='Ifrit'
+                        />
+                        <div 
+                            local-class='mini-menu'
+                        >
+                            <BsButton
+                                data-test-fe-on
+                                @type='primary'
+                                @role='button'
+                                @onClick={{action this.startShiva 1}}
+                            >
+                                <label>
+                                    {{t 'fe_intercept.test_browser.mini_menu.shiva_start'}}
+                                </label>
+                                <FaIcon @icon='snowflake' @size='medium' />
+                            </BsButton>
+                            <BsButton
+                                data-test-listen-user
+                                @type='primary'
+                                @role='button'
+                                @onClick={{action this.wireVulnerability this.currentUser}}
+                            >
+                                <label>
+                                    {{t 'fe_intercept.test_browser.mini_menu.wire_ui'}}
+                                </label>
+                                <FaIcon @icon='headset' @size='medium' />
+                            </BsButton>
+                            <BsButton
+                                data-test-return-session-button
+                                @type='primary'
+                                @role='button'
+                                @onClick={{action this.returnUserSession}}
+                            >
+                                <label>
+                                    {{t 'fe_intercept.test_browser.mini_menu.user_data'}}
+                                </label>
+                                <FaIcon @icon='user' @size='medium' />
+                            </BsButton>
+                            {{#if (eq this.mapPresent true)}}
+                                <BsButton
+                                    data-test-map-app-button
+                                    @type='primary'
+                                    @role='button'
+                                    @onClick={{action this.resetMap}}
+                                >
+                                    <label>
+                                        {{t 'fe_intercept.test_browser.mini_menu.reset_map'}}
+                                    </label>
+                                    <FaIcon @icon='map'  @prefix='far' @size='medium' />
+                                </BsButton>
+                            {{else}}
+                                <BsButton
+                                    data-test-reset-map-button
+                                    @type='primary'
+                                    @role='button'
+                                    @onClick={{action this.appMap}}
+                                >
+                                    <label>
+                                        {{t 'fe_intercept.test_browser.mini_menu.map_app'}}
+                                    </label>
+                                    <FaIcon @icon='map' @size='medium' />
+                                </BsButton>
+                            {{/if}}
+                            <span>
+                                <label>
+                                    {{t 'fe_intercept.test_browser.mini_menu.user_risk'}}
+                                </label>
+                                <span local-class='inline-buttons'>
+                                    <BsButton
+                                        data-test-increase-risk-button
+                                        @type='primary'
+                                        @role='button'
+                                        @onClick={{action this.increaseRiskLevel 'low'}}
+                                    >
+                                        <FaIcon @icon='sort-up' @size='medium' />
+                                    </BsButton>
+                                    <BsButton
+                                        data-test-decrease-risk-button
+                                        @type='primary'
+                                        @role='button'
+                                        @onClick={{action this.decreaseRiskLevel 'low'}}
+                                    >
+                                        <FaIcon @icon='sort-down' @size='medium' />
+                                    </BsButton>
+                                </span>
+                            </span>
+                            <span>
+                                <label>
+                                    {{t 'fe_intercept.test_browser.mini_menu.upload'}}
+                                </label>
+                                <FaIcon @icon='upload' @size='medium' />
+                                <Input 
+                                    data-test-select-file-input
+                                    @type='file'
+                                    name='files[]'
+                                    accept='txt'
+                                    local-class='upload-analysis-file'
+                                    @onChange={{action this.handleFileSelect}}
+                                    @icon='upload'
+                                />
+                            </span>
+                            <BsButton
+                                data-test-read-file-button
+                                @type='primary'
+                                @role='button'
+                                @onClick={{action this.addFileListener}}
+                            >
+                                <label>
+                                    {{t 'fe_intercept.test_browser.mini_menu.read_file'}}
+                                </label>
+                                <FaIcon @icon='file' @size='medium' />
+                            </BsButton>
+                            <BsButton
+                                data-test-start-ifrit
+                                @type='primary'
+                                @role='button'
+                                @onClick={{action this.startIfrit}}
+                            >
+                                <label>
+                                    {{t 'fe_intercept.test_browser.mini_menu.ifrit_start'}}
+                                </label>
+                                <FaIcon @icon='fire' @size='medium' />
+                            </BsButton>
+                        </div>
+                    {{/let}}
+                </nav>
             </div>
             <div local-class='middle'>
-                <div local-class='codebase-analyzed-container'>
-                    <div local-class='repository-name'>
-                        <h2>
-                            {{t 'fe_intercept.test_browser.codebase_analyzed'}}
-                        </h2>
+                <div local-class='codebase-analyzed-container' name='analysis-section'>
+                    <div local-class='application-view'>
+                        <div local-class='analyzed-component' name='analyzed-component'>
+                            {{outlet 'home'}}
+                        </div>
                     </div>
-                    <div>
-                        <p local-class='resource-link'>
-                            {{t 'fe_intercept.test_browser.resource_link'}}
-                            <a
-                                local-class='resource-link'
-                                href='https://github.com/CenterForOpenScience/ember-osf-web'
-                            >
-                                {{this.codeAnalyzedLink}}
-                            </a>
-                        </p>
+                    <div local-class='test-route-header'>
+                        <div local-class='repository-name'>
+                            <h2>
+                                {{t 'fe_intercept.test_browser.codebase_analyzed'}}
+                            </h2>
+                        </div>
+                        <div>
+                            <p local-class='resource-link'>
+                                {{t 'fe_intercept.test_browser.resource_link'}}
+                                <a
+                                    local-class='resource-link'
+                                    href='https://github.com/CenterForOpenScience/ember-osf-web'
+                                >
+                                    {{this.codeAnalyzedLink}}
+                                </a>
+                            </p>
+                            <p local-class='route-link'>
+                                {{t 'fe_intercept.test_browser.codebase_analyzed_container.route_link'}}
+                                <a
+                                    local-class='resource-route'
+                                    href='https://localhost:4200/niflheim'
+                                >
+                                    {{this.codeAnalyzedRoute}}.{{this.codeAnalyzedSubroute}}
+                                </a>
+                            </p>
+                            <span local-class='guid-and-dark-toggle'>
+                                <p>
+                                    {{t 'fe_intercept.test_browser.codebase_analyzed_container.current_guid'}} {{this.codeAnalyzedGuid}}
+                                </p>
+                                <BsButton
+                                    data-test-toggle-dark
+                                    @onClick={{action this.toggleDarkMode}}
+                                    local-class='dark-mode-button'
+                                    @type='primary'
+                                    @role='button'
+                                >
+                                    <FaIcon @icon='moon' @size='medium' />
+                                </BsButton>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div local-class='input-output-search'>
@@ -92,18 +273,21 @@
                     </div>
                     <div local-class='user-story-data-container'>
                         <div local-class='user-story-real-time'>
-                            <ol local-class='user-interaction' name='time-data'>
-                            </ol>
                             <h5>
                                 {{t 'fe_intercept.test_browser.user_story_timeline.user_story_title'}}
                             </h5>
+                            <ol local-class='user-interaction' name='time-data'>
+                            </ol>
                         </div>
                         <div local-class='current-element' name='current-element'>
-                            <ol local-class='current-element-list' name='current-element-list'>
-                            </ol>
                             <p>
                                 {{t 'fe_intercept.test_browser.current_element'}}
                             </p>
+                            <ol local-class='current-element-list' name='current-element-list'>
+                            </ol>
+                            <div local-class='current-user-id'>
+                                <div name='currenUserID'></div>
+                            </div>
                             <BsButton
                                 @type='primary'
                                 @onClick={{action this.findInRepo}}
@@ -112,36 +296,30 @@
                             </BsButton>
                         </div>
                         <div local-class='status-buttons'>
-                            <BsButton
-                                @type='primary'
-                                @onClick={{action this.startUserStory}}
-                            >
-                                {{t 'fe_intercept.test_browser.status_buttons.play'}}
-                            </BsButton>
-                            <BsButton
-                                @type='primary'
-                                @onClick={{action this.stopUserStory}}
-                            >
-                                {{t 'fe_intercept.test_browser.status_buttons.pause_stop'}}
-                            </BsButton>
-                            <RadioButton
-                                local-class='dot'
-                                data-test-status-button
-                                @type='info'
-                            >
-                            </RadioButton>
-                            <RadioButton
-                                local-class='dot'
-                                data-test-status-button
-                                @type='info'
-                            >
-                            </RadioButton>
-                            <RadioButton
-                                local-class='dot'
-                                data-test-status-button
-                                @type='info'
-                            >
-                            </RadioButton>
+                            <div local-class='playback-pause'>
+                                <BsButton
+                                    @type='primary'
+                                    @onClick={{action this.startUserStory}}
+                                >
+                                    {{t 'fe_intercept.test_browser.status_buttons.play'}}
+                                </BsButton>
+                                <BsButton
+                                    @type='primary'
+                                    @onClick={{action this.stopUserStory}}
+                                >
+                                    {{t 'fe_intercept.test_browser.status_buttons.pause_stop'}}
+                                </BsButton>
+                            </div>
+
+                            <div local-class='impedence'>
+                                <svg height='25' width='100'
+                                    data-test-status-button
+                                >
+                                    <circle cx='10' cy='10' r='5' stroke='red' stroke-width='1' fill='red' />
+                                    <circle cx='35' cy='10' r='5' stroke='yellow' stroke-width='1' fill='yellow' />
+                                    <circle cx='60' cy='10' r='5' stroke='green' stroke-width='1' fill='green' />
+                                </svg>
+                            </div>
                         </div>
                         <div local-class='further-data'>
                             {{#each this.itemsAnalyzed as |data|}}
@@ -162,97 +340,113 @@
                     </div>
                 </div>
                 <div local-class='data-relationships-container'>
-                    <h4>
-                        {{t 'fe_intercept.test_browser.relationships.data_relationships'}}
-                    </h4>
+                    <div class='tab' local-class='tab output-tablist'>
+                        <BsButton 
+                            @class='tablinks'
+                            local-class='tablinks'
+                            data-test-app-map
+                            @name='elementOutput'
+                            @type='primary'
+                            @role='button'
+                            @onClick={{action this.openTab 'elementOutput'}}
+                        >
+                            {{t 'fe_intercept.test_browser.relationships.elements'}}
+                        </BsButton>
+                        <BsButton 
+                            @class='tablinks' 
+                            local-class='tablinks'
+                            data-test-app-map
+                            @name='linkOutput'
+                            @type='primary'
+                            @role='button'
+                            @onClick={{action this.openTab 'linkOutput'}}
+                        >
+                            {{t 'fe_intercept.test_browser.relationships.hyperlinks'}}
+                        </BsButton>
+                        <BsButton 
+                            @class='tablinks'
+                            local-class='tablinks'
+                            data-test-app-map
+                            @name='imageOutput'
+                            @type='primary'
+                            @role='button'
+                            @onClick={{action this.openTab 'imageOutput'}}
+                        >
+                            {{t 'fe_intercept.test_browser.relationships.images'}}
+                        </BsButton>
+                        <BsButton 
+                            @class='tablinks'
+                            local-class='tablinks'
+                            data-test-app-map
+                            @name='metadataOutput'
+                            @type='primary'
+                            @role='button'
+                            @onClick={{action this.openTab 'metadataOutput'}}
+                        >
+                            {{t 'fe_intercept.test_browser.relationships.metadata'}}
+                        </BsButton>
+                    </div>
                     <div local-class='current-blacklist'>
-                        <p>{{t 'fe_intercept.test_browser.relationships.number_blacklisted'}}</p>
                         <a
                             local-class='blacklist-link'
                             href='#'
                         >
                             <p>{{t 'fe_intercept.test_browser.relationships.current_blacklist'}}</p>
                         </a>
+                        <p>{{t 'fe_intercept.test_browser.relationships.number_blacklisted'}}</p>
                     </div>
-                    <div local-class='links'>
+                    {{#if (not this.toggleTabView)}}
+                        <div local-class='no-content'>
+                            {{t 'fe_intercept.test_browser.codebase_analyzed_container.no_content_message'}}
+                        </div>
+                    {{else}}
+                        {{outlet this.openTab 'elementOutput'}}
+                    {{/if}}
+                    <div
+                        class='tabcontent' 
+                        name='elementOutput'
+                        local-class='tabcontent elemental-output'
+                    >
                         <h5>
-                            {{t 'fe_intercept.test_browser.relationships.hyperlinks'}}
+                            {{t 'fe_intercept.test_browser.codebase_analyzed_container.analysis_results'}}
+                        </h5>
+                        <div local-class='app-map' name='appMapOutput'>
+                        </div>
+                        <div local-class='config-file' name='configFile'>
+                        </div>
+                    </div>
+                    <div 
+                        class='tabcontent' 
+                        name='linkOutput' 
+                        local-class='tabcontent link-results'
+                    >
+                        <h5>
+                            {{t 'fe_intercept.test_browser.codebase_analyzed_container.links_on_route'}}
+                        </h5>
+                        <div local-class='links-output' name='routeLinks'>
+                        </div>
+                    </div>
+                    <div 
+                        class='tabcontent'
+                        name='imageOutput' 
+                        local-class='tabcontent image-results'
+                    >
+                        <h5>
+                            {{t 'fe_intercept.test_browser.codebase_analyzed_container.images_on_route'}}
                         </h5>
                     </div>
-                    <div local-class='images'>
+                    <div 
+                        class='tabcontent' 
+                        name='metadataOutput' 
+                        local-class='tabcontent metadata'
+                    >
                         <h5>
-                            {{t 'fe_intercept.test_browser.relationships.images'}}
-                        </h5>
-                    </div>
-                    <div local-class='metadata'>
-                        <h5>
-                            {{t 'fe_intercept.test_browser.relationships.metadata'}}
-                        </h5>
-                    </div>
-                    <div local-class='framework'>
-                        <h5>
-                            {{t 'fe_intercept.test_browser.relationships.framework'}}
+                            {{t 'fe_intercept.test_browser.codebase_analyzed_container.metadata_on_route'}}
                         </h5>
                     </div>
                 </div>
             </div>
-            <div local-class='right'>
-                <div local-class='mini-menu'>
-                    <BsButton
-                        @type='primary'
-                        @role='button'
-                        @onClick={{action this.wireVulnerability}}
-                    >
-                        <FaIcon @icon='fa-regular fa-fire-flame-simple' @size='medium' />
-                    </BsButton>
-                    <label>
-                        {{t 'fe_intercept.test_browser.mini_menu.listen_to_user'}}
-                    </label>
-                    <BsButton
-                        @type='primary'
-                        @role='button'
-                        @onClick={{action this.returnUserSession}}
-                    >
-                    </BsButton>
-                    <label>
-                        {{t 'fe_intercept.test_browser.mini_menu.user_session_data'}}
-                    </label>
-                    <BsButton
-                        @type='primary'
-                        @role='button'
-                        @onClick={{action this.increaseRiskLevel}}
-                    >
-                    </BsButton>
-                    <label>
-                        {{t 'fe_intercept.test_browser.mini_menu.increase_risk_button'}}
-                    </label>
-                    <BsButton
-                        @type='primary'
-                        @role='button'
-                        @onClick={{action this.decreaseRiskLevel}}
-                    >
-                    </BsButton>
-                    <label>
-                        {{t 'fe_intercept.test_browser.mini_menu.decrease_risk_button'}}
-                    </label>
-                    <Input @type='file' name='files[]' accept='txt' @onChange={{action this.readFile}} />
-                    <label>
-                    </label>
-                    <BsButton
-                        @type='primary'
-                        @role='button'
-                        @onClick={{action this.readFile}}
-                    >
-                    </BsButton>
-                    <label>
-                        {{t 'fe_intercept.test_browser.mini_menu.read_upload_label'}}
-                    </label>
-                    <div name='output'>
-                    </div>
-                    <label>
-                        {{t 'fe_intercept.test_browser.mini_menu.analysis_file_output'}}
-                    </label>
-                </div>
+            <div local-class='right' data-test-right-view>
             </div>
         </div>
     </div>
