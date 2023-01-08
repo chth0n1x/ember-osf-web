@@ -2416,3 +2416,7 @@ fe_intercept:
             images_on_route: 'Images on route: '
             metadata_on_route: 'Metadata on route: '
             no_content_message: 'No content to display.'
+    log4j:
+        inner_route: 'Inner route Log4J.'
+        route_view: 'Inner Route'
+
