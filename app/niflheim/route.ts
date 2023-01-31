@@ -22,7 +22,7 @@ import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 import OwnCloudFile from 'ember-osf-web/packages/files/own-cloud-file';
 import S3File from 'ember-osf-web/packages/files/s3-file';
 
-// @requireAuth('home')
+@requireAuth('home')
 export default class Niflheim extends Route {
     @service currentUser!: CurrentUser;
     @service ready!: Ready;

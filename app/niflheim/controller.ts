@@ -20,7 +20,6 @@ import CurrentUser from 'ember-osf-web/services/current-user';
 
 import config from 'ember-get-config';
 
-import fetch from 'fetch';
 import { resolve } from 'rsvp';
 
 export const { OSF: { apiUrl, apiVersion } } = config;
@@ -914,17 +913,18 @@ export default class Niflheim extends Controller {
         }
 
         try {
-            await fetch('https://api.osf.io/v2/users/').then(data => {
-                console.log('v2 fetch data:', data);
-            });
+            console.log(document);
+            // await fetch('https://api.osf.io/v2/users/').then(data => {
+            //     console.log('v2 fetch data:', data);
+            // });
 
-            await fetch('http://localhost:4200/niflheim').then((response: any) =>{
-                console.log('headers are:', response.headers.map);
-                console.log('Response is:', response.ok);
-                console.log('Status is', response.status);
-                console.log('Status Code Text is:', response.statusText);
-                console.log('Response url is: ', response.url);
-            });
+            // await fetch('http://localhost:4200/niflheim').then((response: any) =>{
+            //     console.log('headers are:', response.headers.map);
+            //     console.log('Response is:', response.ok);
+            //     console.log('Status is', response.status);
+            //     console.log('Status Code Text is:', response.statusText);
+            //     console.log('Response url is: ', response.url);
+            // });
         } catch (e) {
             this.toast.error(`URL unretrievable: ${e}`);
         } finally {
