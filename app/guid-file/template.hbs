@@ -167,48 +167,62 @@
                                 </div>
                             </div>
                         {{else}}
-                            {{#if (or
-                                manager.metadataRecord.title
-                                manager.metadataRecord.description
-                                manager.metadataRecord.resourceTypeGeneral
-                                manager.languageFromCode
-                            )}}
-                                <dl>
-                                    {{#if manager.metadataRecord.title}}
-                                        <dt>{{t 'file_detail.title'}}</dt>
-                                        <dd data-test-file-title>{{manager.metadataRecord.title}}</dd>
-                                    {{/if}}
-                                    {{#if manager.metadataRecord.description}}
-                                        <dt>{{t 'file_detail.description'}}</dt>
-                                        <dd data-test-file-description>
-                                            <ExpandablePreview data-test-display-file-description>
-                                                {{manager.metadataRecord.description}}
-                                            </ExpandablePreview>
-                                        </dd>
-                                    {{/if}}
-                                    {{#if manager.metadataRecord.resourceTypeGeneral}}
-                                        <dt>
-                                            {{t 'file_detail.resource_type_general'}}
-                                            <Button
-                                                aria-label={{t 'file_detail.resource_type_general_help'}}
-                                                @layout='fake-link'
-                                                {{on 'click' (action (mut this.resourceHelpOpen) true)}}
-                                            >
-                                                <FaIcon @icon='question-circle' />
-                                            </Button>
-                                            <GuidFile::-Components::ResourceHelpDialog
-                                                @isOpen={{this.resourceHelpOpen}}
-                                                @userCanEdit={{manager.userCanEdit}}
-                                                @parentNodeType={{manager.target.nodeTypeTranslation}}
-                                            />
-                                        </dt>
-                                        <dd data-test-file-resource-type>{{manager.metadataRecord.resourceTypeGeneral}}</dd>
-                                    {{/if}}
-                                    {{#if manager.languageFromCode}}
-                                        <dt>{{t 'file_detail.language'}}</dt>
-                                        <dd data-test-file-language>{{manager.languageFromCode}}</dd>
-                                    {{/if}}
-                                </dl>
+                            {{#if manager.inEditMode}}
+                                <label>
+                                    {{t 'file_detail.schema'}}
+                                    <select>
+                                        <option value='OSF-MAP'>{{t 'file_detail.osf_map'}}</option>
+                                    </select>
+                                </label>
+                                <FormControls @changeset={{manager.changeset}} as |form|>
+                                    <form.textarea
+                                        data-test-title-field
+                                        @valuePath='title'
+                                        @label={{t 'file_detail.title'}}
+                                    />
+                                    <form.textarea
+                                        data-test-description-field
+                                        @valuePath='description'
+                                        @label={{t 'file_detail.description'}}
+                                    />
+                                    <form.select
+                                        data-test-select-resource-type
+                                        @options={{manager.resourceTypeGeneralOptions}}
+                                        @label={{t 'file_detail.resource_type_general'}}
+                                        @valuePath='resourceTypeGeneral'
+                                        as |option|
+                                    >
+                                        {{option}}
+                                    </form.select>
+                                    <form.select
+                                        data-test-select-resource-language
+                                        @options={{manager.languageCodes}}
+                                        @label={{t 'file_detail.language'}}
+                                        @onchange={{manager.changeLanguage}}
+                                        @valuePath='languageObject'
+                                        as |option|
+                                    >
+                                        {{option.name}}
+                                    </form.select>
+                                </FormControls>
+                                <Button
+                                    data-test-cancel-editing-metadata-button
+                                    aria-label={{t 'general.cancel'}}
+                                    data-analytics-name='Cancel editing metadata'
+                                    @layout='fake-link'
+                                    {{on 'click' manager.cancel}}
+                                >
+                                    {{t 'general.cancel'}}
+                                </Button>
+                                <Button
+                                    data-test-save-metadata-button
+                                    aria-label={{t 'general.save'}}
+                                    data-analytics-name='Save metadata'
+                                    @layout='fake-link'
+                                    {{on 'click' manager.save}}
+                                >
+                                    {{t 'general.save'}}
+                                </Button>
                             {{else}}
                                 {{#if manager.userCanEdit}}
                                     {{t 'file_detail.enter_metadata'}}
