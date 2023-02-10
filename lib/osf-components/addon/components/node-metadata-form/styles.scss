@@ -1,5 +1,6 @@
 .container {
     background-color: $color-bg-white;
+    display: inline-flex;
     flex-direction: column;
 
     svg {
@@ -36,18 +37,11 @@
         font-size: 30px;
         color: $color-text-gray-blue;
     }
+}
 
-    div {
-        .metadata-header {
-            margin: 14px 0;
-        }
-    }
-
-    .metadata-header {
-        align-items: flex-end;
-        display: flex;
-        font-weight: 700;
-    }
+.ember-basic-dropdown-trigger,
+.ember-power-select-trigger {
+    width: 600px;
 }
 
 .edit-metadata-description {
@@ -84,16 +78,21 @@
     }
 }
 
+.resource-language-cancel-save-buttons {
+    display: flex;
+    flex-direction: column;
+
+    button {
+        width: 100%;
+    }
+}
+
 .resource-type-and-language {
     flex-direction: column;
 
     div {
         width: 250px;
     }
-}
-
-.placeholder {
-    color: #555;
 }
 
 .resource-select {
@@ -103,6 +102,10 @@
 }
 
 .subjects {
+    // div {
+    //     display: block;
+    // }
+
     dl {
         width: 100%;
     }
@@ -143,11 +146,6 @@
     div {
         display: block;
         width: 250px;
-    }
-
-    :global(.ember-basic-dropdown-trigger),
-    :global(.ember-power-select-trigger) {
-        width: 600px;
     }
 }
 
