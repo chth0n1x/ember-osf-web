@@ -29,6 +29,7 @@
     position: relative;
     background: url('images/default-brand/bg-dark.jpg');
     background-size: cover;
+    display: block;
     align-items: center;
 
 
@@ -39,10 +40,6 @@
         margin-top: 0;
         margin-bottom: 0;
         padding: 20px;
-    }
-    
-    .NavButton {
-        width: 100%;
     }
 }
 
