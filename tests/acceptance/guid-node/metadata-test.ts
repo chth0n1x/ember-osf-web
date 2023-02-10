@@ -5,11 +5,19 @@ import { selectChoose } from 'ember-power-select/test-support';
 import { module, test } from 'qunit';
 
 import { click, currentURL, setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
+import { languageCodes } from 'ember-osf-web/utils/languages';
 import { TestContext } from 'ember-test-helpers';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import fillIn from '@ember/test-helpers/dom/fill-in';
 
-import { languageFromLanguageCode } from 'osf-components/components/file-metadata-manager/component';
+
+function languageFromCode(languageCode: string){
+    const language = languageCodes.find(item => item.code === languageCode);
+    if(language){
+        return language.name;
+    }
+    return '';
+}
 
 module('Acceptance | guid-node/metadata', hooks => {
     setupOSFApplicationTest(hooks);
@@ -28,7 +36,7 @@ module('Acceptance | guid-node/metadata', hooks => {
         assert.equal(currentURL(), url, `We are on ${url}`);
         assert.equal(currentRouteName(), 'guid-node.metadata', 'We are at guid-node.metadata');
         assert.dom('[data-test-display-resource-language]')
-            .containsText(languageFromLanguageCode(metadataRecord.language), 'Language is correct');
+            .containsText(languageFromCode(metadataRecord.language), 'Language is correct');
         assert.dom('[data-test-display-resource-type-general]')
             .containsText(metadataRecord.resourceTypeGeneral, 'Resource type is correct');
         assert.dom('[data-test-display-node-description]')
@@ -69,7 +77,7 @@ module('Acceptance | guid-node/metadata', hooks => {
         assert.equal(currentURL(), url, `We are on ${url}`);
         assert.equal(currentRouteName(), 'guid-node.metadata', 'We are at guid-node.metadata');
         assert.dom('[data-test-display-resource-language]')
-            .containsText(languageFromLanguageCode(metadataRecord.language), 'Language is correct');
+            .containsText(languageFromCode(metadataRecord.language), 'Language is correct');
         assert.dom('[data-test-display-resource-type-general]')
             .containsText(metadataRecord.resourceTypeGeneral, 'Resource type is correct');
         assert.dom('[data-test-display-node-description]')
@@ -106,7 +114,7 @@ module('Acceptance | guid-node/metadata', hooks => {
         assert.equal(currentURL(), url, `We are on ${url}`);
         assert.equal(currentRouteName(), 'guid-node.metadata', 'We are at guid-node.metadata');
         assert.dom('[data-test-display-resource-language]')
-            .containsText(languageFromLanguageCode(metadataRecord.language), 'Language is correct');
+            .containsText(languageFromCode(metadataRecord.language), 'Language is correct');
         assert.dom('[data-test-display-resource-type-general]')
             .containsText(metadataRecord.resourceTypeGeneral, 'Resource type is correct');
         assert.dom('[data-test-display-node-description]')
@@ -144,7 +152,7 @@ module('Acceptance | guid-node/metadata', hooks => {
         await selectChoose('[data-test-select-resource-language]', 'Esperanto');
         await click('[data-test-cancel-editing-resource-metadata-button]');
         assert.dom('[data-test-display-resource-language]')
-            .containsText(languageFromLanguageCode(metadataLanguageOriginal), 'Language is unchanged');
+            .containsText(languageFromCode(metadataLanguageOriginal), 'Language is unchanged');
         assert.dom('[data-test-display-resource-type-general]')
             .containsText(metadataResourceTypeOriginal, 'Resource type is unchanged');
         await click('[data-test-edit-resource-metadata-button]');
@@ -187,7 +195,7 @@ module('Acceptance | guid-node/metadata', hooks => {
         const url = `/${node.id}/metadata`;
         server.namespace = '/v2';
         server.patch('/custom_item_metadata_records/:id', () => ({
-            errors: [{ detail: 'Could not patch metadata', source: { pointer: 'points to nowhere' } }],
+            errors: [{ detail: 'Could not patch metadata' }],
         }), 400);
         await visit(url);
 
