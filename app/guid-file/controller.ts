@@ -17,7 +17,6 @@ export default class GuidFile extends Controller {
     @tracked revisionsOpened = false;
     @tracked tagsOpened = false;
     @tracked metadataOpened = !this.isMobile;
-    @tracked resourceHelpOpen = false;
 
     @tracked viewedVersion?: number;
 
