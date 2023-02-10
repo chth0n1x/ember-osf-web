@@ -5,14 +5,14 @@ import CustomItemMetadataRecord from 'ember-osf-web/models/custom-item-metadata-
 
 
 export default Factory.extend<CustomItemMetadataRecord>({
-    resourceTypeGeneral: 'Collection',
-    language: 'eng',
+    resource_type_general: 'collection',
+    language: 'en-US',
     funders: [
         {
             funder_name: faker.lorem.words(3),
             funder_identifier: faker.lorem.word,
             funder_identifier_type: 'Crossref',
-            award_number: '12345',
+            award_numer: '12345',
             award_uri: faker.internet.url,
             award_title: faker.lorem.sentence,
         },
@@ -20,7 +20,7 @@ export default Factory.extend<CustomItemMetadataRecord>({
             funder_name: faker.lorem.words(3),
             funder_identifier: faker.lorem.word,
             funder_identifier_type: 'Crossref',
-            award_number: '67890',
+            award_numer: '67890',
             award_uri: faker.internet.url,
             award_title: faker.lorem.sentence,
         },

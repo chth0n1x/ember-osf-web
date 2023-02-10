@@ -353,6 +353,9 @@ export default function(this: Server) {
     osfResource(this, 'custom-file-metadata-record', { only: ['show', 'update'] });
     osfResource(this, 'custom-item-metadata-record', { only: ['show', 'update'] });
 
+    osfResource(this, 'custom-file-metadata-record', { only: ['show', 'update'] });
+    osfResource(this, 'custom-item-metadata-record', { only: ['show', 'update'] });
+
     osfResource(this, 'resource', { except: ['index', 'update', 'create'] });
     this.patch('/resources/:id', updateResource);
     this.post('/resources/', createResource);
