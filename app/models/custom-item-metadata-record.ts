@@ -3,15 +3,16 @@ import CustomMetadataModel from 'ember-osf-web/models/custom-metadata';
 
 
 export interface Funder {
-    funder_name?: string;
-    funder_identifier?: string;
-    funder_identifier_type?: string;
-    award_number?: string;
-    award_uri?: string;
-    award_title?: string;
+    funderName?: string;
+    funderIdentifier?: string;
+    funderIdentifierType?: string;
+    awardNumber?: string;
+    awardUri?: string;
+    awardTitle?: string;
 }
 
 export default class CustomItemMetadataRecordModel extends CustomMetadataModel {
+    @attr('fixstring') resource_type_general?: string;
     @attr('fixstring') language?: string;
     @attr('array') funders?: Funder[];
 }
