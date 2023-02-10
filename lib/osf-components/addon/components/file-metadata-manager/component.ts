@@ -11,21 +11,13 @@ import { BufferedChangeset } from 'ember-changeset/types';
 import { restartableTask, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 
+import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import CustomFileMetadataRecordModel from 'ember-osf-web/models/custom-file-metadata-record';
 import CustomItemMetadataRecordModel from 'ember-osf-web/models/custom-item-metadata-record';
-import { resourceTypeGeneralOptions } from 'ember-osf-web/models/custom-metadata';
 import FileModel from 'ember-osf-web/models/file';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
-import { tracked } from '@glimmer/tracking';
-import NodeModel from 'ember-osf-web/models/node';
-import RegistrationModel from 'ember-osf-web/models/registration';
-import LicenseModel from 'ember-osf-web/models/license';
-import InstitutionModel from 'ember-osf-web/models/institution';
-import CurrentUser from 'ember-osf-web/services/current-user';
-import { LanguageCode, languageCodes } from 'ember-osf-web/utils/languages';
-import { addQueryParam } from 'ember-osf-web/utils/url-parts';
 
 interface Args {
     file: FileModel;
@@ -38,138 +30,74 @@ export interface FileMetadataManager {
     metadata: CustomFileMetadataRecordModel;
     targetMetadata: CustomItemMetadataRecordModel;
     file: FileModel;
-    target: (NodeModel | RegistrationModel);
-    targetInstitutions: InstitutionModel[];
-    targetLicense: LicenseModel;
+    target: (AbstractNodeModel);
     changeset: BufferedChangeset;
     inEditMode: boolean;
     isSaving: boolean;
     userCanEdit: boolean;
     isDirty: boolean;
     isGatheringData: boolean;
-    metadataDownloadUrl: string;
-}
-
-export function languageFromLanguageCode(languageCode: string){
-    const language = languageCodes.find(item => item.code === languageCode);
-    if(language){
-        return language.name;
-    }
-    return '';
-}
-
-export function metadataDownloadUrlBuilder(guid: string, currentUser: CurrentUser){
-    let url = `/${guid}/metadata/`;
-    const { viewOnlyToken } = currentUser;
-    url = addQueryParam(url, 'format', 'datacite-json');
-    if (viewOnlyToken) {
-        url = addQueryParam(url, 'view_only', viewOnlyToken);
-    }
-    return url;
 }
 
 export default class FileMetadataManagerComponent extends Component<Args> {
     @service store!: Store;
     @service intl!: Intl;
     @service toast!: Toast;
-    @service currentUser!: CurrentUser;
 
-    @tracked metadataRecord!: CustomFileMetadataRecordModel;
-    @tracked targetMetadata!: CustomItemMetadataRecordModel;
+    metadata!: CustomFileMetadataRecordModel;
+    targetMetadata!: CustomItemMetadataRecordModel;
     file: FileModel = this.args.file;
-    @tracked target!: (NodeModel | RegistrationModel);
-    @tracked targetParent!: (NodeModel | RegistrationModel);
-    @tracked targetInstitutions!: InstitutionModel[];
-    @tracked targetLicense!: LicenseModel;
-    @tracked changeset!: BufferedChangeset;
-    @tracked inEditMode = false;
-    @tracked userCanEdit!: boolean;
-    resourceTypeGeneralOptions: string[] = resourceTypeGeneralOptions;
-    languageCodes: LanguageCode[] = languageCodes;
-    saveErrored = false;
+    target!: (AbstractNodeModel);
+    changeset!: BufferedChangeset;
+    inEditMode = false;
+    userCanEdit!: boolean;
     @or(
         'getGuidMetadata.isRunning',
-        'getTarget.isRunning',
+        'getFile.isRunning',
+        'getTargetMetadata.isRunning',
     )
     isGatheringData!: boolean;
     @alias('changeset.isDirty') isDirty!: boolean;
     @alias('save.isRunning') isSaving!: boolean;
-    @alias('file.apiMeta.anonymous') isAnonymous!: boolean;
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
         assert(
-            'You will need pass in a FileModel object to the FileMetadataManager component to get metadata',
-            Boolean(args.file instanceof FileModel),
+            'You will need pass in a file object to the FileMetadataManager component to get metadata',
+            Boolean(args.file),
         );
         try {
             taskFor(this.getGuidMetadata).perform();
-            taskFor(this.getTarget).perform();
+            this.target = this.file.target as AbstractNodeModel;
+            this.userCanEdit = this.target.currentUserPermissions.includes(Permission.Write);
+            taskFor(this.getTargetMetadata).perform();
+            this.changeset = buildChangeset(this.metadata, null);
         } catch (e) {
             const errorTitle = this.intl.t('osf-components.file-metadata-manager.error-getting-metadata');
             this.toast.error(getApiErrorMessage(e), errorTitle);
         }
     }
 
-    get languageFromCode(){
-        const languageCode = this.metadataRecord?.language || '';
-        return languageFromLanguageCode(languageCode);
-    }
-
-    get targetLanguageFromCode(){
-        const languageCode = this.targetMetadata?.language || '';
-        return languageFromLanguageCode(languageCode);
-    }
-
-    get metadataDownloadUrl() {
-        return metadataDownloadUrlBuilder(this.file.guid, this.currentUser);
-    }
-
-    @task
-    @waitFor
-    async getTarget() {
-        this.target = await this.file.target as NodeModel;
-        this.targetParent = await this.target.get('parent');
-        this.targetLicense = await this.target.license;
-        this.targetInstitutions = await this.target.queryHasMany(
-            'affiliatedInstitutions', {
-                pageSize: 100,
-            },
-        );
-        this.userCanEdit = this.target.currentUserPermissions.includes(Permission.Write);
-        await taskFor(this.getTargetMetadata).perform();
-    }
-
     @task
     @waitFor
     async getGuidMetadata() {
-        const guidRecord = await this.store.findRecord('guid', this.file.guid, {
-            include: 'custom_metadata',
-            resolve: false,
-        });
-        this.metadataRecord = await guidRecord.customMetadata as CustomFileMetadataRecordModel;
-        this.changeset = buildChangeset(this.metadataRecord, null);
-        this.changeset.languageObject = {
-            code: this.metadataRecord.language,
-            name: this.languageFromCode,
-        };
-        this.changeset.execute();
+        if (this.file) {
+            const guidRecord = await this.store.findRecord('guid', this.file.guid, {
+                include: 'metadata',
+                resolve: false,
+            });
+            this.metadata = guidRecord.customMetadata as CustomFileMetadataRecordModel;
+        }
     }
 
     @task
     @waitFor
     async getTargetMetadata() {
         const guidRecord = await this.store.findRecord('guid', this.target.id, {
-            include: 'custom_metadata',
+            include: 'metadata',
             resolve: false,
         });
-        this.targetMetadata = await guidRecord.customMetadata as CustomItemMetadataRecordModel;
-    }
-
-    @action
-    changeLanguage(selected: LanguageCode) {
-        const language = selected ? selected.code : '';
-        this.changeset.set('language', language);
+        this.targetMetadata = guidRecord.customMetadata as CustomItemMetadataRecordModel;
     }
 
     @action
@@ -177,19 +105,9 @@ export default class FileMetadataManagerComponent extends Component<Args> {
         this.inEditMode = true;
     }
 
-    @task
-    @waitFor
-    async cancel(){
-        if (this.saveErrored){
-            await this.metadataRecord.reload();
-            this.saveErrored = false;
-        }
+    @action
+    cancel(){
         this.changeset.rollback();
-        this.changeset.languageObject = {
-            code: this.metadataRecord.language,
-            name: this.languageFromCode,
-        };
-        this.changeset.execute();
         this.inEditMode = false;
     }
 
@@ -197,25 +115,11 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     @waitFor
     async save(){
         try {
-            await this.changeset.save();
+            this.changeset.save();
             this.inEditMode = false;
-            this.saveErrored = false;
         } catch (e) {
-            this.saveErrored = true;
             const errorTitle = this.intl.t('osf-components.file-metadata-manager.error-saving-metadata');
             this.toast.error(getApiErrorMessage(e), errorTitle);
         }
-    }
-
-    get nodeWord() {
-        if(this.target) {
-            if (this.target.isRegistration) {
-                return 'registration';
-            }
-            if (this.targetParent) {
-                return 'component';
-            }
-        }
-        return 'project';
     }
 }
