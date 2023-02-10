@@ -1,7 +1,7 @@
 import Store from '@ember-data/store';
 import { assert } from '@ember/debug';
 import { action, notifyPropertyChange } from '@ember/object';
-import { alias, or } from '@ember/object/computed';
+import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
@@ -78,13 +78,10 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
     @tracked changeset!: BufferedChangeset;
     @tracked inEditMode = false;
     @tracked userCanEdit!: boolean;
-    @or( 'getGuidMetadata.isRunning', 'cancel.isRunning') isGatheringData!: boolean;
+    @alias( 'getGuidMetadata.isRunning') isGatheringData!: boolean;
     @alias('changeset.isDirty') isDirty!: boolean;
     @alias('save.isRunning') isSaving!: boolean;
     @tracked guidType!: string | undefined;
-    resourceTypeGeneralOptions: string[] = resourceTypeGeneralOptions;
-    languageCodes: LanguageCode[] = languageCodes;
-    saveErrored = false;
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
@@ -110,7 +107,7 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
                 resolve: false,
             });
             this.guidType = guidRecord.referentType;
-            this.metadata = await guidRecord.customMetadata as CustomItemMetadataRecordModel;
+            this.metadata = guidRecord.customMetadata as CustomItemMetadataRecordModel;
             notifyPropertyChange(this, 'metadata');
             this.changeset = buildChangeset(this.metadata, null);
         }
@@ -156,7 +153,7 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
     @waitFor
     async save(){
         try {
-            await this.changeset.save();
+            this.changeset.execute();
             this.inEditMode = false;
         } catch (e) {
             this.saveErrored = true;
