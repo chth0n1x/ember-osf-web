@@ -2,6 +2,7 @@ import {
     currentURL,
     visit,
 } from '@ember/test-helpers';
+
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -13,13 +14,16 @@ import { TestContext } from 'ember-test-helpers';
 
 import { module, test } from 'qunit';
 
+import FileModel from 'ember-osf-web/models/file';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 import RegistrationModel from 'ember-osf-web/models/registration';
+import User from 'ember-osf-web/models/user';
 
 interface ThisTestContext extends TestContext {
     registration: ModelInstance<RegistrationModel>;
     file: ModelInstance<FileModel>;
+    currentUser: ModelInstance<User>;
 }
 
 module('Acceptance | guid file | registration files', hooks => {
@@ -27,8 +31,15 @@ module('Acceptance | guid file | registration files', hooks => {
     setupMirage(hooks);
 
     hooks.beforeEach(function(this: ThisTestContext) {
-        this.registration = server.create('registration');
-        this.file = server.create('file', { target: this.registration, name: 'Test File' });
+        this.registration = server.create('registration', {
+            currentUserPermissions: [Permission.Write],
+            isAnonymous: false,
+        }, 'withContributors', 'withAffiliatedInstitutions');
+
+        this.file = server.create('file', {
+            target: this.registration,
+            name: 'Test File',
+        });
     });
 
     test('Desktop view', async function(this: ThisTestContext, assert) {
@@ -46,7 +57,7 @@ module('Acceptance | guid file | registration files', hooks => {
         await percySnapshot(assert);
     });
 
-    test('mobile view', async function(this: ThisTestContext, assert) {
+    test('Mobile view', async function(this: ThisTestContext, assert) {
         setBreakpoint('mobile');
         await visit(`/--file/${this.file.id}`);
         assert.equal(currentURL(), `/--file/${this.file.guid}`);
@@ -66,24 +77,24 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-revisions-tab]').doesNotExist();
         assert.dom('[data-test-tags-tab]').doesNotExist();
 
-        // click tags and verify appropriate panels shown
+        // click versions and verify appropriate panels shown
         await click('[data-test-versions-button]');
         assert.dom('[data-test-revisions-tab]').exists('Revisions shown');
-        assert.dom('[data-test-file-renderer]').isNotVisible('File renderer is hidden');
+        assert.dom('[data-test-file-renderer]').doesNotExist('File renderer is hidden');
         await percySnapshot('Acceptance | guid file | registration files | mobile view | revisions');
 
         await click('[data-test-file-renderer-button]');
         assert.dom('[data-test-file-renderer]').exists('File renderer is shown again');
-        assert.dom('[data-test-revisions-tab]').isNotVisible('Revisions now hidden');
+        assert.dom('[data-test-revisions-tab]').doesNotExist('Revisions now hidden');
 
         await click('[data-test-metadata-button]');
         assert.dom('[data-test-metadata-tab]').exists('Metadata tab now visible');
-        assert.dom('[data-test-revisions-tab]').isNotVisible('Revisions now hidden');
-        assert.dom('[data-test-file-renderer]').isNotVisible('File renderer now hidden');
-        assert.dom('[data-test-tags-tab]').isNotVisible('Tags now hidden');
+        assert.dom('[data-test-revisions-tab]').doesNotExist('Revisions now hidden');
+        assert.dom('[data-test-file-renderer]').doesNotExist('File renderer now hidden');
+        assert.dom('[data-test-tags-tab]').doesNotExist('Tags now hidden');
     });
 
-    test('view revisions', async function(this: ThisTestContext, assert) {
+    test('View revisions', async function(this: ThisTestContext, assert) {
         await visit(`/--file/${this.file.id}`);
         assert.equal(currentURL(), `/--file/${this.file.guid}`);
 
@@ -111,16 +122,14 @@ module('Acceptance | guid file | registration files', hooks => {
             .hasAria('label', t('file_detail.view_revisions'), 'Versions button has correct label when closed');
     });
 
-    // Test file metadata
-    test('view metadata', async function(this: ThisTestContext, assert) {
-        const nodeNoun = ['Registration','Project','Component'];
+    test('View metadata', async function(this: ThisTestContext, assert) {
         const metadataRecord = await this.owner.lookup('service:store')
             .findRecord('custom-item-metadata-record', this.registration.id);
 
         await visit(`/--file/${this.file.id}`);
         assert.equal(currentURL(), `/--file/${this.file.guid}`);
 
-        // Verify correct tab on dekstop
+        // Verify default desktop tab
         assert.dom('[data-test-metadata-tab]').exists();
         assert.dom('[data-test-revisions-tab]').doesNotExist();
         assert.dom('[data-test-tags-tab]').doesNotExist();
@@ -131,7 +140,7 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-metadata-button] > svg').hasClass('fa-info-circle',
             'Button should have info circle Font Awesome 5 icon present.');
 
-        // File Metadata
+        // File metadata
         assert.dom('[data-test-metadata-header]').hasText('File Metadata',
             'File metadata header is properly set.');
         // Title
@@ -150,23 +159,16 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-file-language-label]').hasText('Resource language',
             'File metadata resource language text is properly set.');
         assert.dom('[data-test-file-language]').exists();
-
-        // Node metadata
-        const nodeNounElement = document.querySelectorAll('[data-test-metadata-node]')[0].textContent;
-        const nounFound = nodeNoun.some(r => nodeNounElement?.includes(r));
-        assert.equal(nounFound, true, 'Node noun properly set.');
-        if (!this.registration.isAnonymous && (this.registration.contributors.length !== 0)) {
-            // Target contributors
-            assert.dom('[data-test-target-contributors-label]').hasText('Contributors',
-                'File metadata contributor text is properly set.');
-            assert.dom('[data-test-target-contributors]').exists();
-            // Target Institutions
-            assert.dom('[data-test-target-institutions-label]').hasText('Affiliated institutions',
-                'File affiliated institutions text is properly set.');
-            assert.dom('[data-test-target-institutions]').exists();
-        }
+        // Contributor metadata
+        assert.dom('[data-test-target-contributors-label]').hasText('Contributors',
+            'File metadata contributor text is properly set.');
+        assert.dom('[data-test-target-contributors]').exists();
+        // Target institutions
+        assert.dom('[data-test-target-institutions-label]').hasText('Affiliated institutions',
+            'File affiliated institutions text is properly set.');
+        assert.dom('[data-test-target-institutions]').exists();
         // Funder metadata
-        if (!this.registration.isAnonymous && metadataRecord.funder) {
+        if (metadataRecord.funder) {
             assert.dom('[data-test-target-funder-div]').exists();
             for (const funder of metadataRecord.funders) {
                 // Funder name
@@ -203,60 +205,64 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-target-description-label]').hasText('Description',
             'File metadata target description text is properly set.');
         assert.dom('[data-test-target-description]').exists();
+    });
 
+    // Node type
+    test('Node type', async function(this: ThisTestContext, assert) {
+        await visit(`/--file/${this.file.id}`);
+        assert.equal(currentURL(), `/--file/${this.file.guid}`);
+
+        assert.dom('[data-test-metadata-node]').hasText('Registration Metadata',
+            'Node noun for registration properly set.');
     });
 
     // Save and cancel buttons with write permissions
-    test('save and cancel', async function(this: ThisTestContext, assert) {
+    test('Save and cancel', async function(this: ThisTestContext, assert) {
         await visit(`/--file/${this.file.id}`);
         assert.equal(currentURL(), `/--file/${this.file.guid}`);
 
         // Verify download
-        if (!this.registration.isAnonymous) {
-            assert.dom('[data-test-download-button]').exists();
-        }
+        assert.dom('[data-test-download-button]').exists();
 
-        // Verify edit
-        if (this.file.target.currentUserPermissions.includes(Permission.Write)) {
-            await click('[data-test-edit-metadata-button]');
-            assert.dom('[data-test-title-field]').exists();
-            assert.dom('[data-test-description-field]').exists();
-            assert.dom('[data-test-select-resource-type]').exists();
-            assert.dom('[data-test-select-resource-language]').exists();
-            assert.dom('[data-test-cancel-editing-metadata-button]').exists();
-            assert.dom('[data-test-save-metadata-button]').exists();
-            await click('[data-test-cancel-editing-metadata-button]');
-            assert.dom('[data-test-edit-metadata-form]').doesNotExist();
-            await click('[data-test-edit-metadata-button]');
+        // Verify edit form
+        await click('[data-test-edit-metadata-button]');
+        assert.dom('[data-test-title-field]').exists();
+        assert.dom('[data-test-description-field]').exists();
+        assert.dom('[data-test-select-resource-type]').exists();
+        assert.dom('[data-test-select-resource-language]').exists();
+        assert.dom('[data-test-cancel-editing-metadata-button]').exists();
+        assert.dom('[data-test-save-metadata-button]').exists();
+        await click('[data-test-cancel-editing-metadata-button]');
+        assert.dom('[data-test-edit-metadata-form]').doesNotExist();
+        await click('[data-test-edit-metadata-button]');
 
-            // Screenshot before changes
-            await percySnapshot(assert);
-            // Update Title
-            const editTitleTextArea = document.querySelectorAll('textarea')[0];
-            editTitleTextArea.textContent = 'A test title.';
-            assert.dom('[data-test-title-field]')
-                .containsText('A test title.', 'Metadata title field updates.');
-            // Update Description
-            const editDescriptionTextArea = document.querySelectorAll('textarea')[1];
-            editDescriptionTextArea.textContent = 'A test description.';
-            assert.dom('[data-test-title-field]')
-                .containsText('A test description.', 'Metadata description field updates.');
-            // Update Resource Type
-            await selectChoose('[data-test-select-resource-type]', 'InteractiveResource');
-            // Update Resource Language
-            await selectChoose('[data-test-select-resource-language]', 'InteractiveResource');
-            // Screenshot after changes
-            await percySnapshot(assert);
-            // Save changes
-            await click('[data-test-save-metadata-button]');
-        }
+        // Screenshot before changes
+        await percySnapshot(assert);
+        // Update title
+        const editTitleTextArea = document.querySelectorAll('textarea')[0];
+        editTitleTextArea.textContent = 'A test title.';
+        assert.dom('[data-test-title-field]')
+            .containsText('A test title.', 'Metadata title field updates.');
+        // Update description
+        const editDescriptionTextArea = document.querySelectorAll('textarea')[1];
+        editDescriptionTextArea.textContent = 'A test description.';
+        assert.dom('[data-test-description-field]')
+            .containsText('A test description.', 'Metadata description field updates.');
+        // Update resource type
+        await selectChoose('[data-test-select-resource-type]', 'InteractiveResource');
+        // Update resource language
+        await selectChoose('[data-test-select-resource-language]', 'English');
+        // Screenshot after changes
+        await percySnapshot(assert);
+        // Save changes
+        await click('[data-test-save-metadata-button]');
         // Verify form closes
         assert.dom('[data-test-edit-metadata-form]').doesNotExist();
         assert.dom('[data-test-metadata-tab]').exists();
     });
 
     // Verify A11y testing
-    test('a11y testing', async function(this: ThisTestContext, assert) {
+    test('A11y testing', async function(this: ThisTestContext, assert) {
         await visit(`/--file/${this.file.id}`);
         assert.equal(currentURL(), `/--file/${this.file.guid}`);
         await a11yAudit();
