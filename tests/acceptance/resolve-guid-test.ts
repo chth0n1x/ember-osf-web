@@ -63,7 +63,6 @@ module('Acceptance | resolve-guid', hooks => {
         });
     });
 
-
     module('Node', mhooks => {
         mhooks.beforeEach(async () => {
             const analyticsEngine = await loadEngine('analytics-page', 'guid-node.analytics');
