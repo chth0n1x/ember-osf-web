@@ -41,9 +41,7 @@
             color: $secondary-blue;
             outline: 0;
         }
-
     }
-
 }
 
 .ForkButton {
@@ -59,10 +57,7 @@
         color: $secondary-blue;
         outline: 0;
     }
-
 }
-
-
 
 .Icon {
     font-size: 16px;
@@ -77,3 +72,93 @@
     align-items: baseline;
 }
 
+.search-help-tutorial {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 400px;
+    height: 158px;
+    top: 10rem;
+    left: 23.5rem;
+    padding: 0.2rem;
+    background-color: #204762; /* TODO var(--color-blue); */
+    color: #fff; /* TODO var(--white); */
+    line-height: 1.4;
+    z-index: 10;
+}
+
+.search-help-tutorial > h2 {
+    height: fit-content;
+    padding: 0;
+    margin: 0.8rem;
+}
+
+.search-help-tutorial > p { // condense
+    height: fit-content;
+    padding: 0;
+    margin-left: 0.8rem;
+}
+
+.pagination {
+    align-items: center;
+}
+
+.enummeration > p {
+    color: #fff;
+    margin-left: 0.5rem;
+    margin-bottom: 0;
+}
+
+.help-buttons {
+    color: #fff;
+    align-self: end;
+    margin-bottom: 0.2rem;
+    margin-right: 0.3rem;
+    border-radius: 2px;
+}
+
+.help-buttons > button {
+    height: 30px;
+    width: 60px;
+}
+
+.next-button {
+    background-color: #5bc0de;
+    border-color: #5bc0de;
+}
+
+.skip-button {
+    background-color: #204762;
+    border-color: none;
+    margin-right: 0.5rem;
+}
+
+.search-help-tutorial > h2,
+.search-help-tutorial > p,
+.search-help-tutorial > button {
+    color: #fff;
+}
+
+.visible {
+    display: flex;
+}
+
+.pagination {
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.pagination > p {
+    color: #fff;
+}
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: flex;
+}

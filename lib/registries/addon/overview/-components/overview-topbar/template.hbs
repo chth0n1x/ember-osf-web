@@ -5,7 +5,6 @@
             @isModeratorMode={{@isModeratorMode}}
         />
     </div>
-
     <Registries::UpdateDropdown
         @registration={{@registration}}
         @selectedRevisionId={{@selectedRevisionId}}
@@ -61,7 +60,6 @@
                 </div>
             </dd.content>
         </ResponsiveDropdown>
-
         <BsButton
             data-test-bookmarks-button
             data-analytics-name={{if this.isBookmarked 'Remove from bookmarks' 'Bookmark'}}
@@ -92,7 +90,6 @@
                 {{/if}}
             </BsTooltip>
         </BsButton>
-
         <SharingIcons::Dropdown
             @title={{@registration.title}}
             @description={{@registration.description}}
@@ -121,3 +118,20 @@
         </SharingIcons::Dropdown>
     </div>
 {{/if}}
+<div local-class='search-help-tutorial' data-test-search-help>
+    <h2>
+        {{t 'search_help.header'}}
+    </h2>
+    <p>{{t 'search_help.body'}}</p>
+    <div local-class='pagination'>
+        <span local-class='enummeration'>
+            <p class='visible' data-test-help-1>{{t 'search_help.panel_1'}}</p>
+            <p class='hidden' data-test-help-2>{{t 'search_help.panel_2'}}</p>
+            <p class='hidden' data-test-help-3>{{t 'search_help.panel_3'}}</p>
+        </span>
+        <span local-class='help-buttons'>
+            <button type='reset' local-class='skip-button' {{on 'click' this.dismissHelp}}>{{t 'search_help.footer.skip'}}</button>
+            <button type='submit' local-class='next-button' {{on 'click' this.updateHelp}}>{{t 'search_help.footer.next'}}</button>
+        </span>
+    </div>
+</div>

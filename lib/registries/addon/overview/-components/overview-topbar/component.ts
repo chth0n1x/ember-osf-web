@@ -1,7 +1,7 @@
 import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { dropTask, task } from 'ember-concurrency';
@@ -118,5 +118,33 @@ export default class OverviewTopbar extends Component {
         this.toast.success(this.intl.t(`registries.overview.bookmark.${op}.success`));
 
         this.toggleProperty('isBookmarked');
+    }
+
+    placePopover() {
+        const dt = document.querySelector('[data-test-update-button]');
+        const searchHelp = document.querySelector('[data-test-search-help]') as HTMLElement;
+        const pos = dt?.getBoundingClientRect();
+        const posX = pos?.x;
+        const posY = pos?.y;
+        searchHelp.style.marginLeft = `calc(${posX} + 0.8rem)`;
+        searchHelp.style.marginTop = `calc(${posY} + 0.8rem)`;
+    }
+
+    @action
+    updateHelp() {
+        const active = document.querySelector('.visible');
+        const nextSib = active?.nextElementSibling as HTMLElement;
+        if (active && nextSib) {
+            nextSib?.classList.replace('hidden', 'visible');
+            active?.classList.replace('visible', 'hidden');
+        }
+    }
+
+    @action
+    dismissHelp() {
+        const searchHelp = document.querySelector('[data-test-search-help]') as HTMLElement;
+        if (searchHelp) {
+            searchHelp.style.display = 'none';
+        }
     }
 }
