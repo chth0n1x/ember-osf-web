@@ -120,23 +120,23 @@ export default class OverviewTopbar extends Component {
         this.toggleProperty('isBookmarked');
     }
 
-    placePopover() {
-        const dt = document.querySelector('[data-test-update-button]');
-        const searchHelp = document.querySelector('[data-test-search-help]') as HTMLElement;
-        const pos = dt?.getBoundingClientRect();
-        const posX = pos?.x;
-        const posY = pos?.y;
-        searchHelp.style.marginLeft = `calc(${posX} + 0.8rem)`;
-        searchHelp.style.marginTop = `calc(${posY} + 0.8rem)`;
-    }
-
     @action
     updateHelp() {
-        const active = document.querySelector('.visible');
-        const nextSib = active?.nextElementSibling as HTMLElement;
-        if (active && nextSib) {
-            nextSib?.classList.replace('hidden', 'visible');
-            active?.classList.replace('visible', 'hidden');
+        const active = document.querySelectorAll('.visible');
+        const thirdHelp = document.querySelector('[data-test-help-3]');
+        const submitButton = document.getElementsByName('helpNextButton')[0];
+        for (const el of active) {
+            const nextSib = el?.nextElementSibling as HTMLElement;
+            if (active && nextSib) {
+                nextSib?.classList.replace('hidden', 'visible');
+                el?.classList.replace('visible', 'hidden');
+            }
+            if (thirdHelp?.classList.contains('visible')) {
+                submitButton.textContent = 'Dismiss';
+                submitButton.addEventListener('click', () => {
+                    this.dismissHelp();
+                });
+            }
         }
     }
 
