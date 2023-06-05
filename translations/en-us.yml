@@ -2575,3 +2575,12 @@ dev_tools:
     options:
         toast_events: 'Display toast for tracked events'
         show_url_bar: 'Show URL bar -- navigate by URL without reloading'
+search_help:
+    header: 'Improved OSF Search'
+    body: 'Enter any term in the search box and filter by specific object types.'
+    panel_1: '1 of 3'
+    panel_2: '2 of 3'
+    panel_3: '3 of 3'
+    footer:
+        skip: 'Skip'
+        next: 'Next'
