@@ -86,3 +86,14 @@
     display: flex;
     justify-content: space-between;
 }
+
+@media (max-width: 825px) {
+    .heading-wrapper {
+        display: flex;
+        flex-direction: column;
+
+        span {
+            margin-bottom: 2rem;
+        }
+    }
+}
