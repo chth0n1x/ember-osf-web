@@ -101,6 +101,8 @@ general:
         preprints: Preprints
         registries: Registries
     other: Other
+    structured_data:
+        json_ld_retrieval_error: 'Error retrieving JSON-LD object for Google Structured Data.'
     tags: 'Tags'
     science: 'science'
     engineering: 'engineering'
@@ -202,14 +204,18 @@ dashboard:
         title: 'Browse the latest research'
         description: 'Check out the latest preprints hosted on OSF covering a variety of research areas.'
         button: 'View preprints'
+    products:
+        collections: 'OSF Collections'
+        registries: 'OSF Registries'
+        preprints: 'OSF Preprints'
+        institutions: 'OSF Institutions'
+
 search:
     page-title: 'Search'
     index-card:
         no-label: 'No label found'
         no-title: 'No title found'
     search-help:
-        header: 'Improved OSF Search'
-        body: 'Enter any term in the search box and filter by specific object types.'
         header-1: 'Improved OSF Search'
         header-2: 'OSF Smart Facets'
         header-3: 'Add Metadata'
@@ -225,7 +231,9 @@ search:
             done: 'Done'
     search-header: 'Search OSF'
     textbox-placeholder: 'Search placeholder'
-    search-button-label: 'Search button'
+    search-button-label: 'Search'
+    search-help-label: 'Help tutorial'
+    total-results: '{count} results'
     resource-type:
         search-by: 'Search by resource type'
         all: 'All'
@@ -252,9 +260,12 @@ search:
         see-more: 'See more'
         see-more-modal-text: 'Please select a filter to apply to your search.'
         see-more-modal-placeholder: 'Search for a filter to apply'
+    institutions:
+        institution-logo: 'Logo for '
 helpers:
     get-localized-property:
         not-provided: 'Not provided'
+
 new_project:
     header: 'Create new project'
     title_placeholder: 'Enter project title'
@@ -307,7 +318,7 @@ move_to_project:
     go_to_project: 'Go to project'
 navbar:
     add: Add
-    # add_a_preprint: 'Add a {preprintWords.preprint}'
+    add_a_preprint: 'Add a {preprintWord}'
     add_registration: 'Add New'
     moderation: 'Moderation'
     browse: Browse
@@ -315,6 +326,7 @@ navbar:
     donate: Donate
     go_home: 'Go home'
     my_projects: 'My Projects'
+    my_preprints: 'My Preprints'
     my_registrations: 'My Registrations'
     reviews: 'My Reviewing'
     search: Search
@@ -1090,6 +1102,11 @@ collections:
             accept: accepted
             reject: rejected
             remove: 'removed'
+preprints:
+    osf-title: 'OSF Preprints'
+    provider-title: '{name} {pluralizedPreprintWord}'
+    discover:
+        title: 'Search'
 registries:
     header:
         osf_registrations: 'OSF Registrations'

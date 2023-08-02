@@ -1,12 +1,15 @@
 <div local-class='recent-list-container' data-analytics-scope='Registries index' >
-    <div local-class='see-more-container'>
+    <div local-class='see-more-container {{if this.media.isMobile 'mobile'}}'>
         <div local-class='title'>
             {{t 'registries.index.recent.title'}}
         </div>
         <div local-class='see-more'>
-            <LinkTo @route='discover'>
+            <OsfLink
+                @route='search'
+                @queryParams={{hash resourceType='osf:Registrations'}}
+            >
                 {{t 'registries.index.recent.more'}}
-            </LinkTo>
+            </OsfLink>
         </div>
     </div>
 
