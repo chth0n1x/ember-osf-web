@@ -1,31 +1,30 @@
-import { tagName } from '@ember-decorators/component';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 
-import { layout } from 'ember-osf-web/decorators/component';
 import NodeModel from 'ember-osf-web/models/node';
 import { HierarchicalListManager } from 'osf-components/components/registries/hierarchical-list';
 
-import styles from './styles';
-import template from './template';
+export interface Args {
+    manager: HierarchicalListManager;
+}
 
-@layout(template, styles)
-@tagName('')
-export default class PartialRegistrationModal extends Component {
-    // Required
-    manager!: HierarchicalListManager;
+export default class PartialRegistrationModal extends Component<Args> {
+    constructor(owner: unknown, args: Args) {
+        super(owner, args);
+    }
 
     // Optional
     onContinue?: (nodes: NodeModel[]) => void;
 
     didReceiveAttrs() {
-        assert('partial-registration-modal requires @manager!', Boolean(this.manager));
+        assert('partial-registration-modal requires @manager!', Boolean(this.args.manager));
     }
 
     @action
-    continue() {
-        const nodes = this.manager.selectedNodes;
+    async continue() {
+        const nodes = await this.args.manager.selectedNodes;
+
         if (this.onContinue) {
             this.onContinue(nodes);
         }

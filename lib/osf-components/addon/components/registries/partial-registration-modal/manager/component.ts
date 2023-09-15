@@ -1,6 +1,5 @@
 import Store from '@ember-data/store';
-import { tagName } from '@ember-decorators/component';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
@@ -9,17 +8,16 @@ import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 
-import { layout } from 'ember-osf-web/decorators/component';
 import NodeModel from 'ember-osf-web/models/node';
 import { HierarchicalListManager } from 'osf-components/components/registries/hierarchical-list';
 
-import template from './template';
+export interface Args {
+    rootNode: NodeModel;
+}
 
-@layout(template)
-@tagName('')
-export default class PartialRegistrationModalManagerComponent extends Component implements HierarchicalListManager {
+export default class PartialRegistrationModalManagerComponent
+    extends Component<Args> implements HierarchicalListManager {
     @service store!: Store;
-    rootNode!: NodeModel;
 
     // Private
     nodesIncludingRoot: NodeModel[] = [];
@@ -45,24 +43,24 @@ export default class PartialRegistrationModalManagerComponent extends Component 
     @task({ on: 'didReceiveAttrs' })
     @waitFor
     async loadAllChildNodes() {
-        const allChildNodesIncludingRoot = (await taskFor(this.getChildren).perform(this.rootNode)) || [];
-        allChildNodesIncludingRoot.push(this.rootNode);
-        this.set('nodesIncludingRoot', allChildNodesIncludingRoot.slice());
-        this.set('selectedNodes', allChildNodesIncludingRoot.slice());
+        const allChildNodesIncludingRoot = (await taskFor(this.getChildren).perform(this.args.rootNode)) || [];
+        allChildNodesIncludingRoot.push(this.args.rootNode);
+        this.nodesIncludingRoot = allChildNodesIncludingRoot.slice();
+        this.selectedNodes = allChildNodesIncludingRoot.slice();
     }
 
     didReceiveAttrs() {
-        assert('partial-registration-modal::manager requires @rootNode!', Boolean(this.rootNode));
+        assert('partial-registration-modal::manager requires @rootNode!', Boolean(this.args.rootNode));
     }
 
     @action
     selectAll() {
-        this.set('selectedNodes', this.nodesIncludingRoot.slice());
+        this.selectedNodes = this.nodesIncludingRoot.slice();
     }
 
     @action
     clearAll() {
-        this.set('selectedNodes', [this.rootNode]);
+        this.selectedNodes = [this.args.rootNode];
     }
 
     @action

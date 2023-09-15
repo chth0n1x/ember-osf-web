@@ -1,6 +1,5 @@
 import Store from '@ember-data/store';
-import { tagName } from '@ember-decorators/component';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
@@ -18,14 +17,19 @@ import Registration from 'ember-osf-web/models/registration';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
 
-@tagName('')
-export default class Register extends Component {
+// Required
+export interface Args {
+    draftManager: DraftRegistrationManager;
+}
+
+export default class Register extends Component<Args> {
     @service store!: Store;
     @service toast!: Toast;
     @service intl!: Intl;
 
-    // Required
-    draftManager!: DraftRegistrationManager;
+    constructor(owner: unknown, args: Args) {
+        super(owner, args);
+    }
 
     // Private
     onSubmitRedirect?: (registrationId: string) => void;
@@ -70,7 +74,7 @@ export default class Register extends Component {
     }
 
     didReceiveAttrs() {
-        assert('@draftManager is required!', Boolean(this.draftManager));
+        assert('@draftManager is required!', Boolean(this.args.draftManager));
     }
 
     @action
@@ -85,33 +89,33 @@ export default class Register extends Component {
 
     @action
     showFinalizeRegDialog() {
-        this.set('finalizeRegDialogIsOpen', true);
+        this.finalizeRegDialogIsOpen =  true;
     }
 
     @action
     showPartialRegDialog() {
-        this.set('partialRegDialogIsOpen', true);
+        this.partialRegDialogIsOpen = true;
     }
 
     @action
     closeFinalizeRegDialog() {
-        this.set('finalizeRegDialogIsOpen', false);
+        this.finalizeRegDialogIsOpen = false;
     }
 
     @action
     closePartialRegDialog() {
-        this.set('partialRegDialogIsOpen', false);
+        this.partialRegDialogIsOpen = false;
     }
 
     @action
     closeAllDialogs() {
-        this.set('partialRegDialogIsOpen', false);
-        this.set('finalizeRegDialogIsOpen', false);
+        this.partialRegDialogIsOpen = false;
+        this.finalizeRegDialogIsOpen = false;
     }
 
     @action
-    onContinue(nodes: Node[]) {
-        const includedNodeIds = nodes.mapBy('id');
+    async onContinue(nodes: Node[]) {
+        const includedNodeIds = await nodes.mapBy('id');
         this.registration.setProperties({ includedNodeIds });
 
         this.closePartialRegDialog();
